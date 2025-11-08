@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing Plans - FarmGrow Solutions</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0XpFMhw6zR2d+rV+g4Q9A2+v1aL3j0sX1sQzJ4n0Q5h0q5Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* Basic Reset & Typography */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #8BC34A 0%, #4CAF50 100%); /* Fresh green gradient for a natural, modern farm feel */
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: #424242; /* Dark grey for good readability */
+            line-height: 1.6;
+        }
+
+        /* Main Container Styling */
+        .container {
+            background: rgba(255, 255, 255, 0.98); /* Almost white, slightly transparent */
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2); /* Softer shadow */
+            max-width: 1200px; /* Wider for pricing cards */
+            width: 100%;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Header & Description */
+        h1 {
+            color: #388E3C; /* Darker green for heading */
+            margin-bottom: 15px;
+            font-size: 2.8em;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+        h1 .icon {
+            font-size: 1.1em; /* Adjust icon size relative to text */
+            color: #4CAF50;
+        }
+        .container > p { /* Targeting the main description paragraph */
+            color: #616161;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+            max-width: 800px;
+        }
+
+        /* Billing Toggle */
+        .billing-toggle {
+            display: flex;
+            background-color: #e8f5e9; /* Light green background */
+            border-radius: 50px;
+            padding: 5px;
+            margin-bottom: 40px;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .toggle-button {
+            flex: 1;
+            padding: 12px 25px;
+            border: none;
+            background: transparent;
+            color: #616161;
+            font-size: 1em;
+            font-weight: 500;
+            cursor: pointer;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+        .toggle-button.active {
+            background-color: #4CAF50;
+            color: #fff;
+            box-shadow: 0 4px 10px rgba(0, 150, 0, 0.2);
+        }
+        .toggle-button:hover:not(.active) {
+            color: #388E3C;
+        }
+        .billing-info {
+            font-size: 0.9em;
+            color: #757575;
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+
+        /* Pricing Cards */
+        .pricing-cards {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap; /* Allows cards to wrap on smaller screens */
+            gap: 30px;
+            width: 100%;
+        }
+
+        .pricing-card {
+            background: #fff;
+            border-radius: 15px;
+            padding: 35px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            width: calc(33.333% - 20px); /* For 3 cards in a row with gap */
+            min-width: 280px; /* Minimum width for cards */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border: 2px solid transparent; /* Default border */
+        }
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 45px rgba(0,0,0,0.15);
+        }
+
+        .pricing-card.recommended {
+            border-color: #4CAF50; /* Highlight color */
+            transform: translateY(-10px);
+            box-shadow: 0 20px 45px rgba(0,0,0,0.15);
+        }
+        .pricing-card.recommended .card-header h2 {
+            color: #388E3C;
+        }
+        .pricing-card.recommended .price-display .price-amount {
+            color: #388E3C;
+        }
+        .pricing-card.recommended .btn {
+            background-color: #388E3C;
+            box-shadow: 0 4px 10px rgba(56, 142, 60, 0.3);
+        }
+        .pricing-card.recommended .btn:hover {
+            background-color: #2E7D32;
+        }
+
+        .card-header h2 {
+            font-size: 1.8em;
+            margin-bottom: 10px;
+            color: #4CAF50;
+            font-weight: 700;
+        }
+        .card-header p {
+            font-size: 0.95em;
+            color: #757575;
+            margin-bottom: 20px;
+        }
+
+        .price-display {
+            margin-bottom: 30px;
+        }
+        .price-display .price-currency {
+            font-size: 1.5em;
+            vertical-align: super;
+            font-weight: 500;
+            color: #616161;
+        }
+        .price-display .price-amount {
+            font-size: 3.5em;
+            font-weight: 700;
+            color: #4CAF50;
+            line-height: 1;
+        }
+        .price-display .price-period {
+            font-size: 1em;
+            color: #757575;
+            font-weight: 500;
+        }
+
+        .features {
+            list-style: none;
+            text-align: left;
+            margin-bottom: 35px;
+            flex-grow: 1; /* Allows feature list to take available space */
+        }
+        .features li {
+            margin-bottom: 12px;
+            color: #616161;
+            font-size: 1em;
+        }
+        .features li i {
+            color: #4CAF50;
+            margin-right: 10px;
+            width: 20px; /* Align icons */
+            text-align: center;
+        }
+        .features li.unavailable {
+            color: #BDBDBD;
+            text-decoration: line-through;
+        }
+        .features li.unavailable i {
+            color: #BDBDBD;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 14px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.1em;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 10px rgba(76, 175, 80, 0.2);
+            border: none;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #388E3C;
+            box-shadow: 0 6px 15px rgba(76, 175, 80, 0.3);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .pricing-card {
+                width: calc(50% - 20px); /* 2 cards per row on medium screens */
+            }
+            h1 {
+                font-size: 2.4em;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+            }
+            h1 {
+                font-size: 2em;
+                gap: 10px;
+            }
+            .container > p {
+                font-size: 1em;
+                margin-bottom: 25px;
+            }
+            .pricing-card {
+                width: 95%; /* Single card per row on small screens */
+                max-width: 400px; /* Max width for single cards */
+            }
+            .billing-toggle {
+                padding: 4px;
+                width: 100%;
+                max-width: 350px;
+            }
+            .toggle-button {
+                padding: 10px 15px;
+                font-size: 0.95em;
+            }
+            .price-display .price-amount {
+                font-size: 3em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.8em;
+                text-align: center;
+                flex-direction: column;
+            }
+            h1 .icon {
+                margin-bottom: 5px;
+            }
+            .container {
+                padding: 20px 15px;
+            }
+            .pricing-card {
+                padding: 25px;
+            }
+            .price-display .price-amount {
+                font-size: 2.8em;
+            }
+            .btn {
+                padding: 12px 25px;
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1><i class="fas fa-tractor icon"></i> FarmGrow Solutions Pricing</h1>
+        <p>Choose the plan that best fits your farm's needs. From small plots to large-scale operations, we have a solution to help you thrive.</p>
+
+        <div class="billing-toggle">
+            <button class="toggle-button active" data-period="monthly" aria-pressed="true">Monthly Billing</button>
+            <button class="toggle-button" data-period="annually" aria-pressed="false">Annual Billing</button>
+        </div>
+        <p class="billing-info">Save up to 20% with annual billing!</p>
+
+        <div class="pricing-cards">
+
+            <!-- Seedling Plan -->
+            <div class="pricing-card">
+                <div class="card-header">
+                    <h2>Seedling</h2>
+                    <p>Essential tools for budding farms.</p>
+                </div>
+                <div class="price-display">
+                    <span class="price-currency">$</span>
+                    <span class="price-amount" data-monthly="19" data-annually="15">19</span>
+                    <span class="price-period">/month</span>
+                </div>
+                <ul class="features">
+                    <li><i class="fas fa-check-circle"></i> Basic Farm Dashboard</li>
+                    <li><i class="fas fa-check-circle"></i> Crop Rotation Planner</li>
+                    <li><i class="fas fa-check-circle"></i> Weather Forecasts (basic)</li>
+                    <li><i class="fas fa-check-circle"></i> Single User Access</li>
+                    <li class="unavailable"><i class="fas fa-times-circle"></i> Soil Analysis Integration</li>
+                    <li class="unavailable"><i class="fas fa-times-circle"></i> Livestock Management</li>
+                    <li class="unavailable"><i class="fas fa-times-circle"></i> Advanced Reporting</li>
+                    <li class="unavailable"><i class="fas fa-times-circle"></i> Priority Support</li>
+                </ul>
+                <a href="#" class="btn">Get Started</a>
+            </div>
+
+            <!-- Harvest Plan (Recommended) -->
+            <div class="pricing-card recommended">
+                <div class="card-header">
+                    <h2>Harvest</h2>
+                    <p>Optimize your yield with smart insights.</p>
+                </div>
+                <div class="price-display">
+                    <span class="price-currency">$</span>
+                    <span class="price-amount" data-monthly="49" data-annually="39">49</span>
+                    <span class="price-period">/month</span>
+                </div>
+                <ul class="features">
+                    <li><i class="fas fa-check-circle"></i> Advanced Farm Dashboard</li>
+                    <li><i class="fas fa-check-circle"></i> Crop & Yield Tracking</li>
+                    <li><i class="fas fa-check-circle"></i> Detailed Weather Forecasts</li>
+                    <li><i class="fas fa-check-circle"></i> Up to 5 User Access</li>
+                    <li><i class="fas fa-check-circle"></i> Soil Analysis Integration</li>
+                    <li class="unavailable"><i class="fas fa-times-circle"></i> Livestock Management</li>
+                    <li><i class="fas fa-check-circle"></i> Standard Reporting</li>
+                    <li class="unavailable"><i class="fas fa-times-circle"></i> Priority Support</li>
+                </ul>
+                <a href="#" class="btn">Choose Harvest</a>
+            </div>
+
+            <!-- Prosper Plan -->
+            <div class="pricing-card">
+                <div class="card-header">
+                    <h2>Prosper</h2>
+                    <p>Comprehensive management for large operations.</p>
+                </div>
+                <div class="price-display">
+                    <span class="price-currency">$</span>
+                    <span class="price-amount" data-monthly="99" data-annually="79">99</span>
+                    <span class="price-period">/month</span>
+                </div>
+                <ul class="features">
+                    <li><i class="fas fa-check-circle"></i> Enterprise Farm Dashboard</li>
+                    <li><i class="fas fa-check-circle"></i> Advanced Crop & Yield Analytics</li>
+                    <li><i class="fas fa-check-circle"></i> Real-time Weather & Alerts</li>
+                    <li><i class="fas fa-check-circle"></i> Unlimited User Access</li>
+                    <li><i class="fas fa-check-circle"></i> Full Soil Analysis Integration</li>
+                    <li><i class="fas fa-check-circle"></i> Livestock Management Module</li>
+                    <li><i class="fas fa-check-circle"></i> Custom Advanced Reporting</li>
+                    <li><i class="fas fa-check-circle"></i> Priority Support (24/7)</li>
+                </ul>
+                <a href="#" class="btn">Go Prosper</a>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const toggleButtons = document.querySelectorAll('.toggle-button');
+            const priceAmounts = document.querySelectorAll('.price-amount');
+            const pricePeriods = document.querySelectorAll('.price-period');
+
+            toggleButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Remove active class from all buttons
+                    toggleButtons.forEach(btn => {
+                        btn.classList.remove('active');
+                        btn.setAttribute('aria-pressed', 'false');
+                    });
+                    // Add active class to clicked button
+                    button.classList.add('active');
+                    button.setAttribute('aria-pressed', 'true');
+
+                    const period = button.dataset.period; // 'monthly' or 'annually'
+
+                    priceAmounts.forEach(amountSpan => {
+                        if (period === 'monthly') {
+                            amountSpan.textContent = amountSpan.dataset.monthly;
+                        } else {
+                            amountSpan.textContent = amountSpan.dataset.annually;
+                        }
+                    });
+
+                    pricePeriods.forEach(periodSpan => {
+                        if (period === 'monthly') {
+                            periodSpan.textContent = '/month';
+                        } else {
+                            periodSpan.textContent = '/year';
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>

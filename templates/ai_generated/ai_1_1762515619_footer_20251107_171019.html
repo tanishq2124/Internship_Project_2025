@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harvest Haven Farms - Footer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* Basic Reset & Typography */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #8BC34A 0%, #4CAF50 100%); /* Fresh green gradient */
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: #424242; /* Dark grey for good readability */
+            line-height: 1.6;
+        }
+
+        /* Footer Container Styling */
+        .farm-footer {
+            background: rgba(255, 255, 255, 0.98); /* Almost white, slightly transparent */
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2); /* Softer shadow */
+            max-width: 1200px; /* Wider for a footer */
+            width: 100%;
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+            color: #616161;
+        }
+
+        /* Subtle farm-themed pattern from reference */
+        .farm-footer::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            right: -20px;
+            bottom: -20px;
+            background: url('data:image/svg+xml;utf8,<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h100v100H0z" fill="none"/><path d="M50 0L61.8 38.2L100 38.2L69.1 61.8L80.9 100L50 76.4L19.1 100L30.9 61.8L0 38.2L38.2 38.2L50 0z" fill="%23e8f5e9" opacity="0.2"/></svg>') repeat;
+            z-index: -1;
+            border-radius: 20px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1.5fr repeat(3, 1fr); /* Logo takes more space */
+            gap: 30px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid #e0e0e0;
+            margin-bottom: 20px;
+        }
+
+        /* Footer Sections */
+        .footer-logo-section {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .footer-logo {
+            font-family: 'Playfair Display', serif; /* A bit more distinguished font for logo */
+            font-size: 2.2em;
+            font-weight: 700;
+            color: #388E3C; /* Darker green for heading */
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-logo .icon {
+            font-size: 0.9em; /* Adjust icon size relative to text */
+            color: #4CAF50;
+        }
+
+        .footer-logo-section p {
+            font-size: 0.95em;
+            color: #757575;
+            margin-bottom: 15px;
+        }
+
+        .footer-section h4 {
+            font-size: 1.15em;
+            color: #388E3C;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-section ul li a {
+            color: #616161;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-size: 0.95em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-section ul li a:hover {
+            color: #4CAF50; /* Medium green on hover */
+        }
+
+        .footer-section ul li a .fa-icon {
+            font-size: 1em;
+            color: #4CAF50;
+        }
+
+        /* Social Media */
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .social-links a {
+            color: #4CAF50;
+            font-size: 1.6em;
+            transition: color 0.3s ease, transform 0.3s ease;
+            text-decoration: none;
+        }
+
+        .social-links a:hover {
+            color: #388E3C;
+            transform: translateY(-3px);
+        }
+
+        /* Bottom Footer */
+        .footer-bottom {
+            text-align: center;
+            font-size: 0.9em;
+            color: #757575;
+        }
+
+        .footer-bottom a {
+            color: #757575;
+            text-decoration: none;
+            margin: 0 8px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-bottom a:hover {
+            color: #4CAF50;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .footer-logo-section {
+                grid-column: span 2; /* Logo section spans both columns on tablet */
+                align-items: center;
+                text-align: center;
+            }
+            .social-links {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .farm-footer {
+                padding: 30px 20px;
+            }
+            .footer-grid {
+                grid-template-columns: 1fr; /* Stack columns on mobile */
+                gap: 25px;
+                padding-bottom: 25px;
+            }
+            .footer-logo-section,
+            .footer-section {
+                grid-column: span 1; /* Reset span */
+                align-items: center;
+                text-align: center;
+            }
+            .footer-logo {
+                font-size: 1.8em;
+                justify-content: center;
+            }
+            .footer-section h4 {
+                margin-bottom: 10px;
+            }
+            .footer-section ul li {
+                margin-bottom: 8px;
+            }
+            .footer-section ul li a {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <footer class="farm-footer">
+        <div class="footer-grid">
+            <div class="footer-logo-section footer-section">
+                <div class="footer-logo">
+                    <i class="fas fa-seedling icon"></i> Harvest Haven Farms
+                </div>
+                <p>Growing Goodness, Nurturing Nature. Providing fresh, sustainable produce and farm goods directly from our family to yours.</p>
+                <div class="social-links">
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="Pinterest"><i class="fab fa-pinterest"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h4>Explore</h4>
+                <ul>
+                    <li><a href="#"><i class="fas fa-home fa-icon"></i> Our Story</a></li>
+                    <li><a href="#"><i class="fas fa-leaf fa-icon"></i> What We Grow</a></li>
+                    <li><a href="#"><i class="fas fa-tractor fa-icon"></i> Farm Tours</a></li>
+                    <li><a href="#"><i class="fas fa-newspaper fa-icon"></i> Our Blog</a></li>
+                    <li><a href="#"><i class="fas fa-hand-holding-heart fa-icon"></i> Sustainability</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>Shop</h4>
+                <ul>
+                    <li><a href="#"><i class="fas fa-carrot fa-icon"></i> Fresh Produce</a></li>
+                    <li><a href="#"><i class="fas fa-cow fa-icon"></i> Meat & Dairy</a></li>
+                    <li><a href="#"><i class="fas fa-egg fa-icon"></i> Farm Goods</a></li>
+                    <li><a href="#"><i class="fas fa-box fa-icon"></i> Subscriptions</a></li>
+                    <li><a href="#"><i class="fas fa-gift fa-icon"></i> Gift Cards</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>Connect</h4>
+                <ul>
+                    <li><a href="#"><i class="fas fa-envelope fa-icon"></i> info@harvesthaven.com</a></li>
+                    <li><a href="#"><i class="fas fa-phone-alt fa-icon"></i> (555) 123-4567</a></li>
+                    <li><a href="#"><i class="fas fa-map-marker-alt fa-icon"></i> 123 Farmstead Lane, Ruralville</a></li>
+                    <li><a href="#"><i class="fas fa-question-circle fa-icon"></i> FAQs</a></li>
+                    <li><a href="#"><i class="fas fa-handshake fa-icon"></i> Careers</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            &copy; <span id="current-year"></span> Harvest Haven Farms. All rights reserved.
+            <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a>
+        </div>
+    </footer>
+
+    <script>
+        // Dynamically update the current year for the copyright notice
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>

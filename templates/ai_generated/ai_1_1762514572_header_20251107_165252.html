@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FarmConnect - Modern Header</title>
+    <!-- Google Fonts for a modern look (optional, can be removed if system fonts preferred) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* Base styles */
+        :root {
+            --primary-green: #4CAF50; /* A vibrant, natural green */
+            --secondary-yellow: #FFC107; /* A warm, sunny yellow */
+            --dark-text: #333333;
+            --medium-text: #666666;
+            --light-bg: #F8F8F8;
+            --white: #ffffff;
+            --border-color: #e0e0e0;
+            --hover-color: #388E3C; /* Darker green for hover */
+            --shadow-light: rgba(0, 0, 0, 0.08);
+            --shadow-medium: rgba(0, 0, 0, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--light-bg);
+            color: var(--dark-text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header specific styles */
+        .site-header {
+            background-color: var(--white);
+            box-shadow: 0 2px 10px var(--shadow-light);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap; /* Allow wrapping on smaller screens */
+        }
+
+        /* Logo */
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: var(--dark-text);
+            font-size: 1.8em;
+            font-weight: 700;
+            white-space: nowrap; /* Prevent logo from wrapping */
+        }
+
+        .logo i {
+            color: var(--primary-green);
+            margin-right: 8px;
+            font-size: 1.2em;
+        }
+
+        /* Main Navigation */
+        .main-nav {
+            flex-grow: 1; /* Allows nav to take available space */
+            text-align: center;
+            margin: 0 20px;
+        }
+
+        .main-nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 30px; /* Space between nav items */
+        }
+
+        .main-nav ul li a {
+            text-decoration: none;
+            color: var(--dark-text);
+            font-weight: 500;
+            font-size: 1.05em;
+            padding: 5px 0;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .main-nav ul li a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary-green);
+            transition: width 0.3s ease;
+        }
+
+        .main-nav ul li a:hover,
+        .main-nav ul li a.active {
+            color: var(--primary-green);
+        }
+
+        .main-nav ul li a:hover::after,
+        .main-nav ul li a.active::after {
+            width: 100%;
+        }
+
+        /* Navigation Actions (Buttons/Icons) */
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            white-space: nowrap;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 0.95em;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-green);
+            color: var(--white);
+            border: 2px solid var(--primary-green);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--hover-color);
+            border-color: var(--hover-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px var(--shadow-medium);
+        }
+
+        .icon-link {
+            color: var(--dark-text);
+            font-size: 1.3em;
+            transition: color 0.3s ease;
+        }
+
+        .icon-link:hover {
+            color: var(--primary-green);
+        }
+
+        /* Hamburger Menu for Mobile */
+        .hamburger-menu {
+            display: none; /* Hidden by default on desktop */
+            flex-direction: column;
+            justify-content: space-around;
+            width: 30px;
+            height: 25px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            position: relative;
+            z-index: 1001; /* Ensure it's above other elements */
+        }
+
+        .hamburger-menu .bar {
+            width: 100%;
+            height: 3px;
+            background-color: var(--dark-text);
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        /* Hamburger menu animations */
+        .hamburger-menu.open .bar:nth-child(1) {
+            transform: translateY(11px) rotate(45deg);
+        }
+
+        .hamburger-menu.open .bar:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger-menu.open .bar:nth-child(3) {
+            transform: translateY(-11px) rotate(-45deg);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .main-nav {
+                margin: 0 15px;
+            }
+            .main-nav ul {
+                gap: 20px;
+            }
+            .nav-actions {
+                gap: 10px;
+            }
+            .btn-primary {
+                padding: 8px 15px;
+                font-size: 0.9em;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-container {
+                padding: 0 15px;
+            }
+
+            .logo {
+                font-size: 1.6em;
+            }
+
+            .hamburger-menu {
+                display: flex; /* Show hamburger on mobile */
+                order: 3; /* Move hamburger to the end */
+                margin-left: auto; /* Push to the right */
+            }
+
+            .main-nav {
+                display: none; /* Hide main nav by default on mobile */
+                flex-basis: 100%; /* Take full width */
+                margin: 15px 0 0 0;
+                order: 2; /* Position below logo */
+            }
+
+            .main-nav.active {
+                display: block; /* Show nav when active */
+            }
+
+            .main-nav ul {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+                background-color: var(--white);
+                padding: 15px 0;
+                border-top: 1px solid var(--border-color);
+            }
+
+            .main-nav ul li {
+                width: 100%;
+            }
+
+            .main-nav ul li a {
+                display: block;
+                padding: 10px 20px;
+                color: var(--dark-text);
+                text-align: left;
+                width: 100%;
+            }
+
+            .main-nav ul li a::after {
+                left: 20px; /* Adjust underline position for mobile */
+            }
+
+            .nav-actions {
+                display: none; /* Hide nav actions by default on mobile */
+                flex-basis: 100%;
+                justify-content: flex-start;
+                padding-top: 15px;
+                border-top: 1px solid var(--border-color);
+                margin-top: 15px;
+                order: 4; /* Position below main nav */
+            }
+
+            .nav-actions.active {
+                display: flex; /* Show when active */
+            }
+
+            .nav-actions .btn-primary {
+                flex-grow: 1; /* Allow button to fill space */
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo {
+                font-size: 1.4em;
+            }
+            .header-container {
+                padding: 0 10px;
+            }
+            .nav-actions {
+                flex-direction: column; /* Stack actions vertically */
+                align-items: stretch;
+            }
+            .nav-actions .btn-primary {
+                margin-bottom: 10px; /* Space between stacked buttons */
+            }
+        }
+
+        /* --- Content for demo purpose, remove in production --- */
+        .page-content {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            text-align: center;
+            background: linear-gradient(135deg, #e6ffe6 0%, #d4ffd4 100%); /* Light green gradient */
+            color: #444;
+        }
+        .page-content h1 {
+            font-size: 2.5em;
+            color: var(--primary-green);
+            margin-bottom: 20px;
+        }
+        .page-content p {
+            font-size: 1.1em;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        /* --- End demo content --- */
+    </style>
+</head>
+<body>
+
+    <header class="site-header">
+        <div class="header-container">
+            <a href="#" class="logo">
+                <i class="fas fa-seedling"></i> FarmConnect
+            </a>
+
+            <nav class="main-nav" id="mainNav">
+                <ul>
+                    <li><a href="#" class="active">Home</a></li>
+                    <li><a href="#">Shop Produce</a></li>
+                    <li><a href="#">Pricing</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </nav>
+
+            <div class="nav-actions" id="navActions">
+                <a href="#" class="btn btn-primary">Sell Your Produce</a>
+                <a href="#" class="icon-link" aria-label="Shopping Cart"><i class="fas fa-shopping-cart"></i></a>
+                <a href="#" class="icon-link" aria-label="User Account"><i class="fas fa-user-circle"></i></a>
+            </div>
+
+            <button class="hamburger-menu" id="hamburgerMenu" aria-label="Toggle navigation">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Content for demonstration purposes - Replace with your actual page content -->
+    <div class="page-content">
+        <div>
+            <h1>Welcome to FarmConnect</h1>
+            <p>Your marketplace for fresh, locally sourced produce. Connect directly with farmers and enjoy the best of nature's bounty.</p>
+            <p style="margin-top: 20px; font-size: 0.9em; color: #777;">(This is a placeholder for your page content. The header above is fully functional.)</p>
+        </div>
+    </div>
+    <!-- End demonstration content -->
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const hamburgerMenu = document.getElementById('hamburgerMenu');
+            const mainNav = document.getElementById('mainNav');
+            const navActions = document.getElementById('navActions');
+
+            if (hamburgerMenu && mainNav && navActions) {
+                hamburgerMenu.addEventListener('click', function() {
+                    hamburgerMenu.classList.toggle('open');
+                    mainNav.classList.toggle('active');
+                    navActions.classList.toggle('active');
+                });
+
+                // Close menu when a nav link is clicked (optional, good for single-page apps)
+                mainNav.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        if (mainNav.classList.contains('active')) {
+                            hamburgerMenu.classList.remove('open');
+                            mainNav.classList.remove('active');
+                            navActions.classList.remove('active');
+                        }
+                    });
+                });
+            }
+        });
+    </script>
+</body>
+</html>

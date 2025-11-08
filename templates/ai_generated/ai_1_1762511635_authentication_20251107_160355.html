@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome - Your E-commerce Site</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Global Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body & Typography */
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0056D2 0%, #003F9C 100%); /* Deep blue gradient */
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: #333333;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Main Container */
+        .auth-container {
+            background: #FFFFFF;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+            max-width: 480px;
+            width: 100%;
+            text-align: center;
+            position: relative;
+            overflow: hidden; /* For smooth form transitions */
+        }
+
+        /* Header & Logo */
+        .auth-header {
+            margin-bottom: 30px;
+        }
+
+        .auth-logo {
+            font-size: 2.2em;
+            font-weight: 700;
+            color: #0056D2;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 5px;
+        }
+
+        .auth-tagline {
+            font-size: 0.95em;
+            color: #666666;
+            margin-top: 5px;
+        }
+
+        /* Tab Navigation */
+        .auth-tabs {
+            display: flex;
+            margin-bottom: 30px;
+            border-bottom: 1px solid #E0E0E0;
+        }
+
+        .auth-tab-button {
+            flex: 1;
+            padding: 12px 15px;
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #666666;
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: color 0.3s ease, border-bottom 0.3s ease;
+            position: relative;
+            outline: none;
+        }
+
+        .auth-tab-button.active {
+            color: #0056D2;
+            border-bottom: 2px solid #0056D2;
+        }
+
+        .auth-tab-button:hover:not(.active) {
+            color: #007BFF;
+        }
+
+        /* Form Styling */
+        .auth-form-wrapper {
+            position: relative;
+            min-height: 250px; /* Ensure space for forms */
+        }
+
+        .auth-form {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+            text-align: left;
+        }
+
+        .auth-form.active {
+            opacity: 1;
+            transform: translateX(0);
+            position: relative; /* Take up space when active */
+        }
+        
+        .auth-form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .auth-form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.95em;
+            font-weight: 500;
+            color: #333333;
+        }
+
+        .auth-form-group input[type="email"],
+        .auth-form-group input[type="password"],
+        .auth-form-group input[type="text"] {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #E0E0E0;
+            border-radius: 8px;
+            font-size: 1em;
+            color: #333333;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            outline: none;
+        }
+
+        .auth-form-group input[type="email"]:focus,
+        .auth-form-group input[type="password"]:focus,
+        .auth-form-group input[type="text"]:focus {
+            border-color: #007BFF;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
+        }
+
+        .auth-password-toggle {
+            position: absolute;
+            right: 15px;
+            top: 65%; /* Adjusted for label height */
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #666666;
+            font-size: 0.9em;
+            user-select: none;
+            transition: color 0.3s ease;
+        }
+        .auth-password-toggle:hover {
+            color: #0056D2;
+        }
+        
+        .auth-forgot-password {
+            display: block;
+            text-align: right;
+            margin-top: -10px;
+            margin-bottom: 20px;
+            font-size: 0.9em;
+        }
+
+        .auth-forgot-password a {
+            color: #0056D2;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .auth-forgot-password a:hover {
+            color: #007BFF;
+            text-decoration: underline;
+        }
+
+        .auth-submit-button {
+            width: 100%;
+            padding: 14px 20px;
+            background: #0056D2; /* Primary blue */
+            color: #FFFFFF;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+            outline: none;
+        }
+
+        .auth-submit-button:hover {
+            background: #003F9C; /* Darker blue on hover */
+            transform: translateY(-1px);
+        }
+
+        .auth-submit-button:active {
+            transform: translateY(0);
+        }
+
+        .auth-error-message {
+            color: #DC3545;
+            font-size: 0.85em;
+            margin-top: 5px;
+            text-align: left;
+            display: none; /* Hidden by default */
+        }
+
+        /* Separator */
+        .auth-divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 30px 0;
+            color: #999999;
+            font-size: 0.9em;
+        }
+
+        .auth-divider::before,
+        .auth-divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #E0E0E0;
+        }
+
+        .auth-divider:not(:empty)::before {
+            margin-right: .75em;
+        }
+
+        .auth-divider:not(:empty)::after {
+            margin-left: .75em;
+        }
+
+        /* Social Login */
+        .auth-social-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .auth-social-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 12px 20px;
+            border: 1px solid #E0E0E0;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+            text-decoration: none;
+            color: #333333;
+        }
+
+        .auth-social-button:hover {
+            background: #F8F8F8;
+            border-color: #B0B0B0;
+        }
+
+        .auth-social-button img {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+        }
+
+        /* Footer Links */
+        .auth-footer-links {
+            margin-top: 30px;
+            font-size: 0.85em;
+            color: #666666;
+        }
+
+        .auth-footer-links a {
+            color: #0056D2;
+            text-decoration: none;
+            margin: 0 8px;
+            transition: color 0.3s ease;
+        }
+
+        .auth-footer-links a:hover {
+            color: #007BFF;
+            text-decoration: underline;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 550px) {
+            .auth-container {
+                padding: 30px 20px;
+                margin: 10px;
+                border-radius: 8px;
+            }
+
+            .auth-header {
+                margin-bottom: 20px;
+            }
+
+            .auth-logo {
+                font-size: 1.8em;
+            }
+
+            .auth-tabs {
+                margin-bottom: 25px;
+            }
+
+            .auth-tab-button {
+                padding: 10px 12px;
+                font-size: 1em;
+            }
+
+            .auth-form-group {
+                margin-bottom: 15px;
+            }
+
+            .auth-form-group input {
+                padding: 10px 12px;
+                font-size: 0.95em;
+            }
+
+            .auth-submit-button {
+                padding: 12px 15px;
+                font-size: 1em;
+            }
+
+            .auth-divider {
+                margin: 25px 0;
+            }
+
+            .auth-social-button {
+                padding: 10px 15px;
+                font-size: 0.95em;
+            }
+
+            .auth-social-button img {
+                width: 18px;
+                height: 18px;
+            }
+
+            .auth-footer-links {
+                font-size: 0.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <header class="auth-header">
+            <a href="#" class="auth-logo">ShopSwift</a>
+            <p class="auth-tagline">Your one-stop shop for everything!</p>
+        </header>
+
+        <div class="auth-tabs">
+            <button type="button" class="auth-tab-button active" data-tab="login">Login</button>
+            <button type="button" class="auth-tab-button" data-tab="signup">Sign Up</button>
+        </div>
+
+        <div class="auth-form-wrapper">
+            <!-- Login Form -->
+            <form id="loginForm" class="auth-form active" data-tab-content="login" onsubmit="handleLogin(event)">
+                <div class="auth-form-group">
+                    <label for="loginEmail">Email address</label>
+                    <input type="email" id="loginEmail" name="email" placeholder="you@example.com" required autocomplete="username">
+                    <p class="auth-error-message" id="loginEmailError">Please enter a valid email address.</p>
+                </div>
+                <div class="auth-form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" name="password" placeholder="••••••••" required autocomplete="current-password">
+                    <span class="auth-password-toggle" data-target="loginPassword">Show</span>
+                    <p class="auth-error-message" id="loginPasswordError">Password is required.</p>
+                </div>
+                <div class="auth-forgot-password">
+                    <a href="#">Forgot password?</a>
+                </div>
+                <button type="submit" class="auth-submit-button">Log In</button>
+            </form>
+
+            <!-- Sign Up Form -->
+            <form id="signupForm" class="auth-form" data-tab-content="signup" onsubmit="handleSignup(event)">
+                <div class="auth-form-group">
+                    <label for="signupName">Full Name</label>
+                    <input type="text" id="signupName" name="name" placeholder="John Doe" required autocomplete="name">
+                    <p class="auth-error-message" id="signupNameError">Please enter your full name.</p>
+                </div>
+                <div class="auth-form-group">
+                    <label for="signupEmail">Email address</label>
+                    <input type="email" id="signupEmail" name="email" placeholder="you@example.com" required autocomplete="email">
+                    <p class="auth-error-message" id="signupEmailError">Please enter a valid email address.</p>
+                </div>
+                <div class="auth-form-group">
+                    <label for="signupPassword">Password</label>
+                    <input type="password" id="signupPassword" name="password" placeholder="••••••••" required autocomplete="new-password">
+                    <span class="auth-password-toggle" data-target="signupPassword">Show</span>
+                    <p class="auth-error-message" id="signupPasswordError">Password must be at least 6 characters long.</p>
+                </div>
+                <div class="auth-form-group">
+                    <label for="signupConfirmPassword">Confirm Password</label>
+                    <input type="password" id="signupConfirmPassword" name="confirm_password" placeholder="••••••••" required autocomplete="new-password">
+                    <span class="auth-password-toggle" data-target="signupConfirmPassword">Show</span>
+                    <p class="auth-error-message" id="signupConfirmPasswordError">Passwords do not match.</p>
+                </div>
+                <button type="submit" class="auth-submit-button">Create Account</button>
+            </form>
+        </div>
+
+        <div class="auth-divider">Or continue with</div>
+
+        <div class="auth-social-buttons">
+            <a href="#" class="auth-social-button">
+                <img src="https://img.icons8.com/color/48/000000/google-logo.png" alt="Google icon">
+                Sign in with Google
+            </a>
+            <a href="#" class="auth-social-button">
+                <img src="https://img.icons8.com/ios-filled/50/000000/apple-logo.png" alt="Apple icon">
+                Sign in with Apple
+            </a>
+            <a href="#" class="auth-social-button">
+                <img src="https://img.icons8.com/color/48/000000/facebook-new.png" alt="Facebook icon">
+                Sign in with Facebook
+            </a>
+        </div>
+
+        <footer class="auth-footer-links">
+            <a href="#">Terms of Service</a> | <a href="#">Privacy Policy</a>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const tabButtons = document.querySelectorAll('.auth-tab-button');
+            const forms = document.querySelectorAll('.auth-form');
+            const passwordToggles = document.querySelectorAll('.auth-password-toggle');
+
+            // Tab switching logic
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const targetTab = button.dataset.tab;
+
+                    // Deactivate all buttons and forms
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    forms.forEach(form => form.classList.remove('active'));
+
+                    // Activate clicked button
+                    button.classList.add('active');
+
+                    // Activate corresponding form
+                    document.querySelector(`.auth-form[data-tab-content="${targetTab}"]`).classList.add('active');
+                });
+            });
+
+            // Password show/hide logic
+            passwordToggles.forEach(toggle => {
+                toggle.addEventListener('click', () => {
+                    const targetId = toggle.dataset.target;
+                    const passwordInput = document.getElementById(targetId);
+
+                    if (passwordInput.type === 'password') {
+                        passwordInput.type = 'text';
+                        toggle.textContent = 'Hide';
+                    } else {
+                        passwordInput.type = 'password';
+                        toggle.textContent = 'Show';
+                    }
+                });
+            });
+
+            // Basic client-side validation for login form
+            function validateLoginForm() {
+                let isValid = true;
+                const emailInput = document.getElementById('loginEmail');
+                const passwordInput = document.getElementById('loginPassword');
+                const emailError = document.getElementById('loginEmailError');
+                const passwordError = document.getElementById('loginPasswordError');
+
+                // Reset errors
+                emailError.style.display = 'none';
+                passwordError.style.display = 'none';
+
+                if (!emailInput.value || !/\S+@\S+\.\S+/.test(emailInput.value)) {
+                    emailError.style.display = 'block';
+                    isValid = false;
+                }
+                if (!passwordInput.value) {
+                    passwordError.style.display = 'block';
+                    isValid = false;
+                }
+                return isValid;
+            }
+
+            // Basic client-side validation for signup form
+            function validateSignupForm() {
+                let isValid = true;
+                const nameInput = document.getElementById('signupName');
+                const emailInput = document.getElementById('signupEmail');
+                const passwordInput = document.getElementById('signupPassword');
+                const confirmPasswordInput = document.getElementById('signupConfirmPassword');
+
+                const nameError = document.getElementById('signupNameError');
+                const emailError = document.getElementById('signupEmailError');
+                const passwordError = document.getElementById('signupPasswordError');
+                const confirmPasswordError = document.getElementById('signupConfirmPasswordError');
+
+                // Reset errors
+                nameError.style.display = 'none';
+                emailError.style.display = 'none';
+                passwordError.style.display = 'none';
+                confirmPasswordError.style.display = 'none';
+
+                if (!nameInput.value.trim()) {
+                    nameError.style.display = 'block';
+                    isValid = false;
+                }
+                if (!emailInput.value || !/\S+@\S+\.\S+/.test(emailInput.value)) {
+                    emailError.style.display = 'block';
+                    isValid = false;
+                }
+                if (passwordInput.value.length < 6) {
+                    passwordError.style.display = 'block';
+                    isValid = false;
+                }
+                if (confirmPasswordInput.value !== passwordInput.value || !confirmPasswordInput.value) {
+                    confirmPasswordError.style.display = 'block';
+                    isValid = false;
+                }
+                return isValid;
+            }
+
+            // Handle form submissions
+            window.handleLogin = function(event) {
+                event.preventDefault(); // Prevent default form submission
+                if (validateLoginForm()) {
+                    // In a real application, you would send this data to your server
+                    console.log('Login form submitted:', {
+                        email: document.getElementById('loginEmail').value,
+                        password: document.getElementById('loginPassword').value
+                    });
+                    alert('Login form submitted successfully! (Check console for data)');
+                    // Example: window.location.href = '/dashboard';
+                } else {
+                    console.log('Login validation failed.');
+                }
+            };
+
+            window.handleSignup = function(event) {
+                event.preventDefault(); // Prevent default form submission
+                if (validateSignupForm()) {
+                    // In a real application, you would send this data to your server
+                    console.log('Signup form submitted:', {
+                        name: document.getElementById('signupName').value,
+                        email: document.getElementById('signupEmail').value,
+                        password: document.getElementById('signupPassword').value
+                    });
+                    alert('Signup form submitted successfully! (Check console for data)');
+                    // Example: window.location.href = '/welcome';
+                } else {
+                    console.log('Signup validation failed.');
+                }
+            };
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Handmade Haven | Unique Accessories & Home Decor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #fcfcfc; /* Very light background */
+            min-height: 100vh;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: #ffffff;
+            padding: 20px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 2em;
+            font-weight: 700;
+            color: #5a8d7a; /* A calming green */
+            text-decoration: none;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+        }
+
+        .nav-links li {
+            margin-left: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #555;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #5a8d7a;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)), url('https://images.unsplash.com/photo-1517702129524-ad8188174780?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NTIyMjl8MHwxfHNlYXJjaHw1NHx8aGFuZG1hZGUlMjBhY2Nlc3NvcmllcyUyMGluJTIwY296eSUyMGhvbWV8ZW58MHx8fHwxNzA2NTkwMzIxfDA&ixlib=rb-4.0.3&q=80&w=1080') no-repeat center center/cover;
+            padding: 100px 0;
+            text-align: center;
+            color: #333;
+            border-bottom: 1px solid #eee;
+        }
+
+        .hero-section h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            color: #4a6c5f;
+        }
+
+        .hero-section p {
+            font-size: 1.3em;
+            margin-bottom: 40px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: #5a8d7a;
+            color: #fff;
+            padding: 15px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn:hover {
+            background-color: #4a6c5f;
+            transform: translateY(-2px);
+        }
+
+        /* Section Styling */
+        .section-padding {
+            padding: 80px 0;
+        }
+
+        .section-heading {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8em;
+            text-align: center;
+            margin-bottom: 60px;
+            color: #4a6c5f;
+        }
+
+        /* Product Grid */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .product-card {
+            background: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-align: center;
+            border: 1px solid #eee;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-bottom: 1px solid #eee;
+        }
+
+        .product-info {
+            padding: 25px;
+        }
+
+        .product-info h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8em;
+            margin-bottom: 10px;
+            color: #4a6c5f;
+        }
+
+        .product-info p {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .product-card .btn {
+            padding: 10px 20px;
+            font-size: 0.9em;
+            box-shadow: none;
+        }
+
+        /* About Us */
+        .about-us {
+            text-align: center;
+            background: #f8fcfb; /* Slightly different background for contrast */
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+        }
+
+        .about-us p {
+            max-width: 900px;
+            margin: 0 auto 30px auto;
+            font-size: 1.1em;
+            color: #555;
+        }
+
+        /* Call to Action */
+        .cta-section {
+            text-align: center;
+            background: #fcfcfc;
+        }
+
+        .cta-section h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            color: #4a6c5f;
+        }
+
+        /* Footer */
+        footer {
+            background: #5a8d7a; /* Darker green for footer */
+            color: #fff;
+            padding: 40px 0;
+            text-align: center;
+            margin-top: 80px;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .footer-links li {
+            margin: 0 15px;
+        }
+
+        .footer-links a {
+            color: #fff;
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            opacity: 0.8;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+            }
+
+            .nav-links {
+                margin-top: 20px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .nav-links li {
+                margin: 0 15px 10px;
+            }
+
+            .hero-section h1 {
+                font-size: 2.5em;
+            }
+
+            .hero-section p {
+                font-size: 1em;
+            }
+
+            .section-heading {
+                font-size: 2em;
+            }
+
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container navbar">
+            <a href="#" class="logo">Handmade Haven</a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#products">Products</a></li>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="#">Cart (0)</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero-section">
+            <div class="container">
+                <h1>Crafted with Love, Made for You</h1>
+                <p>Discover unique, handmade accessories and home decor that add a touch of warmth and personality to your life.</p>
+                <a href="#products" class="btn">Shop Our Collection</a>
+            </div>
+        </section>
+
+        <section id="products" class="section-padding">
+            <div class="container">
+                <h2 class="section-heading">Our Unique Handmade Creations</h2>
+                <div class="product-grid">
+                    <div class="product-card">
+                        <img src="https://images.unsplash.com/photo-1600392341490-67c870284dfa?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NTIyMjl8MHwxfHNlYXJjaHw0OXx8aGFuZG1hZGUlMjBwdXJzZXxlbnwwfHx8fDE3MDY1OTAyMzl8MA&ixlib=rb-4.0.3&q=80&w=400" alt="Handmade Purse">
+                        <div class="product-info">
+                            <h3>Charming Crochet Purse</h3>
+                            <p>Beautifully crafted with intricate patterns, perfect for everyday elegance.</p>
+                            <a href="#" class="btn">View Details</a>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <img src="https://images.unsplash.com/photo-1627993425265-d918a5628b0f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NTIyMjl8MHwxfHNlYXJjaHwzMHx8aGFuZG1hZGUlMjBibGFua2V0fGVufDB8fHx8MTcwNjU5MDI1OXww&ixlib=rb-4.0.3&q=80&w=400" alt="Knitted Blanket">
+                        <div class="product-info">
+                            <h3>Cozy Knitted Throw Blanket</h3>
+                            <p>Snuggle up with this soft, hand-knitted blanket, a perfect addition to any home.</p>
+                            <a href="#" class="btn">View Details</a>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <img src="https://images.unsplash.com/photo-1606757088998-3850117498c0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NTIyMjl8MHwxfHNlYXJjaHw1MHx8aGFuZG1hZGUlMjBjZXJhbWljJTIwcG90fGVufDB8fHx8MTcwNjU5MDI5NHww&ixlib=rb-4.0.3&q=80&w=400" alt="Hand-painted Ceramic Pot">
+                        <div class="product-info">
+                            <h3>Artisan Ceramic Planter Pot</h3>
+                            <p>Hand-painted and unique, ideal for your favorite plants or as a decorative piece.</p>
+                            <a href="#" class="btn">View Details</a>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <img src="https://images.unsplash.com/photo-1600392341490-67c870284dfa?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NTIyMjl8MHwxfHNlYXJjaHw0OXx8aGFuZG1hZGUlMjBwdXJzZXxlbnwwfHx8fDE3MDY1OTAyMzl8MA&ixlib=rb-4.0.3&q=80&w=400" alt="Handmade Purse 2">
+                        <div class="product-info">
+                            <h3>Boho Chic Macrame Purse</h3>
+                            <p>Elevate your style with this trendy, handcrafted macrame purse, a true statement piece.</p>
+                            <a href="#" class="btn">View Details</a>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <img src="https://images.unsplash.com/photo-1627993425265-d918a5628b0f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NTIyMjl8MHwxfHNlYXJjaHwzMHx8aGFuZG1hZGUlMjBibGFua2V0fGVufDB8fHx8MTcwNjU5MDI1OXww&ixlib=rb-4.0.3&q=80&w=400" alt="Knitted Blanket 2">
+                        <div class="product-info">
+                            <h3>Heirloom Quality Crochet Blanket</h3>
+                            <p>A timeless piece, meticulously crocheted for comfort and lasting beauty.</p>
+                            <a href="#" class="btn">View Details</a>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <img src="https://images.unsplash.com/photo-1606757088998-3850117498c0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NTIyMjl8MHwxfHNlYXJjaHw1MHx8aGFuZG1hZGUlMjBjZXJhbWljJTIwcG90fGVufDB8fHx8MTcwNjU5MDI5NHww&ixlib=rb-4.0.3&q=80&w=400" alt="Hand-painted Ceramic Pot 2">
+                        <div class="product-info">
+                            <h3>Rustic Clay Terracotta Pot</h3>
+                            <p>Simple yet elegant, this terracotta pot brings an earthy feel to your home decor.</p>
+                            <a href="#" class="btn">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="about-us section-padding">
+            <div class="container">
+                <h2 class="section-heading">Our Story: Passion for Handcrafts</h2>
+                <p>At Handmade Haven, we believe in the beauty and soul of handcrafted items. Every piece in our collection — from the softest blankets to the most elegant purses and charming pots — is made with dedication, skill, and a deep love for the craft. We source high-quality materials and pour our hearts into creating unique treasures that you won't find anywhere else. Support artisans and bring home something truly special.</p>
+                <a href="#contact" class="btn">Learn More</a>
+            </div>
+        </section>
+
+        <section class="cta-section section-padding">
+            <div class="container">
+                <h2>Ready to find your next favorite piece?</h2>
+                <a href="#products" class="btn">Explore All Products</a>
+            </div>
+        </section>
+    </main>
+
+    <footer id="contact">
+        <div class="container">
+            <ul class="footer-links">
+                <li><a href="#">About</a></li>
+                <li><a href="#">Products</a></li>
+                <li><a href="#">Shipping & Returns</a></li>
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Contact Us</a></li>
+            </ul>
+            <p>&copy; 2023 Handmade Haven. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

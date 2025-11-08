@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - FarmLink Connect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Basic Reset & Body Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: #333333;
+            background-color: #FDFBF7; /* Very light cream background */
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* Container for content */
+        .container {
+            max-width: 1000px;
+            width: 100%;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            padding: 40px;
+            margin: 20px 0; /* Add some vertical margin */
+            text-align: center;
+        }
+
+        /* Headings */
+        h1 {
+            font-size: 3em;
+            color: #4A7C3F; /* Darker green */
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        h2 {
+            font-size: 2.2em;
+            color: #6A994E; /* Primary green */
+            margin-top: 40px;
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
+
+        h3 {
+            font-size: 1.5em;
+            color: #4A7C3F; /* Darker green */
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        /* Paragraphs */
+        p {
+            font-size: 1.1em;
+            color: #555555;
+            margin-bottom: 20px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Section Specific Styles */
+        .section {
+            padding: 30px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .section:last-child {
+            border-bottom: none;
+        }
+
+        /* Our Values Grid */
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+            text-align: left;
+        }
+
+        .value-item {
+            background-color: #F8FAF7; /* Light green background for value cards */
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .value-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .value-item .icon {
+            font-size: 2.5em;
+            color: #6A994E; /* Primary green */
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .value-item h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: #4A7C3F;
+        }
+
+        .value-item p {
+            font-size: 0.95em;
+            color: #666666;
+            margin-bottom: 0;
+        }
+
+        /* Call to Action Button */
+        .cta-button {
+            display: inline-block;
+            background-color: #6A994E; /* Primary green */
+            color: #ffffff;
+            padding: 15px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1em;
+            margin-top: 30px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background-color: #4A7C3F; /* Darker green on hover */
+            transform: translateY(-2px);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5em;
+            }
+
+            h2 {
+                font-size: 1.8em;
+            }
+
+            h3 {
+                font-size: 1.3em;
+            }
+
+            p {
+                font-size: 1em;
+            }
+
+            .container {
+                padding: 25px;
+                margin: 10px 0;
+            }
+
+            .section {
+                padding: 20px 0;
+            }
+
+            .values-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            h2 {
+                font-size: 1.6em;
+            }
+
+            .cta-button {
+                padding: 12px 25px;
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="section">
+            <h1>About FarmLink Connect 🌱</h1>
+            <p><strong>Connecting local farmers with eager customers, one fresh product at a time.</strong></p>
+            <p>At FarmLink Connect, we believe in the power of local agriculture. Our platform is designed to bridge the gap between hard-working farmers and communities looking for fresh, high-quality produce and artisanal goods.</p>
+        </header>
+
+        <section class="section">
+            <h2>Our Story 🚜</h2>
+            <p>The idea for FarmLink Connect sprouted from a simple observation: farmers often face challenges reaching a broader market, and consumers frequently struggle to find truly local, farm-fresh products. We envisioned a digital marketplace that simplifies this connection, empowering farmers to showcase their diverse offerings and manage their sales with ease, while providing customers with direct access to the bounty of their local farms.</p>
+            <p>From humble beginnings, we've grown into a vibrant community, committed to fostering sustainable practices and supporting the backbone of our food system – the local farmer.</p>
+        </section>
+
+        <section class="section">
+            <h2>Our Mission & Vision 🌟</h2>
+            <p><strong>Mission:</strong> To empower farmers by providing a robust, easy-to-use online platform to sell their products directly to consumers, ensuring fair prices for producers and fresh, local goods for buyers.</p>
+            <p><strong>Vision:</strong> To cultivate a thriving ecosystem where local agriculture flourishes, communities enjoy unparalleled access to fresh produce, and sustainable farming practices are championed and celebrated.</p>
+        </section>
+
+        <section class="section">
+            <h2>Our Core Values ✨</h2>
+            <div class="values-grid">
+                <div class="value-item">
+                    <span class="icon">🍎</span>
+                    <h3>Freshness & Quality</h3>
+                    <p>We champion the freshest produce and highest quality artisanal goods, believing that local means better.</p>
+                </div>
+                <div class="value-item">
+                    <span class="icon">🤝</span>
+                    <h3>Community & Support</h3>
+                    <p>Building strong local communities by fostering direct relationships between farmers and consumers.</p>
+                </div>
+                <div class="value-item">
+                    <span class="icon">🌿</span>
+                    <h3>Sustainability</h3>
+                    <p>Promoting environmentally responsible farming practices and reducing food miles for a greener planet.</p>
+                </div>
+                <div class="value-item">
+                    <span class="icon">💰</span>
+                    <h3>Fairness & Transparency</h3>
+                    <p>Ensuring fair pricing for farmers and clear, honest information for consumers.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>Join Our Growing Family! 🧑‍🌾</h2>
+            <p>Whether you're a farmer looking to expand your reach or a customer eager to taste the difference of local, fresh produce, FarmLink Connect is your marketplace.</p>
+            <p>Explore our farmer-friendly pricing plans (Basic, Pro, Advanced) tailored to help you grow, or start shopping for your next farm-to-table meal today!</p>
+            <a href="pricing.html" class="cta-button">See Our Pricing Plans</a>
+        </section>
+    </div>
+</body>
+</html>

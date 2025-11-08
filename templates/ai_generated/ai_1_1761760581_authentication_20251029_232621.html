@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome Back! - Farmer's Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* General Body and Typography */
+        body {
+            font-family: 'Lato', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #FDFBF7; /* Warm, light background */
+            color: #333333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Merriweather', serif;
+            color: #333333;
+            margin-top: 0;
+        }
+
+        a {
+            color: #6B8E23; /* Olive Drab - primary accent */
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: #A0522D; /* Sienna - secondary accent */
+        }
+
+        /* Authentication Container */
+        .auth-container {
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            max-width: 450px;
+            width: 90%;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden; /* For tab transitions */
+        }
+
+        /* Header and Logo */
+        .auth-header {
+            margin-bottom: 30px;
+        }
+
+        .auth-logo {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 15px;
+            border-radius: 50%;
+            background-color: #6B8E23;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 36px;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .auth-logo i {
+            font-size: 40px;
+        }
+
+        .auth-header h1 {
+            font-size: 2.2em;
+            margin-bottom: 5px;
+            color: #333333;
+        }
+
+        .auth-header p {
+            font-size: 1.0em;
+            color: #777777;
+        }
+
+        /* Tabs (Login/Register) */
+        .auth-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            border-bottom: 1px solid #E0E0E0;
+        }
+
+        .tab-button {
+            background: none;
+            border: none;
+            padding: 15px 25px;
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #777777;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            outline: none;
+        }
+
+        .tab-button.active {
+            color: #6B8E23;
+        }
+
+        .tab-button.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px; /* Align with bottom border */
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: #6B8E23;
+            border-radius: 2px 2px 0 0;
+            animation: tabUnderline 0.3s forwards;
+        }
+
+        @keyframes tabUnderline {
+            from { transform: scaleX(0); }
+            to { transform: scaleX(1); }
+        }
+
+        /* Forms */
+        .auth-forms {
+            position: relative;
+            height: auto; /* Will be adjusted by JS, max-height for initial render */
+            transition: height 0.4s ease-in-out;
+        }
+
+        .auth-form {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s ease;
+        }
+
+        .auth-form.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+            position: relative; /* Take up space when active */
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555555;
+            font-size: 0.95em;
+        }
+
+        .form-group input {
+            width: calc(100% - 24px); /* Account for padding */
+            padding: 12px;
+            border: 1px solid #E0E0E0;
+            border-radius: 8px;
+            font-size: 1em;
+            color: #333333;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            background-color: #FDFBF7;
+        }
+
+        .form-group input:focus {
+            border-color: #6B8E23;
+            box-shadow: 0 0 0 3px rgba(107, 142, 35, 0.2);
+            outline: none;
+            background-color: #ffffff;
+        }
+        
+        .password-toggle-group {
+            position: relative;
+        }
+        .password-toggle-group input {
+            padding-right: 45px; /* Make space for icon */
+        }
+        .password-toggle {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #777;
+            font-size: 0.9em;
+            z-index: 10;
+        }
+        .password-toggle:hover {
+            color: #333;
+        }
+
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            justify-content: space-between;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            margin-right: 8px;
+            appearance: none;
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            border: 2px solid #6B8E23;
+            border-radius: 4px;
+            cursor: pointer;
+            position: relative;
+            top: 2px;
+            background-color: #FDFBF7;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .checkbox-group input[type="checkbox"]:checked {
+            background-color: #6B8E23;
+            border-color: #6B8E23;
+        }
+
+        .checkbox-group input[type="checkbox"]:checked::before {
+            content: '\2713'; /* Checkmark character */
+            display: block;
+            color: white;
+            font-size: 14px;
+            line-height: 16px;
+            text-align: center;
+        }
+
+        .checkbox-group label {
+            font-weight: normal;
+            color: #555555;
+            cursor: pointer;
+            font-size: 0.9em;
+        }
+        .checkbox-group .forgot-password {
+            font-size: 0.9em;
+            text-align: right;
+            margin-left: auto; /* Pushes it to the right */
+        }
+
+        .submit-button {
+            width: 100%;
+            padding: 15px;
+            background-color: #6B8E23;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 15px rgba(107, 142, 35, 0.3);
+            margin-top: 10px;
+        }
+
+        .submit-button:hover {
+            background-color: #5a7a1f;
+            transform: translateY(-2px);
+        }
+
+        .submit-button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 10px rgba(107, 142, 35, 0.3);
+        }
+
+        /* Social Login */
+        .social-login {
+            margin-top: 30px;
+            border-top: 1px solid #E0E0E0;
+            padding-top: 25px;
+        }
+
+        .social-login p {
+            margin-bottom: 20px;
+            color: #777777;
+            font-size: 0.9em;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .social-login p::before,
+        .social-login p::after {
+            content: '';
+            flex-grow: 1;
+            height: 1px;
+            background-color: #E0E0E0;
+            margin: 0 15px;
+        }
+
+        .social-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .social-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 20px;
+            border: 1px solid #E0E0E0;
+            border-radius: 8px;
+            background-color: #ffffff;
+            color: #555555;
+            font-size: 0.95em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 140px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .social-btn i {
+            margin-right: 10px;
+            font-size: 1.1em;
+        }
+
+        .social-btn.google {
+            color: #DB4437; /* Google red */
+            border-color: #DB4437;
+        }
+        .social-btn.google:hover {
+            background-color: #DB4437;
+            color: white;
+            box-shadow: 0 4px 12px rgba(219, 68, 55, 0.3);
+        }
+        .social-btn.google:hover i {
+            color: white;
+        }
+
+        .social-btn.facebook {
+            color: #4267B2; /* Facebook blue */
+            border-color: #4267B2;
+        }
+        .social-btn.facebook:hover {
+            background-color: #4267B2;
+            color: white;
+            box-shadow: 0 4px 12px rgba(66, 103, 178, 0.3);
+        }
+        .social-btn.facebook:hover i {
+            color: white;
+        }
+
+        /* Footer Links */
+        .auth-footer {
+            margin-top: 35px;
+            padding-top: 25px;
+            border-top: 1px solid #E0E0E0;
+            font-size: 0.85em;
+            color: #777777;
+        }
+        .auth-footer a {
+            margin: 0 8px;
+            color: #777777;
+        }
+        .auth-footer a:hover {
+            color: #6B8E23;
+        }
+        
+        /* Error/Success Messages (client-side hints) */
+        .form-message {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 0.9em;
+            text-align: left;
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: opacity 0.3s ease, max-height 0.3s ease, padding 0.3s ease;
+        }
+        .form-message.show {
+            opacity: 1;
+            max-height: 100px; /* Sufficient height for messages */
+            padding: 10px;
+        }
+        .form-message.error {
+            background-color: #fce4e4;
+            color: #c0392b;
+            border: 1px solid #c0392b;
+        }
+        .form-message.success {
+            background-color: #e6f7ed;
+            color: #27ae60;
+            border: 1px solid #27ae60;
+        }
+
+
+        /* Responsive Design */
+        @media (max-width: 500px) {
+            .auth-container {
+                padding: 30px 20px;
+                width: 95%;
+                margin: 20px;
+            }
+
+            .auth-header h1 {
+                font-size: 1.8em;
+            }
+            .auth-logo {
+                width: 70px;
+                height: 70px;
+                font-size: 32px;
+            }
+            .auth-logo i {
+                font-size: 35px;
+            }
+
+            .tab-button {
+                padding: 12px 18px;
+                font-size: 1em;
+            }
+
+            .form-group label {
+                font-size: 0.9em;
+            }
+
+            .form-group input {
+                padding: 10px;
+                font-size: 0.95em;
+            }
+
+            .submit-button {
+                padding: 12px;
+                font-size: 1em;
+            }
+
+            .social-buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .social-btn {
+                width: 100%;
+                min-width: unset;
+            }
+            .checkbox-group {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            .checkbox-group .forgot-password {
+                margin-left: 0;
+                width: 100%;
+                text-align: left;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-header">
+            <div class="auth-logo"><i class="fas fa-seedling"></i></div>
+            <h1>Farmer's Hub</h1>
+            <p id="auth-tagline">Connect with the land and community.</p>
+        </div>
+
+        <div class="auth-tabs">
+            <button type="button" class="tab-button active" data-tab="login">Login</button>
+            <button type="button" class="tab-button" data-tab="register">Register</button>
+        </div>
+
+        <div class="auth-forms">
+            <!-- Login Form -->
+            <form id="login-form" class="auth-form active" action="#" method="POST" onsubmit="return handleLogin(event);">
+                <div class="form-group">
+                    <label for="login-email">Email or Username</label>
+                    <input type="text" id="login-email" name="email_username" placeholder="Enter your email or username" required autocomplete="username">
+                </div>
+                <div class="form-group password-toggle-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" name="password" placeholder="Enter your password" required autocomplete="current-password">
+                    <span class="password-toggle" onclick="togglePasswordVisibility('login-password', this)"><i class="fas fa-eye"></i></span>
+                </div>
+                <div class="checkbox-group">
+                    <label>
+                        <input type="checkbox" id="remember-me" name="remember_me"> Remember me
+                    </label>
+                    <a href="#" class="forgot-password">Forgot Password?</a>
+                </div>
+                <button type="submit" class="submit-button">Log In</button>
+                <div id="login-message" class="form-message"></div>
+            </form>
+
+            <!-- Register Form -->
+            <form id="register-form" class="auth-form" action="#" method="POST" onsubmit="return handleRegister(event);">
+                <div class="form-group">
+                    <label for="register-name">Full Name</label>
+                    <input type="text" id="register-name" name="full_name" placeholder="Enter your full name" required autocomplete="name">
+                </div>
+                <div class="form-group">
+                    <label for="register-email">Email Address</label>
+                    <input type="email" id="register-email" name="email" placeholder="Enter your email address" required autocomplete="email">
+                </div>
+                <div class="form-group password-toggle-group">
+                    <label for="register-password">Password</label>
+                    <input type="password" id="register-password" name="password" placeholder="Create a password" required autocomplete="new-password">
+                    <span class="password-toggle" onclick="togglePasswordVisibility('register-password', this)"><i class="fas fa-eye"></i></span>
+                </div>
+                <div class="form-group password-toggle-group">
+                    <label for="register-confirm-password">Confirm Password</label>
+                    <input type="password" id="register-confirm-password" name="confirm_password" placeholder="Confirm your password" required autocomplete="new-password">
+                    <span class="password-toggle" onclick="togglePasswordVisibility('register-confirm-password', this)"><i class="fas fa-eye"></i></span>
+                </div>
+                <button type="submit" class="submit-button">Register Account</button>
+                <div id="register-message" class="form-message"></div>
+            </form>
+        </div>
+
+        <div class="social-login">
+            <p>Or continue with</p>
+            <div class="social-buttons">
+                <button type="button" class="social-btn google">
+                    <i class="fab fa-google"></i> Google
+                </button>
+                <button type="button" class="social-btn facebook">
+                    <i class="fab fa-facebook-f"></i> Facebook
+                </button>
+            </div>
+        </div>
+
+        <div class="auth-footer">
+            <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a>
+            <p>&copy; 2023 Farmer's Hub. All rights reserved.</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const authForms = document.querySelectorAll('.auth-form');
+            const authFormsContainer = document.querySelector('.auth-forms');
+            const taglineElement = document.getElementById('auth-tagline');
+
+            // Function to set the height of the forms container dynamically
+            const setFormsContainerHeight = () => {
+                const activeForm = document.querySelector('.auth-form.active');
+                if (activeForm) {
+                    authFormsContainer.style.height = `${activeForm.offsetHeight}px`;
+                }
+            };
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const targetTab = button.dataset.tab;
+
+                    // Deactivate current tab and form
+                    document.querySelector('.tab-button.active').classList.remove('active');
+                    document.querySelector('.auth-form.active').classList.remove('active');
+
+                    // Activate new tab and form
+                    button.classList.add('active');
+                    document.getElementById(`${targetTab}-form`).classList.add('active');
+
+                    // Update tagline based on active tab
+                    if (targetTab === 'login') {
+                        taglineElement.textContent = 'Connect with the land and community.';
+                    } else if (targetTab === 'register') {
+                        taglineElement.textContent = 'Join our growing farming community.';
+                    }
+
+                    // Adjust container height for smooth transition
+                    setFormsContainerHeight();
+                });
+            });
+
+            // Initial height adjustment
+            setFormsContainerHeight();
+            // Re-adjust on window resize
+            window.addEventListener('resize', setFormsContainerHeight);
+        });
+
+        // Function to toggle password visibility
+        function togglePasswordVisibility(fieldId, iconElement) {
+            const passwordField = document.getElementById(fieldId);
+            const icon = iconElement.querySelector('i');
+
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                passwordField.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
+        // --- Client-side form handling (for demonstration purposes) ---
+        // In a real production app, these would send data to a server.
+
+        function showMessage(formId, message, type) {
+            const messageElement = document.getElementById(`${formId}-message`);
+            messageElement.textContent = message;
+            messageElement.className = `form-message show ${type}`; // Reset classes and show
+            setTimeout(() => {
+                messageElement.classList.remove('show');
+                // messageElement.textContent = ''; // Clear after hiding
+            }, 5000); // Message disappears after 5 seconds
+        }
+
+        function handleLogin(event) {
+            event.preventDefault(); // Prevent default form submission
+            const emailUsername = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+
+            // Basic client-side validation
+            if (!emailUsername || !password) {
+                showMessage('login', 'Please enter both email/username and password.', 'error');
+                return false;
+            }
+
+            // Simulate API call
+            console.log('Login attempt:', { emailUsername, password });
+            showMessage('login', 'Logging in... (This is a demo. No actual login occurred)', 'success');
+
+            // In a real app:
+            // fetch('/api/login', {
+            //     method: 'POST',
+            //     headers: { 'Content-Type': 'application/json' },
+            //     body: JSON.stringify({ email_username: emailUsername, password: password })
+            // })
+            // .then(response => response.json())
+            // .then(data => {
+            //     if (data.success) {
+            //         showMessage('login', 'Login successful! Redirecting...', 'success');
+            //         // Redirect to dashboard or home page
+            //         window.location.href = '/dashboard';
+            //     } else {
+            //         showMessage('login', data.message || 'Login failed. Please check your credentials.', 'error');
+            //     }
+            // })
+            // .catch(error => {
+            //     console.error('Error:', error);
+            //     showMessage('login', 'An error occurred. Please try again later.', 'error');
+            // });
+
+            return false; // Prevent actual form submission
+        }
+
+        function handleRegister(event) {
+            event.preventDefault(); // Prevent default form submission
+            const fullName = document.getElementById('register-name').value;
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+            const confirmPassword = document.getElementById('register-confirm-password').value;
+
+            // Basic client-side validation
+            if (!fullName || !email || !password || !confirmPassword) {
+                showMessage('register', 'All fields are required.', 'error');
+                return false;
+            }
+            if (password !== confirmPassword) {
+                showMessage('register', 'Passwords do not match.', 'error');
+                return false;
+            }
+            if (password.length < 8) {
+                showMessage('register', 'Password must be at least 8 characters long.', 'error');
+                return false;
+            }
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                showMessage('register', 'Please enter a valid email address.', 'error');
+                return false;
+            }
+
+            // Simulate API call
+            console.log('Register attempt:', { fullName, email, password });
+            showMessage('register', 'Registering... (This is a demo. No actual registration occurred)', 'success');
+
+            // In a real app:
+            // fetch('/api/register', {
+            //     method: 'POST',
+            //     headers: { 'Content-Type': 'application/json' },
+            //     body: JSON.stringify({ full_name: fullName, email: email, password: password })
+            // })
+            // .then(response => response.json())
+            // .then(data => {
+            //     if (data.success) {
+            //         showMessage('register', 'Registration successful! Please log in.', 'success');
+            //         // Optionally switch to login tab
+            //         document.querySelector('[data-tab="login"]').click();
+            //     } else {
+            //         showMessage('register', data.message || 'Registration failed. Please try again.', 'error');
+            //     }
+            // })
+            // .catch(error => {
+            //     console.error('Error:', error);
+            //     showMessage('register', 'An error occurred. Please try again later.', 'error');
+            // });
+
+            return false; // Prevent actual form submission
+        }
+    </script>
+</body>
+</html>

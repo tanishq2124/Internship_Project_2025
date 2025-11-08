@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FarmLink Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* Basic Reset & Typography */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #8BC34A 0%, #4CAF50 100%); /* Fresh green gradient */
+            min-height: 100vh;
+            color: #424242; /* Dark grey for good readability */
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Align to top for full dashboard height */
+            padding: 20px;
+        }
+
+        /* Dashboard Wrapper - Main Layout */
+        .dashboard-wrapper {
+            background: rgba(255, 255, 255, 0.98); /* Almost white, slightly transparent */
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2); /* Softer shadow */
+            max-width: 1400px;
+            width: 100%;
+            display: flex;
+            min-height: calc(100vh - 40px); /* Adjust for body padding */
+            overflow: hidden; /* For rounded corners */
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            width: 250px;
+            background: #388E3C; /* Darker green for sidebar */
+            padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+            color: #E8F5E9; /* Light green for text */
+            box-shadow: 5px 0 15px rgba(0,0,0,0.1);
+            flex-shrink: 0; /* Prevent shrinking */
+        }
+        .sidebar-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .sidebar-header h2 {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: #FFFFFF;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .sidebar-nav ul {
+            list-style: none;
+        }
+        .sidebar-nav li {
+            margin-bottom: 10px;
+        }
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px 15px;
+            color: #E8F5E9;
+            text-decoration: none;
+            font-size: 1.1em;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+        .sidebar-nav a:hover {
+            background: rgba(255,255,255,0.1);
+            color: #FFFFFF;
+        }
+        .sidebar-nav a.active {
+            background: #4CAF50; /* Primary green for active */
+            color: #FFFFFF;
+            font-weight: 700;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .sidebar-nav .icon {
+            font-size: 1.3em;
+            width: 25px; /* Fixed width for icon alignment */
+            text-align: center;
+        }
+
+        /* Main Content Area */
+        .dashboard-content {
+            flex-grow: 1;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        /* Header */
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #E0E0E0;
+        }
+        .dashboard-header h1 {
+            font-size: 2.2em;
+            font-weight: 700;
+            color: #388E3C;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .user-info .avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: #A5D6A7; /* Light green avatar background */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2em;
+            font-weight: 500;
+            color: #388E3C;
+        }
+        .user-info span {
+            font-weight: 500;
+            color: #616161;
+        }
+        .user-info button {
+            background: none;
+            border: none;
+            font-size: 1.2em;
+            color: #9E9E9E;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        .user-info button:hover {
+            color: #4CAF50;
+        }
+
+        /* Overview Section */
+        .dashboard-overview h2 {
+            font-size: 1.6em;
+            color: #388E3C;
+            margin-bottom: 15px;
+        }
+        .dashboard-overview p {
+            color: #616161;
+            line-height: 1.6;
+        }
+
+        /* Stats Grid */
+        .dashboard-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+        }
+        .stat-card {
+            background: #FFFFFF;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.12);
+        }
+        .stat-card .icon {
+            font-size: 2.5em;
+            color: #4CAF50;
+            margin-bottom: 15px;
+        }
+        .stat-card h3 {
+            font-size: 1.1em;
+            color: #616161;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        .stat-card p {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: #388E3C;
+        }
+
+        /* Activity and Weather Section */
+        .dashboard-activity-weather {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap; /* Allow wrapping on smaller screens */
+        }
+        .activity-feed, .weather-card {
+            background: #FFFFFF;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            flex: 1; /* Distribute space */
+            min-width: 300px; /* Minimum width before wrapping */
+        }
+        .activity-feed h3, .weather-card h3 {
+            font-size: 1.4em;
+            color: #388E3C;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Activity Feed */
+        .activity-list {
+            list-style: none;
+        }
+        .activity-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #EEEEEE;
+        }
+        .activity-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        .activity-item .icon {
+            font-size: 1.4em;
+            color: #4CAF50;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        .activity-details p {
+            font-size: 0.95em;
+            color: #616161;
+            margin-bottom: 5px;
+        }
+        .activity-details span {
+            font-size: 0.85em;
+            color: #9E9E9E;
+        }
+
+        /* Weather Card */
+        .weather-card {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .weather-card .temp {
+            font-size: 4em;
+            font-weight: 700;
+            color: #388E3C;
+            margin-bottom: 10px;
+        }
+        .weather-card .condition {
+            font-size: 1.3em;
+            color: #616161;
+            margin-bottom: 15px;
+        }
+        .weather-details {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #EEEEEE;
+        }
+        .weather-detail-item {
+            text-align: center;
+            flex: 1;
+        }
+        .weather-detail-item span {
+            display: block;
+            font-size: 0.9em;
+            color: #9E9E9E;
+            margin-bottom: 5px;
+        }
+        .weather-detail-item p {
+            font-size: 1.1em;
+            font-weight: 500;
+            color: #424242;
+        }
+
+        /* Quick Actions */
+        .dashboard-quick-actions h3 {
+            font-size: 1.4em;
+            color: #388E3C;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .quick-actions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+        }
+        .quick-action-button {
+            background: #E8F5E9; /* Light green background */
+            border: 2px solid #A5D6A7; /* Medium green border */
+            color: #388E3C;
+            padding: 20px 15px;
+            border-radius: 12px;
+            font-size: 1.05em;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            text-decoration: none; /* For anchor tags */
+        }
+        .quick-action-button:hover {
+            background: #A5D6A7; /* Medium green on hover */
+            border-color: #4CAF50;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+        }
+        .quick-action-button .icon {
+            font-size: 2em;
+            color: #4CAF50;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .dashboard-wrapper {
+                flex-direction: column; /* Stack sidebar and content */
+                min-height: auto;
+            }
+            .sidebar {
+                width: 100%;
+                height: auto;
+                padding: 20px;
+                flex-direction: row; /* Horizontal for smaller screens */
+                justify-content: space-between;
+                align-items: center;
+                border-radius: 20px 20px 0 0; /* Adjust border radius */
+                box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            }
+            .sidebar-header {
+                border-bottom: none;
+                margin-bottom: 0;
+                padding-bottom: 0;
+            }
+            .sidebar-nav {
+                display: none; /* Hide full nav on smaller screens, could add a toggle */
+            }
+            .dashboard-content {
+                padding: 20px;
+                gap: 20px;
+            }
+            .dashboard-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            .dashboard-header h1 {
+                font-size: 1.8em;
+            }
+            .user-info {
+                width: 100%;
+                justify-content: flex-end;
+            }
+            .dashboard-stats {
+                grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+                gap: 20px;
+            }
+            .activity-feed, .weather-card {
+                min-width: unset; /* Allow flexible width */
+                flex: 1 1 100%; /* Take full width */
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+            .dashboard-wrapper {
+                border-radius: 15px;
+            }
+            .sidebar {
+                padding: 15px;
+            }
+            .sidebar-header h2 {
+                font-size: 1.5em;
+            }
+            .dashboard-content {
+                padding: 15px;
+                gap: 15px;
+            }
+            .dashboard-header h1 {
+                font-size: 1.6em;
+            }
+            .stat-card {
+                padding: 20px;
+            }
+            .stat-card .icon {
+                font-size: 2em;
+            }
+            .stat-card p {
+                font-size: 1.5em;
+            }
+            .activity-feed, .weather-card {
+                padding: 20px;
+            }
+            .activity-feed h3, .weather-card h3, .dashboard-quick-actions h3 {
+                font-size: 1.2em;
+            }
+            .quick-actions-grid {
+                grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+                gap: 15px;
+            }
+            .quick-action-button {
+                padding: 15px 10px;
+                font-size: 0.95em;
+            }
+            .quick-action-button .icon {
+                font-size: 1.6em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            .dashboard-wrapper {
+                border-radius: 10px;
+            }
+            .sidebar {
+                padding: 10px;
+                flex-direction: column; /* Stack sidebar header on very small screens */
+                align-items: center;
+                gap: 10px;
+            }
+            .sidebar-header h2 {
+                font-size: 1.3em;
+            }
+            .dashboard-content {
+                padding: 10px;
+            }
+            .dashboard-header h1 {
+                font-size: 1.4em;
+            }
+            .user-info {
+                flex-direction: column;
+                align-items: flex-end;
+                gap: 5px;
+            }
+            .stat-card {
+                padding: 15px;
+            }
+            .stat-card .icon {
+                font-size: 1.8em;
+            }
+            .stat-card p {
+                font-size: 1.3em;
+            }
+            .activity-item {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            .activity-item .icon {
+                margin-bottom: 5px;
+            }
+            .weather-card .temp {
+                font-size: 3em;
+            }
+            .weather-card .condition {
+                font-size: 1.1em;
+            }
+            .quick-actions-grid {
+                grid-template-columns: 1fr; /* Stack buttons vertically */
+                gap: 10px;
+            }
+            .quick-action-button {
+                flex-direction: row; /* Icons next to text for stacked buttons */
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-wrapper">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2><span class="icon">🚜</span> FarmLink</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="#" class="active"><span class="icon">🏠</span> Dashboard</a></li>
+                    <li><a href="#"><span class="icon">🌾</span> Crops</a></li>
+                    <li><a href="#"><span class="icon">🐄</span> Livestock</a></li>
+                    <li><a href="#"><span class="icon">🛠️</span> Equipment</a></li>
+                    <li><a href="#"><span class="icon">📝</span> Tasks</a></li>
+                    <li><a href="#"><span class="icon">🛒</span> Marketplace</a></li>
+                    <li><a href="#"><span class="icon">📊</span> Reports</a></li>
+                    <li><a href="#"><span class="icon">⚙️</span> Settings</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="dashboard-content">
+            <header class="dashboard-header">
+                <h1><span class="icon">👋</span> Welcome, Farmer John!</h1>
+                <div class="user-info">
+                    <div class="avatar">FJ</div>
+                    <span>John Doe</span>
+                    <button aria-label="Notifications"><span class="icon">🔔</span></button>
+                    <button aria-label="Logout"><span class="icon">🚪</span></button>
+                </div>
+            </header>
+
+            <section class="dashboard-overview">
+                <h2>Overview</h2>
+                <p>Here's a quick summary of your farm's status and recent activities. Stay updated with your crops, livestock, and pending tasks.</p>
+            </section>
+
+            <section class="dashboard-stats">
+                <div class="stat-card">
+                    <div class="icon">🌱</div>
+                    <h3>Total Crops Planted</h3>
+                    <p>12.5 Acres</p>
+                </div>
+                <div class="stat-card">
+                    <div class="icon">🗓️</div>
+                    <h3>Next Harvest Due</h3>
+                    <p>Wheat in 7 days</p>
+                </div>
+                <div class="stat-card">
+                    <div class="icon">🐑</div>
+                    <h3>Livestock Count</h3>
+                    <p>230 Head</p>
+                </div>
+                <div class="stat-card">
+                    <div class="icon">✔️</div>
+                    <h3>Tasks Pending</h3>
+                    <p>5 Tasks</p>
+                </div>
+            </section>
+
+            <section class="dashboard-activity-weather">
+                <div class="activity-feed">
+                    <h3><span class="icon">📰</span> Recent Activity</h3>
+                    <ul class="activity-list">
+                        <li class="activity-item">
+                            <span class="icon">🚜</span>
+                            <div class="activity-details">
+                                <p><strong>Planted Corn</strong> in Field A.</p>
+                                <span>2 hours ago</span>
+                            </div>
+                        </li>
+                        <li class="activity-item">
+                            <span class="icon">💰</span>
+                            <div class="activity-details">
+                                <p>Sold <strong>500 kg of Potatoes</strong> to Market XYZ.</p>
+                                <span>Yesterday</span>
+                            </div>
+                        </li>
+                        <li class="activity-item">
+                            <span class="icon">🐄</span>
+                            <div class="activity-details">
+                                <p>Recorded <strong>calf birth</strong> for Cow #123.</p>
+                                <span>2 days ago</span>
+                            </div>
+                        </li>
+                        <li class="activity-item">
+                            <span class="icon">💧</span>
+                            <div class="activity-details">
+                                <p><strong>Irrigated Field B</strong>, duration 4 hours.</p>
+                                <span>3 days ago</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="weather-card">
+                    <h3><span class="icon">☀️</span> Local Weather</h3>
+                    <div class="temp">25°C</div>
+                    <div class="condition">Sunny with light breeze</div>
+                    <div class="weather-details">
+                        <div class="weather-detail-item">
+                            <span>Humidity</span>
+                            <p>65%</p>
+                        </div>
+                        <div class="weather-detail-item">
+                            <span>Wind</span>
+                            <p>10 km/h</p>
+                        </div>
+                        <div class="weather-detail-item">
+                            <span>Rain Chance</span>
+                            <p>10%</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="dashboard-quick-actions">
+                <h3><span class="icon">⚡</span> Quick Actions</h3>
+                <div class="quick-actions-grid">
+                    <a href="#" class="quick-action-button">
+                        <span class="icon">➕</span>
+                        Add New Crop
+                    </a>
+                    <a href="#" class="quick-action-button">
+                        <span class="icon">📝</span>
+                        Log Task
+                    </a>
+                    <a href="#" class="quick-action-button">
+                        <span class="icon">📈</span>
+                        View Reports
+                    </a>
+                    <a href="#" class="quick-action-button">
+                        <span class="icon">💰</span>
+                        Record Sale
+                    </a>
+                </div>
+            </section>
+        </main>
+    </div>
+</body>
+</html>

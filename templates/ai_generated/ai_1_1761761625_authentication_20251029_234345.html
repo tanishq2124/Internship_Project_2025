@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artisan's Haven - Authentication</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50%25' y='50%25' font-size='80' text-anchor='middle' dominant-baseline='central'%3E✨%3C/text%3E%3C/svg%3E" type="image/svg+xml">
+    <style>
+        /* General Styles */
+        :root {
+            --primary-color: #98D7C2; /* Soft Mint Green */
+            --primary-hover-color: #78C2AF;
+            --text-dark: #333333;
+            --text-medium: #666666;
+            --text-light: #999999;
+            --bg-light: #fcfcfc;
+            --bg-white: #ffffff;
+            --border-light: #e0e0e0;
+            --error-color: #dc3545;
+            --shadow-light: rgba(0, 0, 0, 0.08);
+            --transition-speed: 0.3s ease;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* Container for the Auth Page */
+        .auth-container {
+            background-color: var(--bg-white);
+            border-radius: 12px;
+            box-shadow: 0 8px 30px var(--shadow-light);
+            width: 100%;
+            max-width: 450px;
+            padding: 40px;
+            text-align: center;
+            transition: all var(--transition-speed);
+        }
+
+        /* Header / Logo */
+        .auth-header {
+            margin-bottom: 30px;
+        }
+
+        .auth-header h1 {
+            color: var(--primary-color);
+            font-size: 2.2em;
+            font-weight: 700;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .auth-header h1 .icon {
+            font-size: 1.2em;
+            line-height: 1;
+        }
+
+        .auth-header p {
+            color: var(--text-medium);
+            font-size: 0.95em;
+        }
+
+        /* Tab Navigation (Login/Register) */
+        .auth-tabs {
+            display: flex;
+            margin-bottom: 30px;
+            border-bottom: 2px solid var(--border-light);
+        }
+
+        .auth-tab-btn {
+            flex: 1;
+            padding: 15px 20px;
+            border: none;
+            background: none;
+            font-size: 1.1em;
+            font-weight: 600;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: color var(--transition-speed), border-bottom var(--transition-speed);
+            border-bottom: 2px solid transparent;
+            outline: none;
+        }
+
+        .auth-tab-btn:hover {
+            color: var(--text-dark);
+        }
+
+        .auth-tab-btn.active {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        /* Form Sections */
+        .auth-form-section {
+            display: none; /* Hidden by default */
+        }
+
+        .auth-form-section.active {
+            display: block; /* Shown when active */
+        }
+
+        .auth-form {
+            text-align: left;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            position: relative; /* For password toggle */
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-dark);
+            font-size: 0.95em;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group input[type="password"] {
+            width: 100%;
+            padding: 14px 15px;
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            font-size: 1em;
+            color: var(--text-dark);
+            background-color: var(--bg-white);
+            transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
+            -webkit-appearance: none; /* Removes default styling for iOS */
+        }
+
+        .form-group input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(152, 215, 194, 0.2); /* Soft focus ring */
+            outline: none;
+        }
+
+        .form-group input::placeholder {
+            color: var(--text-light);
+        }
+
+        /* Password Toggle Button */
+        .password-toggle {
+            position: absolute;
+            right: 15px;
+            top: 50%; /* Adjusted for label */
+            transform: translateY(calc(50% + 5px)); /* Center with input */
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text-light);
+            font-size: 1.1em;
+            transition: color var(--transition-speed);
+            outline: none;
+        }
+
+        .password-toggle:hover {
+            color: var(--text-medium);
+        }
+
+        /* Error messages */
+        .error-message {
+            color: var(--error-color);
+            font-size: 0.85em;
+            margin-top: 5px;
+            display: none; /* Hidden by default */
+        }
+
+        /* Forgot Password Link */
+        .forgot-password {
+            display: block;
+            text-align: right;
+            margin-top: -10px;
+            margin-bottom: 20px;
+            font-size: 0.9em;
+        }
+
+        .forgot-password a {
+            color: var(--text-medium);
+            text-decoration: none;
+            transition: color var(--transition-speed);
+        }
+
+        .forgot-password a:hover {
+            color: var(--primary-color);
+        }
+
+        /* Submit Button */
+        .auth-btn {
+            width: 100%;
+            padding: 15px 20px;
+            background-color: var(--primary-color);
+            color: var(--bg-white);
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color var(--transition-speed), box-shadow var(--transition-speed);
+            outline: none;
+        }
+
+        .auth-btn:hover {
+            background-color: var(--primary-hover-color);
+            box-shadow: 0 4px 15px rgba(152, 215, 194, 0.4);
+        }
+
+        .auth-btn:active {
+            transform: translateY(1px);
+        }
+
+        /* Switch to other form link */
+        .switch-auth-mode {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 0.95em;
+            color: var(--text-medium);
+        }
+
+        .switch-auth-mode a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color var(--transition-speed);
+        }
+
+        .switch-auth-mode a:hover {
+            color: var(--primary-hover-color);
+        }
+
+        /* Social Login Options (Optional) */
+        .social-login-separator {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 30px 0;
+            color: var(--text-light);
+            font-size: 0.9em;
+        }
+
+        .social-login-separator::before,
+        .social-login-separator::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .social-login-separator:not(:empty)::before {
+            margin-right: .25em;
+        }
+
+        .social-login-separator:not(:empty)::after {
+            margin-left: .25em;
+        }
+
+        .social-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .social-btn {
+            flex: 1;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid var(--border-light);
+            background-color: var(--bg-white);
+            color: var(--text-medium);
+            font-size: 1em;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: background-color var(--transition-speed), border-color var(--transition-speed), box-shadow var(--transition-speed);
+            outline: none;
+        }
+
+        .social-btn:hover {
+            background-color: var(--bg-light);
+            border-color: var(--primary-color);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .social-btn img {
+            height: 20px;
+            width: 20px;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 500px) {
+            .auth-container {
+                padding: 30px 20px;
+                border-radius: 0; /* Full width on very small screens */
+                box-shadow: none;
+            }
+
+            .auth-header h1 {
+                font-size: 1.8em;
+            }
+
+            .auth-tabs {
+                margin-bottom: 20px;
+            }
+
+            .auth-tab-btn {
+                padding: 12px 15px;
+                font-size: 1em;
+            }
+
+            .form-group {
+                margin-bottom: 18px;
+            }
+
+            .form-group label {
+                margin-bottom: 6px;
+            }
+
+            .form-group input {
+                padding: 12px 15px;
+            }
+
+            .auth-btn {
+                padding: 12px 15px;
+                font-size: 1em;
+            }
+
+            .social-buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <header class="auth-header">
+            <h1><span class="icon">✨</span> Artisan's Haven</h1>
+            <p>Your marketplace for unique handmade treasures.</p>
+        </header>
+
+        <nav class="auth-tabs">
+            <button type="button" class="auth-tab-btn active" id="login-tab">Login</button>
+            <button type="button" class="auth-tab-btn" id="register-tab">Register</button>
+        </nav>
+
+        <section id="login-section" class="auth-form-section active">
+            <form class="auth-form" id="loginForm" novalidate>
+                <div class="form-group">
+                    <label for="login-email">Email Address</label>
+                    <input type="email" id="login-email" name="email" placeholder="you@example.com" required autocomplete="email">
+                    <div class="error-message" id="login-email-error">Please enter a valid email address.</div>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" name="password" placeholder="••••••••" required autocomplete="current-password">
+                    <button type="button" class="password-toggle" aria-label="Toggle password visibility" data-target="login-password">👁️</button>
+                    <div class="error-message" id="login-password-error">Password cannot be empty.</div>
+                </div>
+                <div class="forgot-password">
+                    <a href="#">Forgot password?</a>
+                </div>
+                <button type="submit" class="auth-btn">Log In</button>
+            </form>
+            <div class="switch-auth-mode">
+                Don't have an account? <a href="#" id="switch-to-register">Register here</a>
+            </div>
+
+            <div class="social-login-separator">or</div>
+
+            <div class="social-buttons">
+                <button type="button" class="social-btn">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath fill='%23FFC107' d='M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 8.065 3.09l5.661-5.661C34.046 6.053 29.268 4 24 4 12.955 4 4 12.955 4 24s8.955 20 20 20c11.045 0 20-8.955 20-20z'/%3E%3Cpath fill='%23FF3D00' d='M6.306 14.691L17.618 24 6.306 33.309c-2.42-4.527-3.893-9.988-3.893-15.309 0-5.321 1.473-10.782 3.893-15.309z'/%3E%3Cpath fill='%234CAF50' d='M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238a11.91 11.91 0 0 1-7.219 2.19c-4.477 0-8.26-2.918-9.686-6.943H14V33c0 6.627 5.373 12 12 12z'/%3E%3Cpath fill='%231976D2' d='M43.611 20.083H42V20H24v8h11.303c-1.292 2.559-3.413 4.567-5.913 5.75l6.19 5.238C36.971 39.205 44 34 44 24c0-1.521-.157-3.003-.438-4.417z'/%3E%3C/svg%3E" alt="Google icon">
+                    Continue with Google
+                </button>
+                <button type="button" class="social-btn">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%231877F2' d='M12 0C5.373 0 0 5.373 0 12c0 6.016 4.417 11.077 10.174 11.831V14.606H7.174V11.174h2.999V8.627c0-2.977 1.815-4.607 4.48-4.607 1.307 0 2.433.097 2.757.14V7.41h-1.638c-1.614 0-1.93.766-1.93 1.895v2.069h3.424l-.554 3.432h-2.87V23.83C19.583 23.077 24 18.016 24 12 24 5.373 18.627 0 12 0z'/%3E%3C/svg%3E" alt="Facebook icon">
+                    Continue with Facebook
+                </button>
+            </div>
+        </section>
+
+        <section id="register-section" class="auth-form-section">
+            <form class="auth-form" id="registerForm" novalidate>
+                <div class="form-group">
+                    <label for="register-name">Full Name</label>
+                    <input type="text" id="register-name" name="name" placeholder="John Doe" required autocomplete="name">
+                    <div class="error-message" id="register-name-error">Please enter your full name.</div>
+                </div>
+                <div class="form-group">
+                    <label for="register-email">Email Address</label>
+                    <input type="email" id="register-email" name="email" placeholder="you@example.com" required autocomplete="email">
+                    <div class="error-message" id="register-email-error">Please enter a valid email address.</div>
+                </div>
+                <div class="form-group">
+                    <label for="register-password">Password</label>
+                    <input type="password" id="register-password" name="password" placeholder="••••••••" required autocomplete="new-password">
+                    <button type="button" class="password-toggle" aria-label="Toggle password visibility" data-target="register-password">👁️</button>
+                    <div class="error-message" id="register-password-error">Password must be at least 8 characters long.</div>
+                </div>
+                <div class="form-group">
+                    <label for="register-confirm-password">Confirm Password</label>
+                    <input type="password" id="register-confirm-password" name="confirm-password" placeholder="••••••••" required autocomplete="new-password">
+                    <button type="button" class="password-toggle" aria-label="Toggle password visibility" data-target="register-confirm-password">👁️</button>
+                    <div class="error-message" id="register-confirm-password-error">Passwords do not match.</div>
+                </div>
+                <button type="submit" class="auth-btn">Register</button>
+            </form>
+            <div class="switch-auth-mode">
+                Already have an account? <a href="#" id="switch-to-login">Log In here</a>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginTab = document.getElementById('login-tab');
+            const registerTab = document.getElementById('register-tab');
+            const loginSection = document.getElementById('login-section');
+            const registerSection = document.getElementById('register-section');
+            const switchToRegisterLink = document.getElementById('switch-to-register');
+            const switchToLoginLink = document.getElementById('switch-to-login');
+
+            // Function to switch tabs
+            function switchTab(targetTab) {
+                if (targetTab === 'login') {
+                    loginTab.classList.add('active');
+                    registerTab.classList.remove('active');
+                    loginSection.classList.add('active');
+                    registerSection.classList.remove('active');
+                } else {
+                    registerTab.classList.add('active');
+                    loginTab.classList.remove('active');
+                    registerSection.classList.add('active');
+                    loginSection.classList.remove('active');
+                }
+                // Clear any error messages when switching tabs
+                document.querySelectorAll('.error-message').forEach(el => el.style.display = 'none');
+                // Reset form fields
+                document.getElementById('loginForm').reset();
+                document.getElementById('registerForm').reset();
+            }
+
+            // Event listeners for tab buttons
+            loginTab.addEventListener('click', () => switchTab('login'));
+            registerTab.addEventListener('click', () => switchTab('register'));
+
+            // Event listeners for "Switch mode" links
+            switchToRegisterLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                switchTab('register');
+            });
+            switchToLoginLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                switchTab('login');
+            });
+
+            // Password visibility toggles
+            document.querySelectorAll('.password-toggle').forEach(button => {
+                button.addEventListener('click', () => {
+                    const targetId = button.dataset.target;
+                    const passwordInput = document.getElementById(targetId);
+                    if (passwordInput.type === 'password') {
+                        passwordInput.type = 'text';
+                        button.textContent = '🙈'; // Hide icon
+                    } else {
+                        passwordInput.type = 'password';
+                        button.textContent = '👁️'; // Show icon
+                    }
+                });
+            });
+
+            // Client-side form validation (basic)
+            const loginForm = document.getElementById('loginForm');
+            const registerForm = document.getElementById('registerForm');
+
+            function showError(elementId, message) {
+                const errorElement = document.getElementById(elementId);
+                errorElement.textContent = message;
+                errorElement.style.display = 'block';
+            }
+
+            function hideError(elementId) {
+                document.getElementById(elementId).style.display = 'none';
+            }
+
+            function validateEmail(email) {
+                const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                return re.test(String(email).toLowerCase());
+            }
+
+            // Login Form Validation
+            loginForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                let isValid = true;
+
+                const email = this.elements['email'].value;
+                const password = this.elements['password'].value;
+
+                if (!validateEmail(email)) {
+                    showError('login-email-error', 'Please enter a valid email address.');
+                    isValid = false;
+                } else {
+                    hideError('login-email-error');
+                }
+
+                if (password.length === 0) {
+                    showError('login-password-error', 'Password cannot be empty.');
+                    isValid = false;
+                } else {
+                    hideError('login-password-error');
+                }
+
+                if (isValid) {
+                    // In a production environment, you would send this to your backend
+                    alert('Login successful! (Simulated)');
+                    // Example: fetch('/api/login', { method: 'POST', body: JSON.stringify({ email, password }) })
+                    // .then(response => response.json())
+                    // .then(data => console.log(data));
+                }
+            });
+
+            // Register Form Validation
+            registerForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                let isValid = true;
+
+                const name = this.elements['name'].value;
+                const email = this.elements['email'].value;
+                const password = this.elements['password'].value;
+                const confirmPassword = this.elements['confirm-password'].value;
+
+                if (name.trim().length === 0) {
+                    showError('register-name-error', 'Please enter your full name.');
+                    isValid = false;
+                } else {
+                    hideError('register-name-error');
+                }
+
+                if (!validateEmail(email)) {
+                    showError('register-email-error', 'Please enter a valid email address.');
+                    isValid = false;
+                } else {
+                    hideError('register-email-error');
+                }
+
+                if (password.length < 8) {
+                    showError('register-password-error', 'Password must be at least 8 characters long.');
+                    isValid = false;
+                } else {
+                    hideError('register-password-error');
+                }
+
+                if (password !== confirmPassword) {
+                    showError('register-confirm-password-error', 'Passwords do not match.');
+                    isValid = false;
+                } else {
+                    hideError('register-confirm-password-error');
+                }
+
+                if (isValid) {
+                    // In a production environment, you would send this to your backend
+                    alert('Registration successful! (Simulated)');
+                    // Example: fetch('/api/register', { method: 'POST', body: JSON.stringify({ name, email, password }) })
+                    // .then(response => response.json())
+                    // .then(data => console.log(data));
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Green Acres Farm</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* RESET */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Open Sans', sans-serif; /* Changed font to a cleaner sans-serif */
+        }
+
+        body {
+            min-height: 100vh; /* Changed height to min-height to accommodate more content */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #a8e063, #56ab2f); /* Green, earthy gradient for a farm theme */
+            padding: 40px 20px; /* Added padding for better responsiveness */
+        }
+
+        .container {
+            max-width: 900px; /* Changed fixed width to max-width */
+            min-height: 70vh; /* Changed fixed height to min-height */
+            background: #ffffff; /* Clean white background */
+            border-radius: 12px; /* Smoother border-radius */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); /* Softer, more subtle shadow */
+            position: relative;
+            padding: 40px 60px; /* Generous internal padding */
+            display: flex;
+            flex-direction: column; /* Stack content vertically */
+            gap: 30px; /* Space between sections */
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif; /* Elegant serif font for main title */
+            font-size: 2.8em;
+            color: #2e7d32; /* Dark green for main heading */
+            margin-bottom: 20px;
+            text-align: center;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1); /* Subtle text shadow */
+        }
+
+        h2 {
+            font-family: 'Playfair Display', serif; /* Elegant serif font for section headings */
+            font-size: 2em;
+            color: #2e7d32; /* Dark green for section headings */
+            margin-top: 30px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #8bc34a; /* Accent border under headings */
+            padding-bottom: 10px;
+            display: inline-flex; /* Use flex to align icon and text, and center border */
+            align-items: center;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+        }
+
+        p {
+            color: #555;
+            line-height: 1.7;
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        .about-section {
+            text-align: center;
+        }
+
+        .about-section p {
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center; /* Center paragraphs in about section */
+        }
+
+        .faq-section {
+            margin-top: 30px;
+        }
+
+        .faq-item {
+            margin-bottom: 20px;
+            border-bottom: 1px dashed #ddd; /* Subtle dashed separator */
+            padding-bottom: 15px;
+        }
+
+        .faq-item:last-child {
+            border-bottom: none; /* No border for the last item */
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .faq-item summary {
+            font-weight: 600;
+            color: #388e3c; /* A slightly lighter green for questions */
+            cursor: pointer;
+            padding: 10px 0;
+            outline: none;
+            list-style: none; /* Hide default arrow */
+            display: flex; /* Use flex for custom arrow positioning */
+            align-items: center;
+        }
+
+        .faq-item summary::-webkit-details-marker {
+            display: none; /* Hide default marker for webkit browsers */
+        }
+
+        .faq-item summary::before {
+            content: "\f054"; /* Font Awesome right arrow icon */
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            margin-right: 10px;
+            color: #8bc34a; /* Accent color for the arrow */
+            transition: transform 0.2s ease;
+        }
+
+        .faq-item[open] summary::before {
+            content: "\f078"; /* Font Awesome down arrow icon when open */
+        }
+
+        .faq-item p {
+            padding: 10px 0 0 25px; /* Indent answer text */
+            color: #666;
+            text-align: left; /* Keep answer text left-aligned */
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px;
+            }
+            h1 {
+                font-size: 2.2em;
+            }
+            h2 {
+                font-size: 1.7em;
+            }
+            .faq-item summary {
+                font-size: 0.95em;
+            }
+            .faq-item p {
+                font-size: 0.9em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 20px 10px;
+            }
+            .container {
+                padding: 20px;
+                margin: 0 10px; /* Add margin on smaller screens */
+            }
+            h1 {
+                font-size: 1.8em;
+            }
+            h2 {
+                font-size: 1.5em;
+                margin-bottom: 15px;
+            }
+            .about-section p {
+                text-align: left; /* Left align for better readability on small screens */
+            }
+            .faq-item summary {
+                font-size: 0.9em;
+            }
+            .faq-item p {
+                padding-left: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to Green Acres Farm!</h1>
+
+        <section class="about-section">
+            <h2><i class="fa-solid fa-seedling" style="margin-right: 10px;"></i>About Our Farm</h2>
+            <p>
+                At Green Acres Farm, we're dedicated to sustainable farming practices and providing our community with fresh, high-quality produce. Located in the heart of the countryside, our family-owned farm has been cultivating the land for over three generations, upholding traditions while embracing innovative, eco-friendly methods.
+            </p>
+            <p>
+                Our mission is simple: to grow delicious, nutritious food in harmony with nature. We believe in nurturing the soil, respecting the environment, and ensuring that every fruit, vegetable, and herb we offer is grown with care and passion. From our fields to your table, we strive for transparency, quality, and a commitment to healthy living. Join us in celebrating the bounty of the earth!
+            </p>
+        </section>
+
+        <section class="faq-section">
+            <h2><i class="fa-solid fa-circle-question" style="margin-right: 10px;"></i>Frequently Asked Questions</h2>
+
+            <div class="faq-list">
+                <details class="faq-item">
+                    <summary>What kind of produce do you grow?</summary>
+                    <p>
+                        We grow a wide variety of seasonal fruits and vegetables, including tomatoes, lettuce, kale, carrots, squash, berries, and much more. Our selection changes throughout the year, so check our 'Seasonal Produce' page for current availability!
+                    </p>
+                </details>
+
+                <details class="faq-item">
+                    <summary>Are your products organic?</summary>
+                    <p>
+                        While we are not officially certified organic, we strictly adhere to organic farming principles. This means we use no synthetic pesticides, herbicides, or fertilizers. We focus on natural pest control, crop rotation, and enriching our soil with compost and cover crops.
+                    </p>
+                </details>
+
+                <details class="faq-item">
+                    <summary>Can I visit the farm?</summary>
+                    <p>
+                        Yes, we love visitors! We host open farm days and special events during peak seasons. Please check our 'Events' page or subscribe to our newsletter for dates and details. Private tours can also be arranged upon request.
+                    </p>
+                </details>
+
+                <details class="faq-item">
+                    <summary>Do you offer a CSA (Community Supported Agriculture) program?</summary>
+                    <p>
+                        Absolutely! Our CSA program is a wonderful way to enjoy fresh, weekly harvests directly from our farm. Members receive a box of seasonal produce, often with unique varieties not available elsewhere. Sign-ups typically open in late winter/early spring. Visit our 'CSA Program' page for more information.
+                    </p>
+                </details>
+
+                <details class="faq-item">
+                    <summary>Where can I buy your produce?</summary>
+                    <p>
+                        You can purchase our produce directly from our farm stand during operational hours, through our CSA program, and at select local farmers' markets. Check our 'Find Us' page for a list of market locations and times.
+                    </p>
+                </details>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

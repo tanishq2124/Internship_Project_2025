@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Green Acres Farm</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* Basic Reset & Typography */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #8BC34A 0%, #4CAF50 100%); /* Fresh green gradient for a natural, modern farm feel */
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: #424242; /* Dark grey for good readability */
+        }
+
+        /* Container Styling */
+        .container {
+            background: rgba(255, 255, 255, 0.98); /* Almost white, slightly transparent */
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2); /* Softer shadow */
+            max-width: 800px; /* Increased max-width for more content */
+            width: 100%;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Header & Description */
+        h1 {
+            color: #388E3C; /* Darker green for main heading */
+            margin-bottom: 25px;
+            font-size: 2.5em;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        h1 .icon {
+            font-size: 1.2em; /* Adjust icon size relative to text */
+        }
+        h2 {
+            color: #4CAF50; /* Medium green for subheadings */
+            margin-top: 35px;
+            margin-bottom: 15px;
+            font-size: 1.8em;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        p {
+            color: #616161;
+            line-height: 1.7;
+            margin-bottom: 15px;
+            font-size: 1.05em;
+            text-align: left; /* Align text left for better readability */
+            max-width: 700px; /* Constrain paragraph width within container */
+            margin-left: auto;
+            margin-right: auto;
+        }
+        p:last-of-type {
+            margin-bottom: 30px; /* More space after last paragraph before button */
+        }
+
+        /* Call to Action Button */
+        .button {
+            display: inline-block;
+            background-color: #4CAF50; /* Green button */
+            color: #ffffff;
+            padding: 15px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 1.1em;
+            font-weight: 500;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            margin-top: 20px;
+        }
+        .button:hover {
+            background-color: #388E3C; /* Darker green on hover */
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+        }
+
+        /* Media Queries for Responsiveness */
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+                border-radius: 15px;
+            }
+            h1 {
+                font-size: 2em;
+                margin-bottom: 20px;
+            }
+            h2 {
+                font-size: 1.5em;
+                margin-top: 30px;
+            }
+            p {
+                font-size: 1em;
+                text-align: left;
+            }
+            .button {
+                padding: 12px 25px;
+                font-size: 1em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 15px;
+            }
+            .container {
+                padding: 25px 15px;
+                border-radius: 10px;
+            }
+            h1 {
+                font-size: 1.8em;
+                flex-direction: column; /* Stack icon and text on very small screens */
+                gap: 5px;
+            }
+            h2 {
+                font-size: 1.3em;
+                text-align: center;
+                flex-direction: column;
+                gap: 5px;
+            }
+            p {
+                font-size: 0.95em;
+            }
+            .button {
+                width: 90%; /* Make button wider on small screens */
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1><span class="icon">🌱</span> Our Farm, Our Story</h1>
+        <p>Welcome to <strong>Green Acres Farm</strong>, where the soil tells a tale of tradition, dedication, and a future cultivated with care. Nestled in the heart of the fertile [Valley/Region], we are a family-owned farm committed to bringing you the freshest, highest-quality produce and ethically raised goods. Our passion for agriculture runs deep, spanning over three generations.</p>
+
+        <h2><span class="icon">🚜</span> Rooted in Tradition, Growing for Tomorrow</h2>
+        <p>Our journey began over 70 years ago with a simple vision: to grow wholesome food while nurturing the land that sustains us. Passed down through generations, our farming practices blend time-honored wisdom with modern sustainable techniques. We believe in working with nature, not against it, to ensure bountiful harvests that are both delicious and environmentally responsible.</p>
+
+        <h2><span class="icon">💚</span> Our Commitment to Sustainability</h2>
+        <p>At Green Acres Farm, sustainability isn't just a buzzword; it's the core of everything we do. We meticulously practice organic soil enrichment, advanced water conservation methods, and promote biodiversity across our fields. Our animals are raised with the highest standards of welfare, grazing freely on lush pastures. Every decision is made with the planet in mind, growing food that's good for you and good for the Earth.</p>
+
+        <h2><span class="icon">🥕</span> From Our Fields to Your Table</h2>
+        <p>Explore our seasonal bounty, which includes a vibrant array of crisp vegetables like heirloom tomatoes and leafy greens, juicy fruits such as berries and apples, and fragrant herbs that elevate any dish. We also offer pastured eggs and artisanal preserves, all crafted with the same dedication to quality. Each item is hand-picked with care, delivering farm-fresh goodness directly from our fields to your table.</p>
+
+        <h2><span class="icon">🤝</span> Join Our Community</h2>
+        <p>More than just a farm, we are a community. We invite you to connect with us, learn about sustainable agriculture through our workshops, and experience the pure joy of fresh, local food. Follow our journey on social media, visit our bustling farm stand, or consider joining our CSA program for a weekly share of nature's best.</p>
+
+        <a href="contact.html" class="button">Connect With Us</a>
+    </div>
+</body>
+</html>

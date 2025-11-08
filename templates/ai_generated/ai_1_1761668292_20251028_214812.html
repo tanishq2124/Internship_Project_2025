@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Handmade Haven | Home</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f0f4f8 0%, #e0e7ee 100%); /* Lighter, soft background */
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #333; /* Dark text for light theme */
+            line-height: 1.6;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95); /* Slightly less transparent white */
+            backdrop-filter: blur(12px);
+            border-radius: 25px; /* Softer rounded corners */
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.08); /* More prominent, soft shadow */
+            padding: 50px; /* More padding for content */
+            width: 100%;
+            max-width: 700px; /* Wider container for home page content */
+            border: 1px solid rgba(255, 255, 255, 0.4); /* Subtle border */
+            text-align: center; /* Center content */
+        }
+
+        h1 {
+            font-size: 3.2em; /* Larger heading */
+            color: #2c3e50; /* A deep, rich blue for emphasis */
+            margin-bottom: 20px;
+            font-weight: 700; /* Bolder */
+            letter-spacing: -0.03em;
+        }
+
+        p {
+            font-size: 1.15em; /* Larger paragraph text */
+            color: #555; /* Softer dark gray */
+            margin-bottom: 25px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .call-to-action {
+            display: inline-block;
+            background-color: #6a82fb; /* Vibrant blue for CTA */
+            color: white;
+            padding: 15px 35px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 15px rgba(106, 130, 251, 0.3);
+            border: none;
+            cursor: pointer;
+        }
+
+        .call-to-action:hover {
+            background-color: #5b71e0; /* Slightly darker on hover */
+            transform: translateY(-3px);
+            box-shadow: 0 12px 20px rgba(106, 130, 251, 0.4);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px;
+                margin: 20px;
+            }
+            h1 {
+                font-size: 2.5em;
+            }
+            p {
+                font-size: 1em;
+            }
+            .call-to-action {
+                padding: 12px 25px;
+                font-size: 1em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2em;
+            }
+            p {
+                font-size: 0.95em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to Artisan's Touch!</h1>
+        <p>
+            Discover a world where creativity meets craftsmanship. At Artisan's Touch, we celebrate the beauty and uniqueness of handmade accessories, each piece lovingly created by talented artisans.
+        </p>
+        <p>
+            Browse our exquisite collection of cozy, hand-knitted blankets, stylish and unique purses, beautifully crafted ceramic pots, charming home decor, and much more. Every item tells a story, bringing warmth, character, and a touch of human artistry into your life. Find the perfect gift or a special treat for yourself!
+        </p>
+        <a href="#" class="call-to-action">Explore Our Handmade Collection</a>
+    </div>
+</body>
+</html>

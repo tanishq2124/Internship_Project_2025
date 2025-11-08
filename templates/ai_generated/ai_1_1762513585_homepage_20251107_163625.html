@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Green Acres Farm - Fresh from Our Fields to Your Table</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Base Styles */
+        :root {
+            --primary-green: #5A8D4F;
+            --secondary-green: #8BC34A;
+            --dark-earth: #795548;
+            --light-cream: #FDFBF6;
+            --dark-text: #333333;
+            --light-text: #FFFFFF;
+            --off-white: #EFEFEF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            line-height: 1.6;
+            color: var(--dark-text);
+            background-color: var(--light-cream);
+            scroll-behavior: smooth;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--primary-green);
+            margin-bottom: 0.8em;
+        }
+
+        h1 { font-size: 2.8em; }
+        h2 { font-size: 2.2em; }
+        h3 { font-size: 1.8em; }
+        p { margin-bottom: 1em; }
+
+        a {
+            text-decoration: none;
+            color: var(--secondary-green);
+        }
+
+        a:hover {
+            color: var(--primary-green);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--secondary-green);
+            color: var(--light-text);
+            padding: 12px 25px;
+            border-radius: 5px;
+            font-weight: 600;
+            text-transform: uppercase;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            border: none;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.9em;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-green);
+            transform: translateY(-2px);
+        }
+
+        section {
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        /* Header */
+        header {
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.8em;
+            font-weight: 700;
+            color: var(--primary-green);
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 35px;
+            margin-right: 10px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+        }
+
+        nav ul li {
+            margin-left: 30px;
+        }
+
+        nav ul li a {
+            color: var(--dark-text);
+            font-weight: 600;
+            font-family: 'Montserrat', sans-serif;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background-color: var(--secondary-green);
+            bottom: -5px;
+            left: 0;
+            transition: width 0.3s ease;
+        }
+
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1534343160408-f9e424263721?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80') no-repeat center center/cover;
+            color: var(--light-text);
+            padding: 150px 0;
+            text-align: center;
+        }
+
+        .hero h1 {
+            color: var(--light-text);
+            font-size: 3.8em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+        }
+
+        .hero p {
+            font-size: 1.3em;
+            margin-bottom: 40px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            text-shadow: 1px 1px 5px rgba(0,0,0,0.7);
+        }
+
+        /* About Section */
+        .about {
+            background-color: var(--off-white);
+        }
+
+        .about h2 {
+            margin-bottom: 40px;
+        }
+
+        .about-content {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            text-align: left;
+        }
+
+        .about-content img {
+            max-width: 50%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .about-text {
+            flex: 1;
+        }
+
+        /* Produce Section */
+        .produce h2 {
+            margin-bottom: 50px;
+        }
+
+        .produce-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .produce-item {
+            background-color: var(--light-cream);
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-align: left;
+        }
+
+        .produce-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+        }
+
+        .produce-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .produce-item-info {
+            padding: 20px;
+        }
+
+        .produce-item h3 {
+            color: var(--dark-earth);
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+
+        .produce-item p {
+            font-size: 0.95em;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .produce-item .price {
+            font-size: 1.2em;
+            font-weight: 700;
+            color: var(--primary-green);
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .produce-item .btn {
+            width: 100%;
+            text-align: center;
+            padding: 10px 0;
+        }
+
+        /* Values Section */
+        .values {
+            background-color: var(--off-white);
+        }
+
+        .values h2 {
+            margin-bottom: 50px;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .value-item {
+            padding: 30px;
+            background-color: var(--light-cream);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.06);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .value-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+
+        .value-item .icon {
+            font-size: 3em;
+            color: var(--secondary-green);
+            margin-bottom: 15px;
+        }
+
+        .value-item h3 {
+            color: var(--dark-earth);
+            margin-bottom: 10px;
+        }
+
+        .value-item p {
+            font-size: 0.95em;
+            color: #555;
+        }
+
+        /* CTA Section */
+        .cta {
+            background-color: var(--primary-green);
+            color: var(--light-text);
+            padding: 100px 0;
+        }
+
+        .cta h2 {
+            color: var(--light-text);
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        .cta p {
+            font-size: 1.2em;
+            max-width: 700px;
+            margin: 0 auto 40px auto;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark-earth);
+            color: var(--off-white);
+            padding: 50px 0;
+            text-align: center;
+            font-size: 0.9em;
+        }
+
+        footer .footer-content {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            text-align: left;
+            margin-bottom: 30px;
+        }
+
+        footer .footer-col {
+            flex: 1;
+            min-width: 250px;
+            margin: 20px;
+        }
+
+        footer h4 {
+            color: var(--secondary-green);
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        footer ul {
+            list-style: none;
+        }
+
+        footer ul li {
+            margin-bottom: 10px;
+        }
+
+        footer ul li a {
+            color: var(--off-white);
+            transition: color 0.3s ease;
+        }
+
+        footer ul li a:hover {
+            color: var(--secondary-green);
+        }
+
+        footer .social-links a {
+            display: inline-block;
+            margin-right: 15px;
+            color: var(--off-white);
+            font-size: 1.5em;
+            transition: color 0.3s ease;
+        }
+
+        footer .social-links a:hover {
+            color: var(--secondary-green);
+        }
+
+        footer .copyright {
+            margin-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 20px;
+            text-align: center;
+        }
+
+        /* Hamburger Menu for Mobile */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            width: 30px;
+            height: 20px;
+            justify-content: space-between;
+        }
+
+        .menu-toggle span {
+            display: block;
+            width: 100%;
+            height: 3px;
+            background-color: var(--dark-text);
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+
+        .nav-menu.active {
+            display: flex; /* Show menu when active */
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .hero h1 { font-size: 3em; }
+            .hero p { font-size: 1.1em; }
+            h1 { font-size: 2.4em; }
+            h2 { font-size: 1.8em; }
+            h3 { font-size: 1.5em; }
+
+            .about-content {
+                flex-direction: column;
+            }
+
+            .about-content img {
+                max-width: 80%;
+                margin-bottom: 30px;
+            }
+
+            .produce-grid, .values-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 15px;
+            }
+
+            header .container {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .logo {
+                width: 100%;
+                text-align: center;
+                margin-bottom: 15px;
+            }
+
+            nav {
+                width: 100%;
+            }
+
+            nav ul {
+                flex-direction: column;
+                display: none; /* Hide by default on mobile */
+                width: 100%;
+                text-align: center;
+                margin-top: 15px;
+                border-top: 1px solid var(--off-white);
+                padding-top: 15px;
+            }
+
+            nav ul.active {
+                display: flex; /* Show when active */
+            }
+
+            nav ul li {
+                margin: 10px 0;
+            }
+
+            .menu-toggle {
+                display: flex;
+                position: absolute;
+                right: 20px;
+                top: 25px;
+            }
+
+            .menu-toggle.active span:nth-child(1) {
+                transform: rotate(45deg) translate(5px, 5px);
+            }
+
+            .menu-toggle.active span:nth-child(2) {
+                opacity: 0;
+            }
+
+            .menu-toggle.active span:nth-child(3) {
+                transform: rotate(-45deg) translate(5px, -5px);
+            }
+
+            .hero {
+                padding: 100px 0;
+            }
+
+            .hero h1 {
+                font-size: 2.5em;
+            }
+
+            .hero p {
+                font-size: 1em;
+            }
+
+            section {
+                padding: 60px 0;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            footer .footer-col {
+                margin: 15px 0;
+                text-align: center;
+            }
+
+            footer ul {
+                padding-left: 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 { font-size: 2em; }
+            .hero p { font-size: 0.9em; }
+            .btn {
+                padding: 10px 20px;
+                font-size: 0.8em;
+            }
+            .about-content img {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="#" class="logo">
+                <img src="https://www.svgrepo.com/show/368817/farm-tractor.svg" alt="Green Acres Farm Logo">
+                Green Acres Farm
+            </a>
+            <nav>
+                <div class="menu-toggle" id="mobile-menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <ul class="nav-menu" id="nav-menu">
+                    <li><a href="#hero">Home</a></li>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#produce">Our Produce</a></li>
+                    <li><a href="#values">Our Values</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="hero" class="hero">
+            <div class="container">
+                <h1>Fresh from Our Fields to Your Table</h1>
+                <p>Experience the taste of nature with locally grown, sustainably farmed produce from Green Acres Farm. Quality you can trust, straight from our land.</p>
+                <a href="#produce" class="btn">Discover Our Produce</a>
+            </div>
+        </section>
+
+        <section id="about" class="about">
+            <div class="container">
+                <h2>About Green Acres Farm</h2>
+                <div class="about-content">
+                    <img src="https://images.unsplash.com/photo-1544498522-d04b68452445?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Farm fields">
+                    <div class="about-text">
+                        <h3>Our Story & Commitment</h3>
+                        <p>Green Acres Farm has been a family-owned and operated farm for three generations. Rooted in tradition and embracing modern sustainable practices, we are dedicated to providing the freshest, highest-quality produce to our community.</p>
+                        <p>We believe in nurturing the land that feeds us, using organic methods and responsible farming to ensure not only delicious food but also a healthy planet for future generations. Come taste the difference that passion and care make!</p>
+                        <a href="#contact" class="btn">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="produce" class="produce">
+            <div class="container">
+                <h2>Our Fresh Produce</h2>
+                <div class="produce-grid">
+                    <div class="produce-item">
+                        <img src="https://images.unsplash.com/photo-1582285880790-87747e909a8f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80" alt="Organic Tomatoes">
+                        <div class="produce-item-info">
+                            <h3>Heirloom Tomatoes</h3>
+                            <p>Juicy, flavorful heirloom tomatoes, perfect for salads or sauces. Grown with care, picked at peak ripeness.</p>
+                            <span class="price">$4.99 / lb</span>
+                            <a href="#" class="btn">Add to Cart</a>
+                        </div>
+                    </div>
+                    <div class="produce-item">
+                        <img src="https://images.unsplash.com/photo-1590899066601-e63b15f07011?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80" alt="Fresh Carrots">
+                        <div class="produce-item-info">
+                            <h3>Sweet Carrots</h3>
+                            <p>Naturally sweet and crunchy carrots, excellent for snacking or cooking. Rich in vitamins.</p>
+                            <span class="price">$2.75 / bunch</span>
+                            <a href="#" class="btn">Add to Cart</a>
+                        </div>
+                    </div>
+                    <div class="produce-item">
+                        <img src="https://images.unsplash.com/photo-1596489826352-78a48b3c373a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80" alt="Crisp Lettuce">
+                        <div class="produce-item-info">
+                            <h3>Crisp Green Lettuce</h3>
+                            <p>Freshly harvested green leaf lettuce, perfect for your daily salads. Organically grown.</p>
+                            <span class="price">$3.25 / head</span>
+                            <a href="#" class="btn">Add to Cart</a>
+                        </div>
+                    </div>
+                    <div class="produce-item">
+                        <img src="https://images.unsplash.com/photo-1589182335118-4687d0046b45?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80" alt="Farm Fresh Eggs">
+                        <div class="produce-item-info">
+                            <h3>Farm Fresh Eggs</h3>
+                            <p>Pasture-raised eggs from happy hens. Rich yolks and robust flavor, a breakfast essential.</p>
+                            <span class="price">$6.00 / dozen</span>
+                            <a href="#" class="btn">Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top: 50px;">
+                    <a href="#" class="btn">View All Products</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="values" class="values">
+            <div class="container">
+                <h2>Our Farming Philosophy</h2>
+                <div class="values-grid">
+                    <div class="value-item">
+                        <span class="icon">🌱</span>
+                        <h3>Sustainable Practices</h3>
+                        <p>We employ farming methods that protect the environment, preserve natural resources, and support biodiversity.</p>
+                    </div>
+                    <div class="value-item">
+                        <span class="icon">💚</span>
+                        <h3>Organic & Natural</h3>
+                        <p>No synthetic pesticides or harmful chemicals. Just pure, wholesome goodness from healthy soil.</p>
+                    </div>
+                    <div class="value-item">
+                        <span class="icon">👨‍🌾</span>
+                        <h3>Community Focused</h3>
+                        <p>Proudly serving our local community with fresh, nutritious food and supporting local economy.</p>
+                    </div>
+                    <div class="value-item">
+                        <span class="icon">✨</span>
+                        <h3>Uncompromising Quality</h3>
+                        <p>From seed to harvest, we ensure every product meets our high standards for taste and freshness.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="cta" class="cta">
+            <div class="container">
+                <h2>Ready to Taste the Difference?</h2>
+                <p>Visit our farm store, join our CSA program, or order online for the freshest local produce delivered to your door.</p>
+                <a href="#contact" class="btn">Get in Touch</a>
+            </div>
+        </section>
+    </main>
+
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-col">
+                    <h4>Green Acres Farm</h4>
+                    <p>Dedicated to sustainable farming and delivering the freshest produce to your family.</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook"><img src="https://www.svgrepo.com/show/521691/facebook.svg" alt="Facebook" width="24" height="24"></a>
+                        <a href="#" aria-label="Instagram"><img src="https://www.svgrepo.com/show/521711/instagram.svg" alt="Instagram" width="24" height="24"></a>
+                        <a href="#" aria-label="Twitter"><img src="https://www.svgrepo.com/show/521656/twitter.svg" alt="Twitter" width="24" height="24"></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="#produce">Our Produce</a></li>
+                        <li><a href="#">Farm Store</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact Us</h4>
+                    <p>123 Farmstead Lane, Rural Town, State 12345</p>
+                    <p>Email: <a href="mailto:info@greenacresfarm.com">info@greenacresfarm.com</a></p>
+                    <p>Phone: <a href="tel:+15551234567">(555) 123-4567</a></p>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 Green Acres Farm. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            const navMenu = document.getElementById('nav-menu');
+
+            mobileMenu.addEventListener('click', function() {
+                navMenu.classList.toggle('active');
+                mobileMenu.classList.toggle('active');
+            });
+
+            // Close mobile menu when a nav link is clicked
+            document.querySelectorAll('#nav-menu a').forEach(item => {
+                item.addEventListener('click', () => {
+                    if (navMenu.classList.contains('active')) {
+                        navMenu.classList.remove('active');
+                        mobileMenu.classList.remove('active');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

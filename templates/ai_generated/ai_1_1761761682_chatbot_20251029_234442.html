@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Handmade Haven Chatbot - Your Assistant for Unique Creations</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    <style>
+        /* General Styling */
+        :root {
+            --primary-color: #d4a373; /* Earthy, warm orange-brown */
+            --secondary-color: #faedcd; /* Light cream/beige */
+            --background-color: #fcf8f3; /* Very light off-white */
+            --bot-message-bg: #e9edc9; /* Soft light green/yellow, natural */
+            --user-message-bg: #ccd5ae; /* Slightly darker soft green/yellow */
+            --text-color: #333333;
+            --light-text-color: #666666;
+            --border-color: #e0e0e0;
+            --input-bg: #ffffff;
+            --shadow-light: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            line-height: 1.6;
+            overflow: hidden; /* Prevent body scroll when chat overflows */
+        }
+
+        /* Chatbot Container */
+        .chatbot-container {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            max-width: 480px; /* Standard mobile width */
+            height: 90vh; /* Make it take most of the viewport height */
+            max-height: 800px; /* Cap max height for larger screens */
+            background-color: var(--input-bg);
+            border-radius: 15px;
+            box-shadow: var(--shadow-light);
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Header */
+        .chatbot-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 15px 20px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 10;
+        }
+
+        .header-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .site-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6em;
+            margin: 0 0 5px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 700;
+        }
+
+        .site-title .logo {
+            width: 30px;
+            height: 30px;
+            border-radius: 5px;
+            vertical-align: middle;
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 2px;
+        }
+
+        .tagline {
+            font-size: 0.9em;
+            margin: 0;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 300;
+        }
+
+        /* Chat Window */
+        .chat-window {
+            flex-grow: 1;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+
+        .chat-window::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
+        }
+
+        /* Chat Messages */
+        .message {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            max-width: 85%;
+        }
+
+        .message.user-message {
+            margin-left: auto;
+            justify-content: flex-end;
+        }
+
+        .message.bot-message {
+            margin-right: auto;
+            justify-content: flex-start;
+        }
+
+        .message-content {
+            padding: 12px 15px;
+            border-radius: 20px;
+            font-size: 0.95em;
+            word-wrap: break-word;
+            box-shadow: var(--shadow-card);
+            position: relative;
+        }
+
+        .message.user-message .message-content {
+            background-color: var(--user-message-bg);
+            color: var(--text-color);
+            border-bottom-right-radius: 5px;
+        }
+
+        .message.bot-message .message-content {
+            background-color: var(--bot-message-bg);
+            color: var(--text-color);
+            border-bottom-left-radius: 5px;
+        }
+
+        .avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1em;
+            flex-shrink: 0;
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+
+        .bot-avatar {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .user-avatar {
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+        }
+
+        /* Quick Replies */
+        .quick-replies {
+            margin-top: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .quick-reply-button {
+            background-color: rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 20px;
+            padding: 8px 15px;
+            font-size: 0.85em;
+            cursor: pointer;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+            color: var(--light-text-color);
+            white-space: nowrap;
+        }
+
+        .quick-reply-button:hover {
+            background-color: rgba(0, 0, 0, 0.1);
+            transform: translateY(-1px);
+        }
+
+        /* Typing Indicator */
+        .typing-indicator {
+            display: none; /* Hidden by default */
+            align-items: center;
+            gap: 4px;
+            margin: 5px 0 10px 45px; /* Aligns with bot messages */
+            font-size: 0.8em;
+            color: var(--light-text-color);
+        }
+
+        .typing-indicator.visible {
+            display: flex;
+        }
+
+        .typing-indicator .dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--primary-color);
+            border-radius: 50%;
+            animation: bounce 1.4s infinite ease-in-out both;
+        }
+
+        .typing-indicator .dot:nth-child(1) { animation-delay: -0.32s; }
+        .typing-indicator .dot:nth-child(2) { animation-delay: -0.16s; }
+        .typing-indicator .dot:nth-child(3) { animation-delay: 0s; }
+
+        @keyframes bounce {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1); }
+        }
+
+        /* Chat Input Area */
+        .chat-input-area {
+            display: flex;
+            padding: 15px;
+            border-top: 1px solid var(--border-color);
+            background-color: var(--input-bg);
+            gap: 10px;
+            align-items: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        #user-input {
+            flex-grow: 1;
+            padding: 12px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 25px;
+            font-size: 1em;
+            outline: none;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+            background-color: #f8f8f8;
+        }
+
+        #user-input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(212, 163, 115, 0.2);
+        }
+
+        #send-button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+            flex-shrink: 0;
+        }
+
+        #send-button svg {
+            fill: white;
+            width: 22px;
+            height: 22px;
+            margin-left: 2px; /* Adjust icon position slightly */
+        }
+
+        #send-button:hover {
+            background-color: #c08c62; /* Slightly darker primary */
+            transform: translateY(-1px);
+        }
+
+        #send-button:active {
+            transform: translateY(0);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            .chatbot-container {
+                width: 100%;
+                height: 100vh;
+                max-height: 100vh;
+                border-radius: 0;
+                box-shadow: none;
+            }
+
+            body {
+                align-items: stretch;
+                justify-content: stretch;
+            }
+
+            .chatbot-header {
+                padding: 12px 15px;
+            }
+
+            .site-title {
+                font-size: 1.4em;
+            }
+
+            .tagline {
+                font-size: 0.8em;
+            }
+
+            .chat-window {
+                padding: 10px;
+            }
+
+            .message-content {
+                padding: 10px 12px;
+                font-size: 0.9em;
+            }
+
+            .avatar {
+                width: 28px;
+                height: 28px;
+                font-size: 1em;
+            }
+
+            .chat-input-area {
+                padding: 10px 15px;
+            }
+
+            #user-input {
+                padding: 10px 12px;
+                font-size: 0.95em;
+            }
+
+            #send-button {
+                width: 40px;
+                height: 40px;
+            }
+            #send-button svg {
+                width: 20px;
+                height: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="chatbot-container">
+        <header class="chatbot-header">
+            <div class="header-content">
+                <h1 class="site-title"><img src="https://via.placeholder.com/30x30/d4a373/ffffff?text=💎" alt="Handmade Haven Logo" class="logo">Handmade Haven Assistant</h1>
+                <p class="tagline">Your guide to unique handmade accessories!</p>
+            </div>
+        </header>
+
+        <main class="chat-window">
+            <div id="chat-box" class="chat-box">
+                <!-- Initial bot message -->
+                <div class="message bot-message">
+                    <span class="avatar bot-avatar" aria-hidden="true">🤖</span>
+                    <div class="message-content">
+                        <p>Hello there! Welcome to Handmade Haven. I'm your assistant, ready to help you discover beautiful handmade accessories. How can I help you today?</p>
+                        <div class="quick-replies">
+                            <button class="quick-reply-button" data-message="Browse products">Browse products</button>
+                            <button class="quick-reply-button" data-message="What's new?">What's new?</button>
+                            <button class="quick-reply-button" data-message="My order status">My order status</button>
+                            <button class="quick-reply-button" data-message="Contact support">Contact support</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="typing-indicator" id="typing-indicator" aria-live="polite" aria-atomic="true">
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="visually-hidden">Bot is typing...</span>
+            </div>
+        </main>
+
+        <footer class="chat-input-area">
+            <input type="text" id="user-input" placeholder="Type your message..." aria-label="Chat input">
+            <button id="send-button" aria-label="Send message">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24px" height="24px">
+                    <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+                </svg>
+            </button>
+        </footer>
+    </div>
+
+    <script>
+        const chatBox = document.getElementById('chat-box');
+        const userInput = document.getElementById('user-input');
+        const sendButton = document.getElementById('send-button');
+        const typingIndicator = document.getElementById('typing-indicator');
+        const chatWindow = document.querySelector('.chat-window');
+
+        // Function to scroll to the bottom of the chat
+        function scrollToBottom() {
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+        }
+
+        // Function to append a message to the chat box
+        function appendMessage(sender, text, isQuickReply = false) {
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('message', `${sender}-message`);
+
+            const avatarElement = document.createElement('span');
+            avatarElement.classList.add('avatar', `${sender}-avatar`);
+            avatarElement.setAttribute('aria-hidden', 'true');
+            avatarElement.textContent = sender === 'bot' ? '🤖' : '🙂';
+
+            const contentElement = document.createElement('div');
+            contentElement.classList.add('message-content');
+            
+            const paragraphElement = document.createElement('p');
+            paragraphElement.textContent = text;
+            contentElement.appendChild(paragraphElement);
+
+            if (sender === 'bot') {
+                messageElement.appendChild(avatarElement);
+                messageElement.appendChild(contentElement);
+            } else {
+                messageElement.appendChild(contentElement);
+                messageElement.appendChild(avatarElement);
+            }
+            
+            chatBox.appendChild(messageElement);
+            if (!isQuickReply) { // Only scroll if it's a new message, not initial quick replies
+                scrollToBottom();
+            }
+        }
+
+        // Function to show typing indicator
+        function showTypingIndicator() {
+            typingIndicator.classList.add('visible');
+            scrollToBottom();
+        }
+
+        // Function to hide typing indicator
+        function hideTypingIndicator() {
+            typingIndicator.classList.remove('visible');
+        }
+
+        // Simple bot response logic
+        function botResponse(message) {
+            showTypingIndicator();
+
+            let response = "I'm sorry, I didn't quite understand that. Could you try rephrasing or choose one of the options below?";
+            const lowerCaseMessage = message.toLowerCase();
+
+            if (lowerCaseMessage.includes("hello") || lowerCaseMessage.includes("hi")) {
+                response = "Hello there! How can I assist you with handmade treasures today?";
+            } else if (lowerCaseMessage.includes("products") || lowerCaseMessage.includes("browse") || lowerCaseMessage.includes("accessories")) {
+                response = "Absolutely! We have a wonderful selection of handmade jewelry, home decor, personalized gifts, and more. What category are you most interested in?";
+            } else if (lowerCaseMessage.includes("new")) {
+                response = "Exciting news! Our latest collection features unique artisan earrings and beautifully hand-painted ceramics. You can check them out in our 'New Arrivals' section!";
+            } else if (lowerCaseMessage.includes("order status") || lowerCaseMessage.includes("my order")) {
+                response = "To check your order status, please provide your order number. Alternatively, you can visit our 'Track Order' page directly.";
+            } else if (lowerCaseMessage.includes("contact") || lowerCaseMessage.includes("support") || lowerCaseMessage.includes("help")) {
+                response = "You can reach our friendly support team via email at support@handmadehaven.com or call us at 1-800-HAVEN-ART. We're here to help!";
+            } else if (lowerCaseMessage.includes("payment")) {
+                response = "We accept all major credit cards, PayPal, and Apple Pay for your convenience.";
+            } else if (lowerCaseMessage.includes("shipping")) {
+                response = "We offer standard and expedited shipping options. Standard shipping usually takes 5-7 business days. You can find more details on our Shipping Policy page.";
+            } else if (lowerCaseMessage.includes("return") || lowerCaseMessage.includes("exchange")) {
+                response = "We want you to love your handmade item! We offer returns and exchanges within 30 days of purchase for most items. Please see our Return Policy for full details.";
+            } else if (lowerCaseMessage.includes("thank you") || lowerCaseMessage.includes("thanks")) {
+                response = "You're most welcome! Is there anything else I can assist you with?";
+            }
+
+            setTimeout(() => {
+                hideTypingIndicator();
+                appendMessage('bot', response);
+                
+                // Add quick replies after some bot responses
+                if (response.includes("understand that") || response.includes("assist you with handmade treasures") || response.includes("anything else")) {
+                    addQuickReplies([
+                        { text: "Browse products", message: "Browse products" },
+                        { text: "What's new?", message: "What's new?" },
+                        { text: "My order status", message: "My order status" },
+                        { text: "Contact support", message: "Contact support" }
+                    ]);
+                } else if (response.includes("interested in?")) {
+                    addQuickReplies([
+                        { text: "Jewelry", message: "Show me jewelry" },
+                        { text: "Home Decor", message: "Show me home decor" },
+                        { text: "Personalized Gifts", message: "Show me personalized gifts" }
+                    ]);
+                }
+                scrollToBottom();
+            }, Math.random() * 1500 + 1000); // Simulate bot typing for 1-2.5 seconds
+        }
+
+        // Function to add quick reply buttons
+        function addQuickReplies(replies) {
+            const lastBotMessage = chatBox.querySelector('.bot-message:last-child .message-content');
+            if (lastBotMessage) {
+                const quickRepliesDiv = document.createElement('div');
+                quickRepliesDiv.classList.add('quick-replies');
+                
+                replies.forEach(reply => {
+                    const button = document.createElement('button');
+                    button.classList.add('quick-reply-button');
+                    button.textContent = reply.text;
+                    button.setAttribute('data-message', reply.message);
+                    quickRepliesDiv.appendChild(button);
+                });
+                lastBotMessage.appendChild(quickRepliesDiv);
+                addQuickReplyListeners(quickRepliesDiv);
+            }
+        }
+
+        // Add event listeners to quick reply buttons
+        function addQuickReplyListeners(container) {
+            container.querySelectorAll('.quick-reply-button').forEach(button => {
+                button.addEventListener('click', () => {
+                    const message = button.getAttribute('data-message');
+                    appendMessage('user', message, true); // Mark as quick reply so it doesn't scroll immediately
+                    userInput.value = '';
+                    setTimeout(() => botResponse(message), 100); // Small delay for visual effect
+                    // Remove quick replies after one is chosen
+                    button.parentElement.remove();
+                });
+            });
+        }
+
+        // Handle sending messages
+        function sendMessage() {
+            const message = userInput.value.trim();
+            if (message) {
+                appendMessage('user', message);
+                userInput.value = '';
+                botResponse(message);
+            }
+        }
+
+        // Event listeners
+        sendButton.addEventListener('click', sendMessage);
+        userInput.addEventListener('keypress', (event) => {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // Add listeners for initial quick replies
+        document.querySelectorAll('.quick-replies').forEach(addQuickReplyListeners);
+
+        // Scroll to bottom on load for initial message visibility
+        window.addEventListener('load', scrollToBottom);
+    </script>
+</body>
+</html>

@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SalesPulse - Authentication</title>
+    <meta name="description" content="Login or register to access SalesPulse, your e-commerce sales calculator.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text x=%2250%22 y=%2285%22 font-size=%2290%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22>📈</text></svg>">
+    <style>
+        /* Global Styles & Reset */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --primary-color: #007bff; /* Blue */
+            --primary-dark: #0056b3;
+            --secondary-color: #6c757d; /* Gray */
+            --accent-color: #28a745; /* Green for success */
+            --background-light: #f8f9fa;
+            --background-dark: #e9ecef;
+            --text-color: #343a40;
+            --text-light: #6c757d;
+            --border-color: #ced4da;
+            --card-background: #ffffff;
+            --shadow-light: rgba(0, 0, 0, 0.08);
+            --shadow-medium: rgba(0, 0, 0, 0.15);
+            --font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            --border-radius-sm: 4px;
+            --border-radius-md: 8px;
+        }
+
+        body {
+            font-family: var(--font-family);
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-light);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* Utility Classes */
+        .hidden {
+            display: none !important;
+        }
+
+        /* Authentication Card */
+        .auth-container {
+            background-color: var(--card-background);
+            border-radius: var(--border-radius-md);
+            box-shadow: 0 4px 20px var(--shadow-light);
+            width: 100%;
+            max-width: 450px;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .auth-header {
+            margin-bottom: 25px;
+        }
+
+        .auth-header h1 {
+            font-size: 2.2em;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .auth-header p {
+            font-size: 0.95em;
+            color: var(--text-light);
+        }
+
+        /* Tabs */
+        .auth-tabs {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 25px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .tab-button {
+            background: none;
+            border: none;
+            padding: 12px 20px;
+            font-size: 1.1em;
+            font-weight: 600;
+            color: var(--text-light);
+            cursor: pointer;
+            outline: none;
+            position: relative;
+            transition: color 0.3s ease;
+            flex-grow: 1;
+        }
+
+        .tab-button:hover {
+            color: var(--primary-color);
+        }
+
+        .tab-button.active {
+            color: var(--primary-color);
+        }
+
+        .tab-button.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px; /* Overlap border-bottom */
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--primary-color);
+            border-radius: 2px 2px 0 0;
+        }
+
+        /* Forms */
+        .auth-form {
+            text-align: left;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+            position: relative; /* For password toggle */
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.95em;
+            font-weight: 500;
+            color: var(--text-color);
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group input[type="password"] {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-sm);
+            font-size: 1em;
+            color: var(--text-color);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            background-color: var(--card-background);
+        }
+
+        .form-group input[type="text"]:focus,
+        .form-group input[type="email"]:focus,
+        .form-group input[type="password"]:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+            outline: none;
+        }
+        
+        /* Password Toggle */
+        .password-toggle-icon {
+            position: absolute;
+            right: 15px;
+            top: 60%; /* Adjust based on label + input height */
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: var(--text-light);
+            font-size: 1.1em;
+        }
+
+        .password-toggle-icon:hover {
+            color: var(--text-color);
+        }
+
+        /* Checkbox & Link */
+        .form-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            font-size: 0.9em;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            user-select: none; /* Prevent text selection on label */
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            margin-right: 8px;
+            width: 16px;
+            height: 16px;
+            accent-color: var(--primary-color); /* Customizes checkbox color */
+        }
+
+        .form-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .form-link:hover {
+            color: var(--primary-dark);
+            text-decoration: underline;
+        }
+
+        /* Buttons */
+        .btn {
+            width: 100%;
+            padding: 12px 20px;
+            border: none;
+            border-radius: var(--border-radius-sm);
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            outline: none;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: var(--card-background);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary-color);
+            color: var(--card-background);
+            margin-top: 15px; /* For register button below login */
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            box-shadow: 0 4px 10px rgba(108, 117, 125, 0.3);
+        }
+
+        /* Footer text */
+        .auth-footer-text {
+            margin-top: 25px;
+            font-size: 0.9em;
+            color: var(--text-light);
+        }
+
+        .auth-footer-text a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .auth-footer-text a:hover {
+            text-decoration: underline;
+        }
+
+        /* Error Message (for client-side validation) */
+        .error-message {
+            color: #dc3545; /* Red */
+            font-size: 0.85em;
+            margin-top: 5px;
+            text-align: left;
+            display: none; /* Hidden by default, shown with JS */
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 500px) {
+            .auth-container {
+                padding: 25px 20px;
+                margin: 10px;
+            }
+            .auth-header h1 {
+                font-size: 1.8em;
+            }
+            .tab-button {
+                padding: 10px 15px;
+                font-size: 1em;
+            }
+            .form-group label {
+                font-size: 0.9em;
+            }
+            .form-group input {
+                padding: 10px 12px;
+                font-size: 0.95em;
+            }
+            .btn {
+                padding: 10px 15px;
+                font-size: 1em;
+            }
+            .form-actions {
+                flex-direction: column;
+                align-items: flex-start;
+                margin-bottom: 20px;
+            }
+            .checkbox-group {
+                margin-bottom: 10px;
+            }
+            .auth-footer-text {
+                font-size: 0.85em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-header">
+            <h1>SalesPulse</h1>
+            <p>Your E-commerce Sales Calculator</p>
+        </div>
+
+        <div class="auth-tabs">
+            <button type="button" class="tab-button active" id="login-tab" aria-controls="login-form" role="tab" aria-selected="true">Login</button>
+            <button type="button" class="tab-button" id="register-tab" aria-controls="register-form" role="tab" aria-selected="false">Register</button>
+        </div>
+
+        <div class="auth-content">
+            <form id="login-form" class="auth-form" aria-labelledby="login-tab" role="tabpanel">
+                <div class="form-group">
+                    <label for="login-email">Email Address</label>
+                    <input type="email" id="login-email" name="email" placeholder="john.doe@example.com" required autocomplete="email">
+                    <p class="error-message" id="login-email-error"></p>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" name="password" placeholder="Enter your password" required autocomplete="current-password">
+                    <span class="password-toggle-icon" onclick="togglePasswordVisibility('login-password', this)" aria-label="Toggle password visibility">👁️</span>
+                    <p class="error-message" id="login-password-error"></p>
+                </div>
+                <div class="form-actions">
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="remember-me" name="remember-me">
+                        <label for="remember-me">Remember me</label>
+                    </div>
+                    <a href="#" class="form-link">Forgot Password?</a>
+                </div>
+                <button type="submit" class="btn btn-primary">Login</button>
+            </form>
+
+            <form id="register-form" class="auth-form hidden" aria-labelledby="register-tab" role="tabpanel">
+                <div class="form-group">
+                    <label for="register-name">Full Name</label>
+                    <input type="text" id="register-name" name="name" placeholder="John Doe" required autocomplete="name">
+                    <p class="error-message" id="register-name-error"></p>
+                </div>
+                <div class="form-group">
+                    <label for="register-email">Email Address</label>
+                    <input type="email" id="register-email" name="email" placeholder="john.doe@example.com" required autocomplete="email">
+                    <p class="error-message" id="register-email-error"></p>
+                </div>
+                <div class="form-group">
+                    <label for="register-password">Password</label>
+                    <input type="password" id="register-password" name="password" placeholder="Create a password" required autocomplete="new-password">
+                    <span class="password-toggle-icon" onclick="togglePasswordVisibility('register-password', this)" aria-label="Toggle password visibility">👁️</span>
+                    <p class="error-message" id="register-password-error"></p>
+                </div>
+                <div class="form-group">
+                    <label for="register-confirm-password">Confirm Password</label>
+                    <input type="password" id="register-confirm-password" name="confirm-password" placeholder="Re-enter your password" required autocomplete="new-password">
+                    <span class="password-toggle-icon" onclick="togglePasswordVisibility('register-confirm-password', this)" aria-label="Toggle password visibility">👁️</span>
+                    <p class="error-message" id="register-confirm-password-error"></p>
+                </div>
+                <button type="submit" class="btn btn-primary">Register Account</button>
+            </form>
+        </div>
+
+        <p class="auth-footer-text">
+            For support, please visit our <a href="#">Help Center</a>.
+        </p>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const loginTab = document.getElementById('login-tab');
+            const registerTab = document.getElementById('register-tab');
+            const loginForm = document.getElementById('login-form');
+            const registerForm = document.getElementById('register-form');
+
+            // Function to switch between forms
+            function switchAuthForm(activeFormId) {
+                if (activeFormId === 'login-form') {
+                    loginTab.classList.add('active');
+                    registerTab.classList.remove('active');
+                    loginTab.setAttribute('aria-selected', 'true');
+                    registerTab.setAttribute('aria-selected', 'false');
+
+                    loginForm.classList.remove('hidden');
+                    registerForm.classList.add('hidden');
+                    loginForm.setAttribute('aria-hidden', 'false');
+                    registerForm.setAttribute('aria-hidden', 'true');
+
+                } else { // register-form
+                    registerTab.classList.add('active');
+                    loginTab.classList.remove('active');
+                    registerTab.setAttribute('aria-selected', 'true');
+                    loginTab.setAttribute('aria-selected', 'false');
+
+                    registerForm.classList.remove('hidden');
+                    loginForm.classList.add('hidden');
+                    registerForm.setAttribute('aria-hidden', 'false');
+                    loginForm.setAttribute('aria-hidden', 'true');
+                }
+            }
+
+            // Event listeners for tab buttons
+            loginTab.addEventListener('click', () => switchAuthForm('login-form'));
+            registerTab.addEventListener('click', () => switchAuthForm('register-form'));
+
+            // Password visibility toggle function
+            window.togglePasswordVisibility = function(inputId, iconElement) {
+                const passwordInput = document.getElementById(inputId);
+                if (passwordInput.type === 'password') {
+                    passwordInput.type = 'text';
+                    iconElement.textContent = '🙈'; // Hide icon
+                    iconElement.setAttribute('aria-label', 'Hide password');
+                } else {
+                    passwordInput.type = 'password';
+                    iconElement.textContent = '👁️'; // Show icon
+                    iconElement.setAttribute('aria-label', 'Show password');
+                }
+            };
+
+            // Basic client-side form validation (can be expanded significantly)
+            function validateForm(form) {
+                let isValid = true;
+                const errorMessages = form.querySelectorAll('.error-message');
+                errorMessages.forEach(msg => msg.style.display = 'none'); // Clear previous errors
+
+                if (form.id === 'login-form') {
+                    const email = form.querySelector('#login-email');
+                    const password = form.querySelector('#login-password');
+                    const emailError = form.querySelector('#login-email-error');
+                    const passwordError = form.querySelector('#login-password-error');
+
+                    if (!email.value) {
+                        emailError.textContent = 'Email is required.';
+                        emailError.style.display = 'block';
+                        isValid = false;
+                    } else if (!/\S+@\S+\.\S+/.test(email.value)) {
+                        emailError.textContent = 'Invalid email format.';
+                        emailError.style.display = 'block';
+                        isValid = false;
+                    }
+
+                    if (!password.value) {
+                        passwordError.textContent = 'Password is required.';
+                        passwordError.style.display = 'block';
+                        isValid = false;
+                    }
+
+                } else if (form.id === 'register-form') {
+                    const name = form.querySelector('#register-name');
+                    const email = form.querySelector('#register-email');
+                    const password = form.querySelector('#register-password');
+                    const confirmPassword = form.querySelector('#register-confirm-password');
+
+                    const nameError = form.querySelector('#register-name-error');
+                    const emailError = form.querySelector('#register-email-error');
+                    const passwordError = form.querySelector('#register-password-error');
+                    const confirmPasswordError = form.querySelector('#register-confirm-password-error');
+
+                    if (!name.value.trim()) {
+                        nameError.textContent = 'Full Name is required.';
+                        nameError.style.display = 'block';
+                        isValid = false;
+                    }
+
+                    if (!email.value) {
+                        emailError.textContent = 'Email is required.';
+                        emailError.style.display = 'block';
+                        isValid = false;
+                    } else if (!/\S+@\S+\.\S+/.test(email.value)) {
+                        emailError.textContent = 'Invalid email format.';
+                        emailError.style.display = 'block';
+                        isValid = false;
+                    }
+
+                    if (!password.value) {
+                        passwordError.textContent = 'Password is required.';
+                        passwordError.style.display = 'block';
+                        isValid = false;
+                    } else if (password.value.length < 8) {
+                        passwordError.textContent = 'Password must be at least 8 characters.';
+                        passwordError.style.display = 'block';
+                        isValid = false;
+                    }
+
+                    if (!confirmPassword.value) {
+                        confirmPasswordError.textContent = 'Please confirm your password.';
+                        confirmPasswordError.style.display = 'block';
+                        isValid = false;
+                    } else if (password.value !== confirmPassword.value) {
+                        confirmPasswordError.textContent = 'Passwords do not match.';
+                        confirmPasswordError.style.display = 'block';
+                        isValid = false;
+                    }
+                }
+                return isValid;
+            }
+
+            // Form submission handlers
+            loginForm.addEventListener('submit', async (e) => {
+                e.preventDefault(); // Prevent default form submission
+                if (validateForm(loginForm)) {
+                    // In a real production environment, you would send this data to your backend
+                    console.log('Login form submitted:', {
+                        email: loginForm.querySelector('#login-email').value,
+                        password: loginForm.querySelector('#login-password').value,
+                        rememberMe: loginForm.querySelector('#remember-me').checked
+                    });
+                    // Simulate API call
+                    alert('Login successful! (Simulated)');
+                    // window.location.href = '/dashboard'; // Redirect to dashboard
+                } else {
+                    alert('Please correct the errors in the login form.');
+                }
+            });
+
+            registerForm.addEventListener('submit', async (e) => {
+                e.preventDefault(); // Prevent default form submission
+                if (validateForm(registerForm)) {
+                    // In a real production environment, you would send this data to your backend
+                    console.log('Register form submitted:', {
+                        name: registerForm.querySelector('#register-name').value,
+                        email: registerForm.querySelector('#register-email').value,
+                        password: registerForm.querySelector('#register-password').value,
+                        confirmPassword: registerForm.querySelector('#register-confirm-password').value
+                    });
+                    // Simulate API call
+                    alert('Registration successful! (Simulated)');
+                    // switchAuthForm('login-form'); // Optionally switch to login after registration
+                } else {
+                    alert('Please correct the errors in the registration form.');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Green Acres Farm - Chat with Our Bot!</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Base Styles from Reference HTML */
+        :root {
+            --primary-green: #5A8D4F;
+            --secondary-green: #8BC34A;
+            --dark-earth: #795548;
+            --light-cream: #FDFBF6;
+            --dark-text: #333333;
+            --light-text: #FFFFFF;
+            --off-white: #EFEFEF;
+            --chat-bg: #F8F8F8; /* Lighter background for chatbot area */
+            --bot-bubble: #E0E0E0; /* Slightly darker for bot messages */
+            --user-bubble: var(--secondary-green);
+            --border-radius-sm: 8px;
+            --border-radius-md: 15px;
+            --shadow-light: 0 4px 15px rgba(0,0,0,0.08);
+            --shadow-md: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            line-height: 1.6;
+            color: var(--dark-text);
+            background-color: var(--light-cream);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            scroll-behavior: smooth;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--primary-green);
+            margin-bottom: 0.8em;
+        }
+
+        h1 { font-size: 2.8em; }
+        h2 { font-size: 2.2em; }
+        h3 { font-size: 1.8em; }
+        p { margin-bottom: 1em; }
+
+        a {
+            text-decoration: none;
+            color: var(--secondary-green);
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--primary-green);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--secondary-green);
+            color: var(--light-text);
+            padding: 12px 25px;
+            border-radius: var(--border-radius-sm);
+            font-weight: 600;
+            text-transform: uppercase;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            border: none;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.9em;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-green);
+            transform: translateY(-2px);
+        }
+
+        /* Header */
+        header {
+            background-color: rgba(255, 255, 255, 0.98);
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.8em;
+            font-weight: 700;
+            color: var(--primary-green);
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 35px;
+            margin-right: 10px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+        }
+
+        nav ul li {
+            margin-left: 30px;
+        }
+
+        nav ul li a {
+            color: var(--dark-text);
+            font-weight: 600;
+            font-family: 'Montserrat', sans-serif;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background-color: var(--secondary-green);
+            bottom: -5px;
+            left: 0;
+            transition: width 0.3s ease;
+        }
+
+        nav ul li a:hover::after,
+        nav ul li a.active::after {
+            width: 100%;
+        }
+
+        /* Main Content Area */
+        main {
+            flex-grow: 1; /* Allows main content to take available space */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px; /* Add padding around the chatbot */
+        }
+
+        /* Chatbot Specific Styles */
+        .chatbot-container {
+            background: var(--chat-bg);
+            border-radius: var(--border-radius-md);
+            box-shadow: var(--shadow-md);
+            width: 100%;
+            max-width: 600px; /* Max width for the chatbot */
+            display: flex;
+            flex-direction: column;
+            overflow: hidden; /* Ensures rounded corners are respected */
+        }
+
+        .chatbot-header {
+            background-color: var(--primary-green);
+            color: var(--light-text);
+            padding: 20px;
+            text-align: center;
+            border-top-left-radius: var(--border-radius-md);
+            border-top-right-radius: var(--border-radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .chatbot-header h2 {
+            color: var(--light-text);
+            margin: 0;
+            font-size: 1.6em;
+            display: flex;
+            align-items: center;
+        }
+
+        .chatbot-header h2 .icon {
+            margin-right: 10px;
+            font-size: 1.2em;
+        }
+
+        .chat-messages {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+            max-height: 500px; /* Fixed height for chat history */
+            display: flex;
+            flex-direction: column;
+            gap: 15px; /* Space between messages */
+            background-color: var(--light-cream); /* Inside chat background */
+            border-bottom: 1px solid var(--off-white);
+        }
+
+        /* Custom scrollbar for chat messages */
+        .chat-messages::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .chat-messages::-webkit-scrollbar-track {
+            background: var(--off-white);
+            border-radius: 10px;
+        }
+
+        .chat-messages::-webkit-scrollbar-thumb {
+            background-color: var(--secondary-green);
+            border-radius: 10px;
+            border: 2px solid var(--off-white);
+        }
+
+        .chat-message {
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .chat-message.bot {
+            justify-content: flex-start;
+        }
+
+        .chat-message.user {
+            justify-content: flex-end;
+        }
+
+        .message-bubble {
+            max-width: 80%;
+            padding: 12px 18px;
+            border-radius: var(--border-radius-md);
+            line-height: 1.4;
+            position: relative;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .chat-message.bot .message-bubble {
+            background-color: var(--bot-bubble);
+            color: var(--dark-text);
+            border-bottom-left-radius: 4px;
+        }
+
+        .chat-message.user .message-bubble {
+            background-color: var(--user-bubble);
+            color: var(--light-text);
+            border-bottom-right-radius: 4px;
+        }
+
+        .chat-input {
+            display: flex;
+            padding: 20px;
+            gap: 10px;
+            background-color: var(--chat-bg);
+            border-bottom-left-radius: var(--border-radius-md);
+            border-bottom-right-radius: var(--border-radius-md);
+        }
+
+        .chat-input input[type="text"] {
+            flex-grow: 1;
+            padding: 12px 15px;
+            border: 1px solid var(--off-white);
+            border-radius: var(--border-radius-sm);
+            font-family: 'Lato', sans-serif;
+            font-size: 1em;
+            outline: none;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            background-color: var(--light-text);
+        }
+
+        .chat-input input[type="text"]:focus {
+            border-color: var(--secondary-green);
+            box-shadow: 0 0 0 3px rgba(139, 195, 74, 0.2);
+        }
+
+        .chat-input button {
+            padding: 12px 20px;
+            border-radius: var(--border-radius-sm);
+            font-size: 1em;
+            white-space: nowrap; /* Prevents button text from wrapping */
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark-earth);
+            color: var(--light-text);
+            padding: 40px 0;
+            text-align: center;
+            margin-top: auto; /* Pushes footer to the bottom */
+        }
+
+        footer .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        footer p {
+            margin-bottom: 15px;
+            color: var(--off-white);
+        }
+
+        footer .social-links a {
+            color: var(--light-text);
+            font-size: 1.5em;
+            margin: 0 10px;
+            transition: color 0.3s ease;
+        }
+
+        footer .social-links a:hover {
+            color: var(--secondary-green);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.2em; }
+            h2 { font-size: 1.8em; }
+            h3 { font-size: 1.5em; }
+
+            header .container {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .logo {
+                margin-bottom: 15px;
+            }
+
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+                width: 100%;
+            }
+
+            nav ul li {
+                margin: 10px 0;
+            }
+
+            main {
+                padding: 20px 10px;
+            }
+
+            .chatbot-container {
+                max-width: 95%;
+            }
+
+            .chat-messages {
+                max-height: 400px; /* Adjust height for smaller screens */
+                padding: 15px;
+            }
+
+            .chat-input {
+                flex-direction: column;
+                padding: 15px;
+            }
+
+            .chat-input button {
+                width: 100%;
+                padding: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo {
+                font-size: 1.5em;
+            }
+            .logo img {
+                height: 30px;
+            }
+            .chatbot-header h2 {
+                font-size: 1.4em;
+            }
+            .message-bubble {
+                padding: 10px 15px;
+                font-size: 0.95em;
+            }
+            .chat-input input[type="text"] {
+                font-size: 0.9em;
+            }
+            .chat-input button {
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="#" class="logo">
+                <img src="https://assets.website-files.com/5e7ff2b376c6ae1b9e078b5a/5e7ff2b376c6aeb7f9078b7a_leaf.svg" alt="Green Acres Farm Logo">
+                Green Acres Farm
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Our Products</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#" class="active">Chatbot</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="chatbot-container">
+            <div class="chatbot-header">
+                <h2><span class="icon">🤖</span> AgriBot - Your Farm Assistant</h2>
+            </div>
+            <div class="chat-messages" id="chatMessages">
+                <div class="chat-message bot">
+                    <div class="message-bubble">Hello! I'm AgriBot, your personal assistant for all things farming. How can I help you today?</div>
+                </div>
+                <div class="chat-message bot">
+                    <div class="message-bubble">You can ask me about crop advice, weather forecasts, pest control, or even market prices!</div>
+                </div>
+                <!-- Chat messages will be dynamically added here -->
+            </div>
+            <div class="chat-input">
+                <input type="text" id="userInput" placeholder="Ask AgriBot a question..." aria-label="Type your message here">
+                <button class="btn" id="sendBtn">Send</button>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 Green Acres Farm. All rights reserved.</p>
+            <div class="social-links">
+                <a href="#" aria-label="Facebook"><img src="https://img.icons8.com/ios-filled/24/ffffff/facebook-new.png" alt="Facebook"></a>
+                <a href="#" aria-label="Twitter"><img src="https://img.icons8.com/ios-filled/24/ffffff/twitter.png" alt="Twitter"></a>
+                <a href="#" aria-label="Instagram"><img src="https://img.icons8.com/ios-filled/24/ffffff/instagram-new.png" alt="Instagram"></a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const chatMessages = document.getElementById('chatMessages');
+        const userInput = document.getElementById('userInput');
+        const sendBtn = document.getElementById('sendBtn');
+
+        // Function to add a message to the chat
+        function addMessage(message, sender) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('chat-message', sender);
+            
+            const bubbleDiv = document.createElement('div');
+            bubbleDiv.classList.add('message-bubble');
+            bubbleDiv.textContent = message;
+
+            messageDiv.appendChild(bubbleDiv);
+            chatMessages.appendChild(messageDiv);
+
+            // Scroll to the bottom of the chat
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Simulate bot response
+        function getBotResponse(userMessage) {
+            const lowerCaseMessage = userMessage.toLowerCase();
+
+            if (lowerCaseMessage.includes('hello') || lowerCaseMessage.includes('hi')) {
+                return "Hello there! How can I assist you with your farming needs today?";
+            } else if (lowerCaseMessage.includes('crop advice')) {
+                return "Which specific crop are you interested in? I can provide information on planting, harvesting, and care.";
+            } else if (lowerCaseMessage.includes('weather')) {
+                return "I can fetch weather forecasts. Please tell me your location.";
+            } else if (lowerCaseMessage.includes('pest control')) {
+                return "Pest control is crucial! What kind of pests are you dealing with, or which crop is affected?";
+            } else if (lowerCaseMessage.includes('market prices')) {
+                return "I can look up market prices for various agricultural commodities. Which product are you looking for?";
+            } else if (lowerCaseMessage.includes('thank you') || lowerCaseMessage.includes('thanks')) {
+                return "You're most welcome! Is there anything else I can help you with?";
+            } else if (lowerCaseMessage.includes('soil')) {
+                return "Soil health is vital. Are you looking for advice on soil testing, amendments, or specific soil types?";
+            } else if (lowerCaseMessage.includes('irrigation')) {
+                return "Efficient irrigation is key. Do you need help with irrigation methods, scheduling, or water conservation?";
+            } else if (lowerCaseMessage.includes('fertilizer') || lowerCaseMessage.includes('nutrients')) {
+                return "Fertilizers provide essential nutrients. What type of crop are you growing, and what are your soil test results?";
+            } else if (lowerCaseMessage.includes('contact support')) {
+                return "If you need human assistance, please visit our 'Contact' page or call us at 1-800-FARM-HELP.";
+            }
+            else {
+                return "I'm still learning! Could you please rephrase your question, or ask about crop advice, weather, pest control, or market prices?";
+            }
+        }
+
+        // Event listener for the send button
+        sendBtn.addEventListener('click', () => {
+            const message = userInput.value.trim();
+            if (message) {
+                addMessage(message, 'user');
+                userInput.value = ''; // Clear input
+
+                // Simulate typing delay for bot response
+                setTimeout(() => {
+                    const botResponse = getBotResponse(message);
+                    addMessage(botResponse, 'bot');
+                }, 700); // 0.7 second delay
+            }
+        });
+
+        // Event listener for Enter key in the input field
+        userInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendBtn.click(); // Trigger the send button click
+            }
+        });
+
+        // Add a simple welcome message when the page loads
+        // No need, already in HTML
+    </script>
+</body>
+</html>

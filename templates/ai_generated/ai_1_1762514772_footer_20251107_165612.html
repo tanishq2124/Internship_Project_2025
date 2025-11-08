@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FarmConnect Footer</title>
+    <style>
+        /* Basic Reset & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f5f5f5; /* Lighter background for the rest of the page, similar to reference */
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh; /* Ensures footer is pushed to the bottom if content is short */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; /* Pushes footer to bottom */
+        }
+
+        /* Main content area (for demonstration, normally this would be your page content) */
+        main {
+            flex-grow: 1; /* Allows main content to take up available space */
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            text-align: center;
+            margin-bottom: 30px; /* Space above footer */
+        }
+
+        main h1 {
+            color: #2c3e50; /* Dark blue/grey */
+            margin-bottom: 20px;
+            font-size: 2.5em;
+        }
+
+        main p {
+            color: #555;
+            font-size: 1.1em;
+            margin-bottom: 15px;
+        }
+
+        /* Footer Styles */
+        .footer {
+            background-color: #1e3a2d; /* Dark forest green, earthy tone */
+            color: #e0e0e0; /* Off-white text for contrast */
+            padding: 60px 20px;
+            border-top: 5px solid #a3c18b; /* Lighter green accent for the top border */
+            font-size: 0.95em;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap; /* Allows sections to wrap on smaller screens */
+            justify-content: space-between;
+            gap: 30px; /* Space between columns */
+        }
+
+        .footer-section {
+            flex: 1; /* Allows sections to grow and shrink */
+            min-width: 200px; /* Minimum width before wrapping */
+        }
+
+        .footer-section h4 {
+            color: #a3c18b; /* Accent green for headings */
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-section h4::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 3px;
+            background-color: #7fac63; /* Slightly darker accent for underline */
+            border-radius: 2px;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-section ul li a {
+            color: #e0e0e0;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section ul li a:hover {
+            color: #a3c18b; /* Accent green on hover */
+        }
+
+        /* Logo and Description Section */
+        .footer-brand {
+            flex: 1.5; /* Give brand section a bit more space */
+            min-width: 250px;
+        }
+
+        .footer-brand .logo {
+            font-size: 2.2em;
+            font-weight: bold;
+            color: #a3c18b;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .footer-brand .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .footer-brand p {
+            font-size: 0.9em;
+            line-height: 1.7;
+            color: #c0c0c0;
+        }
+
+        /* Contact Info */
+        .contact-info p {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            color: #c0c0c0;
+        }
+
+        .contact-info .icon {
+            margin-right: 10px;
+            color: #a3c18b;
+            font-size: 1.1em;
+        }
+
+        /* Social Media */
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            color: #e0e0e0;
+            font-size: 1.5em;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: #a3c18b;
+            transform: translateY(-3px);
+        }
+
+        /* Newsletter Signup */
+        .newsletter form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .newsletter input[type="email"] {
+            padding: 12px;
+            border: 1px solid #3c5d4b; /* Darker border */
+            border-radius: 6px;
+            background-color: #2a4c3a; /* Slightly lighter background than footer */
+            color: #e0e0e0;
+            font-size: 1em;
+        }
+
+        .newsletter input[type="email"]::placeholder {
+            color: #90a89d;
+        }
+
+        .newsletter button {
+            background-color: #a3c18b; /* Accent green button */
+            color: #1e3a2d; /* Dark green text */
+            padding: 12px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .newsletter button:hover {
+            background-color: #7fac63; /* Darker green on hover */
+            transform: translateY(-2px);
+        }
+
+        /* Bottom Bar */
+        .footer-bottom {
+            background-color: #142a20; /* Even darker green for the bottom bar */
+            color: #c0c0c0;
+            padding: 25px 20px;
+            text-align: center;
+            font-size: 0.85em;
+            border-top: 1px solid #2a4c3a;
+        }
+
+        .footer-bottom p {
+            margin-bottom: 10px;
+        }
+
+        .footer-bottom .policy-links a {
+            color: #c0c0c0;
+            text-decoration: none;
+            margin: 0 10px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-bottom .policy-links a:hover {
+            color: #a3c18b;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .footer-container {
+                justify-content: center; /* Center items when they wrap */
+                text-align: center;
+            }
+
+            .footer-section {
+                flex-basis: 45%; /* Two columns on medium screens */
+                min-width: unset;
+            }
+
+            .footer-brand, .footer-section h4::after {
+                margin: 0 auto; /* Center brand and underline */
+            }
+
+            .footer-section h4::after {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            .contact-info p, .footer-brand .logo {
+                justify-content: center; /* Center contact info and logo */
+            }
+
+            .social-links {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .footer-container {
+                flex-direction: column; /* Stack all sections vertically */
+                text-align: center;
+            }
+
+            .footer-section {
+                flex-basis: 100%; /* Full width for each section */
+            }
+
+            .footer-section h4::after {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            .contact-info p, .footer-brand .logo {
+                justify-content: center;
+            }
+
+            .social-links {
+                justify-content: center;
+            }
+
+            .newsletter form {
+                align-items: center;
+            }
+        }
+
+        /* FontAwesome for Icons (Optional, but good for production) */
+        /* You would typically link this from a CDN or host it locally */
+        @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');
+    </style>
+</head>
+<body>
+    <main>
+        <h1>Welcome to FarmConnect!</h1>
+        <p>This is the main content area of your farmer's website.</p>
+        <p>Here, farmers can showcase and sell their fresh produce and handcrafted goods directly to consumers.</p>
+        <p>Explore our pricing plans for sellers: Basic, Pro, and Advanced, designed to fit every farm's needs.</p>
+        <p>Scroll down to see the modern and functional footer.</p>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section footer-brand">
+                <div class="logo">
+                    <!-- A simple SVG or text logo for the farmer's website -->
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM11 19V17H13V19H11ZM11 15V7H13V15H11Z" fill="#a3c18b"/>
+                        <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM11 19V17H13V19H11ZM11 15V7H13V15H11Z" fill="url(#paint0_linear)"/>
+                        <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM11 19V17H13V19H11ZM11 15V7H13V15H11Z" fill-opacity="0.3" fill="#000000"/>
+                        <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM11 19V17H13V19H11ZM11 15V7H13V15H11Z" fill="#a3c18b"/>
+                        <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM11 19V17H13V19H11ZM11 15V7H13V15H11Z" fill="url(#paint1_linear)"/>
+                        <defs>
+                            <linearGradient id="paint0_linear" x1="12" y1="2" x2="12" y2="22" gradientUnits="userSpaceOnUse">
+                                <stop stop-color="#a3c18b"/>
+                                <stop offset="1" stop-color="#7fac63"/>
+                            </linearGradient>
+                            <linearGradient id="paint1_linear" x1="12" y1="2" x2="12" y2="22" gradientUnits="userSpaceOnUse">
+                                <stop stop-color="#a3c18b"/>
+                                <stop offset="1" stop-color="#7fac63"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    FarmConnect
+                </div>
+                <p>Connecting local farmers with communities, bringing fresh, organic produce and homemade goods directly to your table.</p>
+                <div class="social-links">
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="Pinterest"><i class="fab fa-pinterest-p"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h4>Shop Local</h4>
+                <ul>
+                    <li><a href="#">All Produce</a></li>
+                    <li><a href="#">Fresh Vegetables</a></li>
+                    <li><a href="#">Seasonal Fruits</a></li>
+                    <li><a href="#">Dairy & Eggs</a></li>
+                    <li><a href="#">Baked Goods</a></li>
+                    <li><a href="#">Farm Meats</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>Sell on FarmConnect</h4>
+                <ul>
+                    <li><a href="#">How It Works</a></li>
+                    <li><a href="#">Become a Seller</a></li>
+                    <li><a href="#">Pricing Plans</a></li> <!-- Direct link to pricing page -->
+                    <li><a href="#">Seller Dashboard</a></li>
+                    <li><a href="#">Seller Support</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section contact-info">
+                <h4>Get in Touch</h4>
+                <p><span class="icon"><i class="fas fa-map-marker-alt"></i></span> 123 Farm Rd, Harvestville, FV 54321</p>
+                <p><span class="icon"><i class="fas fa-envelope"></i></span> <a href="mailto:support@farmconnect.com" style="color: inherit; text-decoration: none;">support@farmconnect.com</a></p>
+                <p><span class="icon"><i class="fas fa-phone"></i></span> <a href="tel:+15551234567" style="color: inherit; text-decoration: none;">+1 (555) 123-4567</a></p>
+                <div class="newsletter">
+                    <h4>Stay Updated</h4>
+                    <form action="#" method="post">
+                        <input type="email" name="email" placeholder="Your email address" required aria-label="Email for newsletter signup">
+                        <button type="submit">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2023 FarmConnect. All rights reserved.</p>
+            <div class="policy-links">
+                <a href="#">Privacy Policy</a> |
+                <a href="#">Terms of Service</a> |
+                <a href="#">Cookie Policy</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

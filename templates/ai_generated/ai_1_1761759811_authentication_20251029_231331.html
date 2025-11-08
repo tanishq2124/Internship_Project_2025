@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FarmLink - Authenticate</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Variables for consistent theming */
+        :root {
+            --color-primary-green: #5cb85c; /* A vibrant, fresh green */
+            --color-dark-green: #3d793d; /* Darker green for accents */
+            --color-soil-brown: #8B4513; /* Saddle brown for earthy elements */
+            --color-sun-yellow: #FFD700; /* Gold for highlights */
+            --color-bg-light: #fdfdfd; /* Off-white background */
+            --color-text-dark: #333333; /* Dark text for readability */
+            --color-text-light: #666666; /* Lighter text for descriptions */
+            --color-border-light: #e0e0e0; /* Light grey border */
+            --color-border-focus: var(--color-primary-green);
+            --color-error: #e74c3c; /* Red for error messages */
+            --color-shadow: rgba(0, 0, 0, 0.1);
+
+            --font-heading: 'Montserrat', sans-serif;
+            --font-body: 'Open Sans', sans-serif;
+        }
+
+        /* Base Styles & Reset */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-body);
+            line-height: 1.6;
+            color: var(--color-text-dark);
+            background: linear-gradient(to bottom right, #e0f2f1, #e8f5e9); /* Soft gradient background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            background-image: url('data:image/svg+xml;utf8,<svg width="100%" height="100%" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M 20 0 L 0 0 L 0 20" fill="none" stroke="%23c8e6c9" stroke-width="0.3" /></pattern></defs><rect width="100%" height="100%" fill="url(%23grid)" /></svg>'); /* Subtle farm-field-like grid pattern */
+            background-attachment: fixed;
+            background-size: cover;
+        }
+
+        /* Container for the entire authentication module */
+        .auth-container {
+            background-color: var(--color-bg-light);
+            border-radius: 12px;
+            box-shadow: 0 10px 30px var(--color-shadow);
+            width: 100%;
+            max-width: 450px; /* Slightly wider for modern feel */
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden; /* For smooth transitions */
+        }
+
+        /* Branding / Logo Area */
+        .auth-header {
+            margin-bottom: 30px;
+        }
+
+        .auth-logo {
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        .auth-logo svg {
+            width: 80px;
+            height: 80px;
+            color: var(--color-primary-green); /* Logo color */
+        }
+
+        .auth-header h1 {
+            font-family: var(--font-heading);
+            font-size: 2.2em;
+            color: var(--color-dark-green);
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+
+        .auth-header p {
+            font-size: 0.95em;
+            color: var(--color-text-light);
+            margin-bottom: 20px;
+        }
+
+        /* Tab Navigation (Login/Register Toggle) */
+        .auth-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid var(--color-border-light);
+        }
+
+        .auth-tab-btn {
+            background: none;
+            border: none;
+            padding: 15px 25px;
+            font-size: 1.1em;
+            font-family: var(--font-heading);
+            font-weight: 600;
+            color: var(--color-text-light);
+            cursor: pointer;
+            transition: color 0.3s ease, border-bottom 0.3s ease;
+            position: relative;
+            outline: none;
+        }
+
+        .auth-tab-btn.active {
+            color: var(--color-primary-green);
+            border-bottom: 2px solid var(--color-primary-green);
+        }
+
+        .auth-tab-btn:hover:not(.active) {
+            color: var(--color-text-dark);
+        }
+
+        /* Form Styles */
+        .auth-form {
+            display: none; /* Hidden by default, JS toggles visibility */
+            flex-direction: column;
+            gap: 20px;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .auth-form.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-group {
+            position: relative;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.9em;
+            color: var(--color-text-dark);
+            font-weight: 600;
+        }
+
+        .form-group input[type="email"],
+        .form-group input[type="password"],
+        .form-group input[type="text"] {
+            width: 100%;
+            padding: 14px 18px;
+            border: 1px solid var(--color-border-light);
+            border-radius: 8px;
+            font-size: 1em;
+            color: var(--color-text-dark);
+            background-color: #f8f8f8;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            outline: none;
+        }
+
+        .form-group input[type="email"]:focus,
+        .form-group input[type="password"]:focus,
+        .form-group input[type="text"]:focus {
+            border-color: var(--color-border-focus);
+            box-shadow: 0 0 0 3px rgba(var(--color-primary-green-rgb), 0.2);
+            background-color: var(--color-bg-light);
+        }
+        
+        /* Convert hex to rgb for rgba shadow */
+        :root {
+            --color-primary-green-rgb: 92, 184, 92;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: -5px; /* Adjust spacing with previous input */
+        }
+
+        .forgot-password {
+            font-size: 0.9em;
+            color: var(--color-text-light);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .forgot-password:hover {
+            color: var(--color-primary-green);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background-color: var(--color-primary-green);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-family: var(--font-heading);
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 10px rgba(var(--color-primary-green-rgb), 0.3);
+            margin-top: 15px;
+        }
+
+        .submit-btn:hover {
+            background-color: var(--color-dark-green);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(var(--color-primary-green-rgb), 0.4);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 5px rgba(var(--color-primary-green-rgb), 0.2);
+        }
+
+        .auth-footer {
+            margin-top: 30px;
+            font-size: 0.9em;
+            color: var(--color-text-light);
+        }
+
+        .auth-footer a {
+            color: var(--color-primary-green);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .auth-footer a:hover {
+            color: var(--color-dark-green);
+            text-decoration: underline;
+        }
+
+        .error-message {
+            color: var(--color-error);
+            font-size: 0.85em;
+            margin-top: 5px;
+            text-align: left;
+            display: none; /* Hidden by default, shown by JS */
+        }
+
+        /* Responsive Design */
+        @media (max-width: 500px) {
+            .auth-container {
+                padding: 30px 20px;
+                margin: 0 15px; /* Ensure some margin on very small screens */
+            }
+
+            .auth-header h1 {
+                font-size: 1.8em;
+            }
+
+            .auth-tab-btn {
+                padding: 12px 15px;
+                font-size: 1em;
+            }
+
+            .form-group input {
+                padding: 12px 15px;
+            }
+
+            .submit-btn {
+                padding: 12px;
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-header">
+            <div class="auth-logo" aria-label="FarmLink Logo">
+                <!-- SVG Icon for a modern farmer's website: a stylized leaf or sprout -->
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8z"/>
+                    <path d="M12 7c-1.381 0-2.5 1.119-2.5 2.5s1.119 2.5 2.5 2.5 2.5-1.119 2.5-2.5S13.381 7 12 7zm0 1.5c.552 0 1 .448 1 1s-.448 1-1 1-1-.448-1-1 .448-1 1-1zM11 13c-1.657 0-3 1.343-3 3s1.343 3 3 3 3-1.343 3-3-1.343-3-3-3zm0 1.5c.828 0 1.5.672 1.5 1.5s-.672 1.5-1.5 1.5-1.5-.672-1.5-1.5.672-1.5 1.5-1.5z"/>
+                    <path d="M15 13c-1.657 0-3 1.343-3 3s1.343 3 3 3 3-1.343 3-3-1.343-3-3-3zm0 1.5c.828 0 1.5.672 1.5 1.5s-.672 1.5-1.5 1.5-1.5-.672-1.5-1.5.672-1.5 1.5-1.5z"/>
+                </svg>
+            </div>
+            <h1>FarmLink</h1>
+            <p>Connect with your community. Grow together.</p>
+        </div>
+
+        <div class="auth-tabs">
+            <button class="auth-tab-btn active" data-tab="login">Login</button>
+            <button class="auth-tab-btn" data-tab="register">Register</button>
+        </div>
+
+        <form id="loginForm" class="auth-form active" novalidate>
+            <div class="form-group">
+                <label for="loginEmail">Email Address</label>
+                <input type="email" id="loginEmail" name="email" placeholder="john.doe@example.com" required aria-required="true">
+                <div class="error-message" id="loginEmailError"></div>
+            </div>
+            <div class="form-group">
+                <label for="loginPassword">Password</label>
+                <input type="password" id="loginPassword" name="password" placeholder="••••••••" required aria-required="true">
+                <div class="error-message" id="loginPasswordError"></div>
+            </div>
+            <div class="form-actions">
+                <a href="#" class="forgot-password">Forgot Password?</a>
+            </div>
+            <button type="submit" class="submit-btn">Login</button>
+        </form>
+
+        <form id="registerForm" class="auth-form" novalidate>
+            <div class="form-group">
+                <label for="registerName">Full Name</label>
+                <input type="text" id="registerName" name="fullName" placeholder="John Doe" required aria-required="true">
+                <div class="error-message" id="registerNameError"></div>
+            </div>
+            <div class="form-group">
+                <label for="registerEmail">Email Address</label>
+                <input type="email" id="registerEmail" name="email" placeholder="john.doe@example.com" required aria-required="true">
+                <div class="error-message" id="registerEmailError"></div>
+            </div>
+            <div class="form-group">
+                <label for="registerPassword">Password</label>
+                <input type="password" id="registerPassword" name="password" placeholder="••••••••" required aria-required="true">
+                <div class="error-message" id="registerPasswordError"></div>
+            </div>
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" placeholder="••••••••" required aria-required="true">
+                <div class="error-message" id="confirmPasswordError"></div>
+            </div>
+            <button type="submit" class="submit-btn">Register</button>
+        </form>
+
+        <div class="auth-footer">
+            <p>By continuing, you agree to FarmLink's <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const loginTabBtn = document.querySelector('.auth-tab-btn[data-tab="login"]');
+            const registerTabBtn = document.querySelector('.auth-tab-btn[data-tab="register"]');
+            const loginForm = document.getElementById('loginForm');
+            const registerForm = document.getElementById('registerForm');
+
+            function showForm(formToShow) {
+                if (formToShow === 'login') {
+                    loginTabBtn.classList.add('active');
+                    registerTabBtn.classList.remove('active');
+                    loginForm.classList.add('active');
+                    registerForm.classList.remove('active');
+                } else if (formToShow === 'register') {
+                    registerTabBtn.classList.add('active');
+                    loginTabBtn.classList.remove('active');
+                    registerForm.classList.add('active');
+                    loginForm.classList.remove('active');
+                }
+            }
+
+            loginTabBtn.addEventListener('click', () => showForm('login'));
+            registerTabBtn.addEventListener('click', () => showForm('register'));
+
+            // --- Client-side Form Validation (Basic Example) ---
+            const forms = [loginForm, registerForm];
+
+            forms.forEach(form => {
+                form.addEventListener('submit', function(event) {
+                    event.preventDefault(); // Prevent default form submission
+                    let isValid = true;
+                    
+                    // Clear previous errors
+                    this.querySelectorAll('.error-message').forEach(el => el.textContent = '');
+                    this.querySelectorAll('input').forEach(input => input.classList.remove('error-border'));
+
+                    if (this.id === 'loginForm') {
+                        const email = this.elements.email;
+                        const password = this.elements.password;
+
+                        if (!email.value.trim()) {
+                            displayError('loginEmailError', 'Email is required.');
+                            email.classList.add('error-border');
+                            isValid = false;
+                        } else if (!isValidEmail(email.value)) {
+                            displayError('loginEmailError', 'Please enter a valid email address.');
+                            email.classList.add('error-border');
+                            isValid = false;
+                        }
+
+                        if (!password.value.trim()) {
+                            displayError('loginPasswordError', 'Password is required.');
+                            password.classList.add('error-border');
+                            isValid = false;
+                        }
+                    } else if (this.id === 'registerForm') {
+                        const fullName = this.elements.fullName;
+                        const email = this.elements.email;
+                        const password = this.elements.password;
+                        const confirmPassword = this.elements.confirmPassword;
+
+                        if (!fullName.value.trim()) {
+                            displayError('registerNameError', 'Full Name is required.');
+                            fullName.classList.add('error-border');
+                            isValid = false;
+                        }
+
+                        if (!email.value.trim()) {
+                            displayError('registerEmailError', 'Email is required.');
+                            email.classList.add('error-border');
+                            isValid = false;
+                        } else if (!isValidEmail(email.value)) {
+                            displayError('registerEmailError', 'Please enter a valid email address.');
+                            email.classList.add('error-border');
+                            isValid = false;
+                        }
+
+                        if (!password.value.trim()) {
+                            displayError('registerPasswordError', 'Password is required.');
+                            password.classList.add('error-border');
+                            isValid = false;
+                        } else if (password.value.length < 6) {
+                            displayError('registerPasswordError', 'Password must be at least 6 characters.');
+                            password.classList.add('error-border');
+                            isValid = false;
+                        }
+
+                        if (!confirmPassword.value.trim()) {
+                            displayError('confirmPasswordError', 'Confirm Password is required.');
+                            confirmPassword.classList.add('error-border');
+                            isValid = false;
+                        } else if (password.value !== confirmPassword.value) {
+                            displayError('confirmPasswordError', 'Passwords do not match.');
+                            confirmPassword.classList.add('error-border');
+                            isValid = false;
+                        }
+                    }
+
+                    if (isValid) {
+                        // In a production environment, you would send this data to your backend
+                        console.log('Form data is valid. Submitting:', new FormData(this));
+                        alert('Form Submitted! (Check console for data)');
+                        // You might also clear the form or redirect here
+                        // this.reset(); 
+                    }
+                });
+            });
+
+            function displayError(elementId, message) {
+                const errorElement = document.getElementById(elementId);
+                if (errorElement) {
+                    errorElement.textContent = message;
+                    errorElement.style.display = 'block';
+                }
+            }
+
+            function isValidEmail(email) {
+                // Simple regex for email validation
+                return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+            }
+        });
+    </script>
+</body>
+</html>

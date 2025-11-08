@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FarmConnect - Login or Register</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%234CAF50' d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z'/%3E%3Cpath fill='%23FFF' d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z'/%3E%3Cpath fill='%238BC34A' d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z'/%3E%3Cpath fill='%23FFF' d='M13 17h-2v-6h2v6zm0-8h-2V7h2v2z'/%3E%3Cpath fill='%234CAF50' d='M12 4c-3.31 0-6 2.69-6 6 0 2.22 1.21 4.15 3 5.19V17h6v-1.81c1.79-1.04 3-2.97 3-5.19 0-3.31-2.69-6-6-6zm0 10c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z'/%3E%3C/svg%3E" type="image/svg+xml">
+    <style>
+        /* General Body and Container Styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #F9FDF7; /* Very light green-tinted background */
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .auth-container {
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 420px;
+            padding: 30px;
+            box-sizing: border-box;
+            text-align: center;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Header and Logo */
+        .auth-header {
+            margin-bottom: 25px;
+        }
+
+        .auth-logo {
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        .auth-logo svg {
+            width: 60px;
+            height: 60px;
+            color: #4CAF50; /* Primary green */
+        }
+
+        .auth-header h1 {
+            color: #388E3C; /* Darker green for heading */
+            font-size: 2.2em;
+            margin: 0;
+            font-weight: 700;
+        }
+
+        .auth-header p {
+            color: #666;
+            font-size: 0.95em;
+            margin-top: 8px;
+        }
+
+        /* Tab Navigation */
+        .tab-nav {
+            display: flex;
+            margin-bottom: 25px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .tab-nav-item {
+            flex: 1;
+            padding: 12px 0;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #777;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .tab-nav-item:hover {
+            color: #555;
+        }
+
+        .tab-nav-item.active {
+            color: #4CAF50; /* Primary green for active tab */
+            border-bottom-color: #4CAF50;
+        }
+
+        /* Form Styles */
+        .form-section {
+            display: none; /* Hidden by default */
+        }
+
+        .form-section.active {
+            display: block; /* Active form is shown */
+            animation: slideIn 0.4s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-10px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.9em;
+            color: #555;
+            font-weight: 500;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group input[type="password"] {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            -webkit-appearance: none; /* Remove default styling for iOS */
+        }
+
+        .form-group input[type="text"]:focus,
+        .form-group input[type="email"]:focus,
+        .form-group input[type="password"]:focus {
+            border-color: #4CAF50; /* Primary green on focus */
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+            outline: none;
+        }
+
+        .form-group .error-message {
+            color: #D32F2F; /* Red for error messages */
+            font-size: 0.85em;
+            margin-top: 5px;
+            display: none; /* Hidden by default */
+        }
+
+        .form-group.has-error input {
+            border-color: #D32F2F;
+        }
+
+        .form-group.has-error .error-message {
+            display: block;
+        }
+
+        .forgot-password {
+            text-align: right;
+            margin-top: -10px;
+            margin-bottom: 20px;
+        }
+
+        .forgot-password a {
+            color: #666;
+            font-size: 0.9em;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .forgot-password a:hover {
+            color: #4CAF50;
+        }
+
+        .auth-button {
+            width: 100%;
+            padding: 14px;
+            background-color: #4CAF50; /* Primary green button */
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 10px rgba(76, 175, 80, 0.3);
+        }
+
+        .auth-button:hover {
+            background-color: #388E3C; /* Darker green on hover */
+            transform: translateY(-2px);
+        }
+
+        .auth-button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 5px rgba(76, 175, 80, 0.3);
+        }
+
+        .auth-button:disabled {
+            background-color: #A5D6A7; /* Lighter green when disabled */
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        /* Footer / Additional Info */
+        .auth-footer {
+            margin-top: 30px;
+            font-size: 0.85em;
+            color: #888;
+        }
+
+        .auth-footer a {
+            color: #4CAF50;
+            text-decoration: none;
+        }
+
+        .auth-footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 500px) {
+            .auth-container {
+                margin: 20px;
+                padding: 25px;
+                border-radius: 8px;
+            }
+
+            .auth-header h1 {
+                font-size: 1.8em;
+            }
+
+            .auth-logo svg {
+                width: 50px;
+                height: 50px;
+            }
+
+            .tab-nav-item {
+                font-size: 1em;
+                padding: 10px 0;
+            }
+
+            .form-group input {
+                padding: 10px 12px;
+            }
+
+            .auth-button {
+                padding: 12px;
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-header">
+            <div class="auth-logo" aria-hidden="true">
+                <!-- SVG Icon: Simple leaf/plant or barn for a farmer's theme -->
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+                    <path d="M12 4c-3.31 0-6 2.69-6 6 0 2.22 1.21 4.15 3 5.19V17h6v-1.81c1.79-1.04 3-2.97 3-5.19 0-3.31-2.69-6-6-6zm0 10c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/>
+                </svg>
+            </div>
+            <h1>FarmConnect</h1>
+            <p>Connect with your farming community.</p>
+        </div>
+
+        <nav class="tab-nav">
+            <div class="tab-nav-item active" data-tab="login">Login</div>
+            <div class="tab-nav-item" data-tab="register">Register</div>
+        </nav>
+
+        <div id="login-form-section" class="form-section active">
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="login-email">Email Address</label>
+                    <input type="email" id="login-email" name="email" placeholder="your@example.com" required>
+                    <div class="error-message">Please enter a valid email address.</div>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" name="password" placeholder="••••••••" required minlength="6">
+                    <div class="error-message">Password must be at least 6 characters long.</div>
+                </div>
+                <div class="forgot-password">
+                    <a href="#">Forgot Password?</a>
+                </div>
+                <button type="submit" class="auth-button">Login</button>
+            </form>
+        </div>
+
+        <div id="register-form-section" class="form-section">
+            <form id="register-form">
+                <div class="form-group">
+                    <label for="register-name">Full Name</label>
+                    <input type="text" id="register-name" name="name" placeholder="John Doe" required>
+                    <div class="error-message">Please enter your full name.</div>
+                </div>
+                <div class="form-group">
+                    <label for="register-email">Email Address</label>
+                    <input type="email" id="register-email" name="email" placeholder="your@example.com" required>
+                    <div class="error-message">Please enter a valid email address.</div>
+                </div>
+                <div class="form-group">
+                    <label for="register-password">Password</label>
+                    <input type="password" id="register-password" name="password" placeholder="••••••••" required minlength="6">
+                    <div class="error-message">Password must be at least 6 characters long.</div>
+                </div>
+                <div class="form-group">
+                    <label for="register-confirm-password">Confirm Password</label>
+                    <input type="password" id="register-confirm-password" name="confirm_password" placeholder="••••••••" required>
+                    <div class="error-message">Passwords do not match.</div>
+                </div>
+                <button type="submit" class="auth-button">Register</button>
+            </form>
+        </div>
+
+        <div class="auth-footer">
+            By continuing, you agree to FarmConnect's <a href="#">Terms of Service</a> &amp; <a href="#">Privacy Policy</a>.
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const tabNavItems = document.querySelectorAll('.tab-nav-item');
+            const formSections = document.querySelectorAll('.form-section');
+
+            // Function to switch tabs
+            function switchTab(targetTab) {
+                tabNavItems.forEach(item => {
+                    item.classList.remove('active');
+                });
+                formSections.forEach(section => {
+                    section.classList.remove('active');
+                });
+
+                document.querySelector(`.tab-nav-item[data-tab="${targetTab}"]`).classList.add('active');
+                document.getElementById(`${targetTab}-form-section`).classList.add('active');
+            }
+
+            // Event listeners for tab navigation
+            tabNavItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    const targetTab = item.dataset.tab;
+                    switchTab(targetTab);
+                });
+            });
+
+            // Basic Client-Side Form Validation
+            const loginForm = document.getElementById('login-form');
+            const registerForm = document.getElementById('register-form');
+
+            function validateField(inputElement, validationFn, errorMessage) {
+                const formGroup = inputElement.closest('.form-group');
+                const errorDiv = formGroup.querySelector('.error-message');
+                if (!validationFn(inputElement.value)) {
+                    formGroup.classList.add('has-error');
+                    errorDiv.textContent = errorMessage;
+                    return false;
+                } else {
+                    formGroup.classList.remove('has-error');
+                    return true;
+                }
+            }
+
+            // Validation functions
+            const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+            const isNotEmpty = (value) => value.trim() !== '';
+            const isMinLength = (value, length) => value.length >= length;
+
+            // Login Form Validation
+            if (loginForm) {
+                loginForm.addEventListener('submit', (event) => {
+                    event.preventDefault(); // Prevent default form submission
+
+                    let isValid = true;
+                    const emailInput = loginForm.querySelector('#login-email');
+                    const passwordInput = loginForm.querySelector('#login-password');
+
+                    isValid = validateField(emailInput, isValidEmail, 'Please enter a valid email address.') && isValid;
+                    isValid = validateField(passwordInput, (val) => isMinLength(val, 6), 'Password must be at least 6 characters long.') && isValid;
+
+                    if (isValid) {
+                        // In a real application, send data to server
+                        alert('Login successful! (Simulated)');
+                        console.log('Login Data:', {
+                            email: emailInput.value,
+                            password: passwordInput.value
+                        });
+                        // loginForm.submit(); // Uncomment for actual submission
+                    }
+                });
+            }
+
+            // Register Form Validation
+            if (registerForm) {
+                registerForm.addEventListener('submit', (event) => {
+                    event.preventDefault(); // Prevent default form submission
+
+                    let isValid = true;
+                    const nameInput = registerForm.querySelector('#register-name');
+                    const emailInput = registerForm.querySelector('#register-email');
+                    const passwordInput = registerForm.querySelector('#register-password');
+                    const confirmPasswordInput = registerForm.querySelector('#register-confirm-password');
+
+                    isValid = validateField(nameInput, isNotEmpty, 'Please enter your full name.') && isValid;
+                    isValid = validateField(emailInput, isValidEmail, 'Please enter a valid email address.') && isValid;
+                    isValid = validateField(passwordInput, (val) => isMinLength(val, 6), 'Password must be at least 6 characters long.') && isValid;
+                    
+                    // Specific validation for confirm password
+                    const confirmPasswordGroup = confirmPasswordInput.closest('.form-group');
+                    const confirmPasswordErrorDiv = confirmPasswordGroup.querySelector('.error-message');
+                    if (passwordInput.value !== confirmPasswordInput.value || !isNotEmpty(confirmPasswordInput.value)) {
+                        confirmPasswordGroup.classList.add('has-error');
+                        confirmPasswordErrorDiv.textContent = 'Passwords do not match.';
+                        isValid = false;
+                    } else {
+                        confirmPasswordGroup.classList.remove('has-error');
+                    }
+
+                    if (isValid) {
+                        // In a real application, send data to server
+                        alert('Registration successful! (Simulated)');
+                        console.log('Register Data:', {
+                            name: nameInput.value,
+                            email: emailInput.value,
+                            password: passwordInput.value
+                        });
+                        // registerForm.submit(); // Uncomment for actual submission
+                    }
+                });
+            }
+
+            // Add real-time validation feedback on input blur
+            document.querySelectorAll('.form-group input').forEach(input => {
+                input.addEventListener('blur', () => {
+                    if (input.id === 'login-email') {
+                        validateField(input, isValidEmail, 'Please enter a valid email address.');
+                    } else if (input.id === 'login-password' || input.id === 'register-password') {
+                        validateField(input, (val) => isMinLength(val, 6), 'Password must be at least 6 characters long.');
+                    } else if (input.id === 'register-name') {
+                        validateField(input, isNotEmpty, 'Please enter your full name.');
+                    } else if (input.id === 'register-email') {
+                         validateField(input, isValidEmail, 'Please enter a valid email address.');
+                    } else if (input.id === 'register-confirm-password') {
+                        const passwordInput = registerForm.querySelector('#register-password');
+                        const confirmPasswordInput = input;
+                        const confirmPasswordGroup = confirmPasswordInput.closest('.form-group');
+                        const confirmPasswordErrorDiv = confirmPasswordGroup.querySelector('.error-message');
+                        if (passwordInput.value !== confirmPasswordInput.value || !isNotEmpty(confirmPasswordInput.value)) {
+                            confirmPasswordGroup.classList.add('has-error');
+                            confirmPasswordErrorDiv.textContent = 'Passwords do not match.';
+                        } else {
+                            confirmPasswordGroup.classList.remove('has-error');
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

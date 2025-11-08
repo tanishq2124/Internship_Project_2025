@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FarmLink Authentication</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* Basic Reset & Typography */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #8BC34A 0%, #4CAF50 100%); /* Fresh green gradient for a natural, modern farm feel */
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: #424242; /* Dark grey for good readability */
+        }
+
+        /* Container Styling */
+        .container {
+            background: rgba(255, 255, 255, 0.98); /* Almost white, slightly transparent */
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2); /* Softer shadow */
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            right: -20px;
+            bottom: -20px;
+            background: url('data:image/svg+xml;utf8,<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h100v100H0z" fill="none"/><path d="M50 0L61.8 38.2L100 38.2L69.1 61.8L80.9 100L50 76.4L19.1 100L30.9 61.8L0 38.2L38.2 38.2L50 0z" fill="%23e8f5e9" opacity="0.2"/></svg>') repeat; /* Subtle farm-themed pattern */
+            z-index: -1;
+            border-radius: 20px;
+        }
+
+        /* Header & Description */
+        h1 {
+            color: #388E3C; /* Darker green for heading */
+            margin-bottom: 15px;
+            font-size: 2.2em;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        h1 .icon {
+            font-size: 1.2em; /* Adjust icon size relative to text */
+        }
+        p {
+            color: #616161;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            font-size: 1.05em;
+        }
+
+        /* Auth Tabs */
+        .auth-tabs {
+            display: flex;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #E0E0E0;
+            justify-content: center;
+        }
+        .tab-button {
+            flex-grow: 1;
+            padding: 15px 20px;
+            font-size: 1.1em;
+            font-weight: 500;
+            color: #757575;
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: color 0.3s ease, border-color 0.3s ease;
+            border-bottom: 2px solid transparent;
+            outline: none;
+            max-width: 50%; /* Ensure tabs don't overflow on small screens */
+        }
+        .tab-button:hover:not(.active) {
+            color: #4CAF50;
+        }
+        .tab-button.active {
+            color: #4CAF50;
+            border-bottom: 2px solid #4CAF50;
+            font-weight: 700;
+        }
+
+        /* Form Styling */
+        .auth-form {
+            display: none; /* Hidden by default, JS toggles 'active' class */
+            animation: fadeIn 0.5s ease-out;
+        }
+        .auth-form.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.95em;
+            font-weight: 500;
+            color: #424242;
+        }
+        .input-group input[type="text"],
+        .input-group input[type="email"],
+        .input-group input[type="password"] {
+            width: 100%;
+            padding: 14px 18px;
+            border: 1px solid #BDBDBD;
+            border-radius: 8px;
+            font-size: 1em;
+            color: #424242;
+            background-color: #F5F5F5;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            outline: none;
+        }
+        .input-group input:focus {
+            border-color: #4CAF50;
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+            background-color: #FFFFFF;
+        }
+        .input-group input::placeholder {
+            color: #9E9E9E;
+        }
+
+        /* Form Options (Remember Me, Forgot Password) */
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            font-size: 0.9em;
+        }
+        .form-options.terms {
+            justify-content: flex-start;
+        }
+        .remember-me, .terms-checkbox {
+            display: flex;
+            align-items: center;
+            color: #616161;
+            cursor: pointer;
+        }
+        .remember-me input[type="checkbox"],
+        .terms-checkbox input[type="checkbox"] {
+            margin-right: 8px;
+            width: 16px;
+            height: 16px;
+            accent-color: #4CAF50; /* Modern checkbox style */
+        }
+        .forgot-password, .terms-checkbox a {
+            color: #4CAF50;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .forgot-password:hover, .terms-checkbox a:hover {
+            color: #388E3C;
+            text-decoration: underline;
+        }
+
+        /* Submit Button */
+        .submit-button {
+            width: 100%;
+            padding: 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 10px rgba(76, 175, 80, 0.3);
+            outline: none;
+        }
+        .submit-button:hover {
+            background-color: #388E3C;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(76, 175, 80, 0.4);
+        }
+        .submit-button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 5px rgba(76, 175, 80, 0.3);
+        }
+
+        /* Social Login */
+        .social-login {
+            margin-top: 30px;
+        }
+        .social-login p {
+            margin-bottom: 20px;
+            font-size: 0.9em;
+            color: #757575;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .social-login p::before,
+        .social-login p::after {
+            content: '';
+            flex-grow: 1;
+            height: 1px;
+            background-color: #E0E0E0;
+            margin: 0 10px;
+        }
+        .social-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap; /* Allow wrapping on smaller screens */
+        }
+        .social-button {
+            flex: 1;
+            min-width: 150px; /* Minimum width to prevent buttons from becoming too small */
+            max-width: 48%; /* Adjust for two columns */
+            padding: 12px 15px;
+            border: 1px solid #BDBDBD;
+            border-radius: 8px;
+            background-color: #FFFFFF;
+            color: #424242;
+            font-size: 1em;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+            outline: none;
+        }
+        .social-button img {
+            width: 18px;
+            height: 18px;
+        }
+        .social-button.google:hover {
+            background-color: #FEEAEA;
+            border-color: #DB4437;
+            box-shadow: 0 2px 8px rgba(219, 68, 55, 0.15);
+        }
+        .social-button.facebook:hover {
+            background-color: #E6F2FF;
+            border-color: #4267B2;
+            box-shadow: 0 2px 8px rgba(66, 103, 178, 0.15);
+        }
+
+        /* Footer (optional, for additional links) */
+        .auth-footer {
+            margin-top: 30px;
+            font-size: 0.9em;
+            color: #757575;
+        }
+        .auth-footer a {
+            color: #4CAF50;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .auth-footer a:hover {
+            color: #388E3C;
+            text-decoration: underline;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 600px) {
+            .container {
+                padding: 30px 20px;
+                border-radius: 15px;
+            }
+            h1 {
+                font-size: 1.8em;
+            }
+            p {
+                font-size: 0.95em;
+                margin-bottom: 25px;
+            }
+            .tab-button {
+                padding: 12px 15px;
+                font-size: 1em;
+            }
+            .input-group input {
+                padding: 12px 15px;
+            }
+            .form-options {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+                margin-bottom: 20px;
+            }
+            .submit-button {
+                padding: 12px;
+                font-size: 1em;
+            }
+            .social-buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .social-button {
+                max-width: 100%;
+                min-width: unset;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1><span class="icon">🌱</span> FarmLink Connect</h1>
+        <p>Your gateway to seamless farm management. Login or register to access your personalized dashboard.</p>
+
+        <div class="auth-tabs">
+            <button class="tab-button active" data-tab="login">Login</button>
+            <button class="tab-button" data-tab="register">Register</button>
+        </div>
+
+        <!-- Login Form -->
+        <div id="login-form" class="auth-form active">
+            <form action="/login" method="POST">
+                <div class="input-group">
+                    <label for="login-email">Email or Username</label>
+                    <input type="text" id="login-email" name="email_username" placeholder="john.doe@example.com" required aria-label="Email or Username">
+                </div>
+                <div class="input-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" name="password" placeholder="••••••••" required aria-label="Password">
+                </div>
+                <div class="form-options">
+                    <label class="remember-me">
+                        <input type="checkbox" id="remember-me" name="remember_me"> Remember me
+                    </label>
+                    <a href="/forgot-password" class="forgot-password">Forgot Password?</a>
+                </div>
+                <button type="submit" class="submit-button">Login</button>
+            </form>
+            <div class="social-login">
+                <p>- Or continue with -</p>
+                <div class="social-buttons">
+                    <button class="social-button google" onclick="alert('Google login not implemented.')" aria-label="Login with Google">
+                        <img src="https://img.icons8.com/color/24/000000/google-logo.png" alt="Google icon"> Google
+                    </button>
+                    <button class="social-button facebook" onclick="alert('Facebook login not implemented.')" aria-label="Login with Facebook">
+                        <img src="https://img.icons8.com/fluency/24/000000/facebook-new.png" alt="Facebook icon"> Facebook
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Register Form -->
+        <div id="register-form" class="auth-form">
+            <form action="/register" method="POST">
+                <div class="input-group">
+                    <label for="register-farmname">Farm Name (Optional)</label>
+                    <input type="text" id="register-farmname" name="farm_name" placeholder="Green Valley Farms" aria-label="Farm Name">
+                </div>
+                <div class="input-group">
+                    <label for="register-email">Email Address</label>
+                    <input type="email" id="register-email" name="email" placeholder="john.doe@example.com" required aria-label="Email Address">
+                </div>
+                <div class="input-group">
+                    <label for="register-password">Password</label>
+                    <input type="password" id="register-password" name="password" placeholder="••••••••" required aria-label="Password">
+                </div>
+                <div class="input-group">
+                    <label for="register-confirm-password">Confirm Password</label>
+                    <input type="password" id="register-confirm-password" name="confirm_password" placeholder="••••••••" required aria-label="Confirm Password">
+                </div>
+                 <div class="form-options terms">
+                    <label class="terms-checkbox">
+                        <input type="checkbox" id="accept-terms" name="accept_terms" required> I agree to the <a href="/terms" target="_blank">Terms & Conditions</a>
+                    </label>
+                </div>
+                <button type="submit" class="submit-button">Register</button>
+            </form>
+        </div>
+
+        <div class="auth-footer">
+            <p>&copy; 2023 FarmLink. All rights reserved.</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const authForms = document.querySelectorAll('.auth-form');
+            const loginForm = document.getElementById('login-form');
+            const registerForm = document.getElementById('register-form');
+            const registerPassword = document.getElementById('register-password');
+            const registerConfirmPassword = document.getElementById('register-confirm-password');
+
+            // Tab Switching Logic
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const targetTab = button.dataset.tab;
+
+                    // Deactivate all buttons and hide all forms
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    authForms.forEach(form => form.classList.remove('active'));
+
+                    // Activate clicked button and show target form
+                    button.classList.add('active');
+                    document.getElementById(`${targetTab}-form`).classList.add('active');
+                });
+            });
+
+            // Basic Client-side Form Validation for Register Form
+            registerForm.addEventListener('submit', (event) => {
+                let isValid = true;
+
+                // Password match validation
+                if (registerPassword.value !== registerConfirmPassword.value) {
+                    alert('Passwords do not match!');
+                    registerConfirmPassword.focus();
+                    isValid = false;
+                }
+
+                // Add more sophisticated validation here (e.g., password strength, email format)
+                // For production, server-side validation is crucial.
+
+                if (!isValid) {
+                    event.preventDefault(); // Prevent form submission if validation fails
+                }
+            });
+
+            // Example of a simple login form submission handler (for demonstration)
+            loginForm.addEventListener('submit', (event) => {
+                event.preventDefault(); // Prevent default form submission
+
+                const email = document.getElementById('login-email').value;
+                const password = document.getElementById('login-password').value;
+
+                if (email.trim() === '' || password.trim() === '') {
+                    alert('Please enter both email/username and password.');
+                    return;
+                }
+
+                // In a real application, you would send this data to your server
+                // using fetch() or XMLHttpRequest.
+                console.log('Login attempt:', { email, password });
+                alert('Login attempted! (Check console for data. No backend connected.)');
+                // Simulate a successful login by redirecting
+                // window.location.href = '/dashboard';
+            });
+        });
+    </script>
+</body>
+</html>

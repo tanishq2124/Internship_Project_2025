@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Retro Synthwave Sign Up</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Baloo+2&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* RESET */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Baloo 2', cursive;
+        }
+
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* SIGNIFICANT VISUAL CHANGE: New vaporwave/synthwave background gradient */
+            background: repeating-linear-gradient(
+                45deg,
+                #8a2be2, /* Blue Violet */
+                #8a2be2 20px,
+                #00ced1 20px, /* Dark Cyan */
+                #00ced1 40px
+            );
+            overflow: hidden;
+        }
+
+        .container {
+            display: flex;
+            width: 400px; /* Adjusted width for a single form */
+            height: 550px; /* Adjusted height for more fields */
+            /* SIGNIFICANT VISUAL CHANGE: Darker, more intense container with a cyan glow */
+            background: rgba(0,0,0,0.7); /* Darker background for contrast */
+            backdrop-filter: blur(8px); /* Slightly less blur */
+            border-radius: 15px; /* Slightly less rounded */
+            overflow: hidden;
+            box-shadow: 0 0 50px rgba(0,255,255,0.7); /* Intense cyan glow */
+            position: relative;
+            flex-direction: column; /* Ensure form-side takes full space */
+        }
+
+        .form-side {
+            width: 100%; /* Occupy full width of container */
+            padding: 40px; /* Adjusted padding */
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            /* Removed transition as it's a static form now */
+        }
+
+        .form-side h2 {
+            font-family: 'Press Start 2P', cursive;
+            margin-bottom: 25px; /* Adjusted margin */
+            text-transform: uppercase;
+            letter-spacing: 2px; /* Increased letter spacing */
+            /* SIGNIFICANT VISUAL CHANGE: Vibrant cyan heading with magenta glow */
+            color: #00ffff; /* Neon Cyan */
+            text-shadow: 3px 3px #ff00ff; /* Magenta glow */
+            font-size: 1.8em; /* Slightly larger text */
+        }
+
+        .social-icons {
+            margin: 0 0 20px; /* Adjusted margin */
+            display: flex;
+            gap: 10px;
+        }
+
+        .social-icons a {
+            /* SIGNIFICANT VISUAL CHANGE: Cyan borders and transparent background */
+            border: 1px solid #00ffff; /* Cyan border */
+            border-radius: 50%;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 5px;
+            height: 40px;
+            width: 40px;
+            font-size: 1.2em;
+            color: #fff;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            background: rgba(0,255,255,0.1); /* Cyan tinted transparent */
+        }
+
+        .social-icons a:hover {
+            /* SIGNIFICANT VISUAL CHANGE: Magenta background on hover */
+            background-color: #ff00ff; /* Neon Magenta */
+            color: #000; /* Black text on hover for contrast */
+            border-color: #ff00ff;
+            transform: scale(1.1);
+        }
+
+        .form-side form {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 15px;
+            width: 100%;
+        }
+
+        .input-group i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255,255,255,0.7);
+            font-size: 1em;
+        }
+
+        .input-group input {
+            /* SIGNIFICANT VISUAL CHANGE: Cyan-tinted inputs with matching borders */
+            background: rgba(0,255,255,0.1); /* Cyan tinted transparent */
+            border: 1px solid #00ffff; /* Cyan border */
+            padding: 12px 15px 12px 45px;
+            margin: 8px 0;
+            width: 100%;
+            border-radius: 8px; /* Slightly more rounded */
+            color: #fff;
+            font-size: 1em;
+            outline: none;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .input-group input::placeholder {
+            color: rgba(255,255,255,0.6); /* Slightly less prominent placeholder */
+        }
+
+        .input-group input:focus {
+            /* SIGNIFICANT VISUAL CHANGE: Magenta border and glow on focus */
+            border-color: #ff00ff; /* Neon Magenta */
+            box-shadow: 0 0 8px rgba(255,0,255,0.5);
+        }
+
+        .form-side a {
+            /* SIGNIFICANT VISUAL CHANGE: Cyan link color with magenta hover */
+            color: #00ffff; /* Neon Cyan link */
+            font-size: 0.9em;
+            text-decoration: none;
+            margin: 15px 0;
+            transition: color 0.3s ease;
+        }
+
+        .form-side a:hover {
+            color: #ff00ff; /* Neon Magenta on hover */
+        }
+
+        button {
+            border-radius: 20px;
+            border: none;
+            /* SIGNIFICANT VISUAL CHANGE: Gradient button with black text and glow */
+            background: linear-gradient(90deg, #ff00ff, #00ffff); /* Magenta to Cyan gradient */
+            color: #000; /* Black text for strong contrast */
+            font-size: 1.1em;
+            font-family: 'Press Start 2P', cursive;
+            padding: 12px 45px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            margin-top: 10px;
+            box-shadow: 0 8px 20px rgba(255,0,255,0.4); /* Magenta glow */
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+
+        button:hover {
+            /* SIGNIFICANT VISUAL CHANGE: Reverse gradient and cyan glow on hover */
+            background: linear-gradient(90deg, #00ffff, #ff00ff); /* Reverse gradient on hover */
+            box-shadow: 0 10px 25px rgba(0,255,255,0.5); /* Cyan glow on hover */
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .container {
+                width: 90%;
+                height: auto;
+                min-height: 500px;
+                flex-direction: column;
+            }
+            .form-side {
+                padding: 30px;
+            }
+            .form-side h2 {
+                font-size: 1.5em;
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-side">
+            <h2>Sign Up</h2>
+            <div class="social-icons">
+                <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
+                <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+            <form action="#">
+                <div class="input-group">
+                    <i class="fas fa-user"></i>
+                    <input type="text" placeholder="Username" required>
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" placeholder="Email" required>
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" placeholder="Password" required>
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" placeholder="Confirm Password" required>
+                </div>
+                <button type="submit">Sign Up</button>
+                <a href="#">Already have an account? Sign In</a>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
