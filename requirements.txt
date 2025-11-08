@@ -16,3 +16,4 @@ requests
 numpy
 flask-wtf
 pandas
+flask_dance
